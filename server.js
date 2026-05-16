@@ -105,7 +105,14 @@ function chamarGemini(body) {
             } else if (json.candidates && json.candidates[0] && json.candidates[0].content) {
               const rawText = json.candidates[0].content.parts[0].text;
               const textoLimpo = limparJSON(rawText);
-              resolve({ text: textoLimpo, modelo });
+              // Tenta parsear o JSON limpo para enviar como objeto direto
+              let dadosObj = null;
+              try { dadosObj = JSON.parse(textoLimpo); } catch(e) {}
+              if (dadosObj) {
+                resolve({ data: dadosObj, modelo });
+              } else {
+                resolve({ text: textoLimpo, modelo });
+              }
             } else {
               console.log('Resposta inesperada modelo', modelo);
               tentar(i + 1);

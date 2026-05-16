@@ -350,30 +350,35 @@ function chamarAPI(parts){
     return r.json();
   }).then(function(d){
     if(d.error)throw new Error(d.error);
-    if(!d.text)throw new Error('Resposta vazia do servidor');
-    // d.text já é o JSON string limpo — retorna diretamente
-    return d.text;
+    // Se servidor enviou objeto direto, usa ele
+    if(d.data)return d.data;
+    // Senão tenta parsear o texto
+    if(d.text){
+      try{return JSON.parse(d.text)}catch(e){return d.text}
+    }
+    throw new Error('Resposta vazia do servidor');
   });
 }
 
 // PROCESSAR
-function processar(txt){
+function processar(resp){
   setLoad(false);
   var d;
-  // Tenta 1: parse direto (servidor já limpou)
+  // Se já é objeto (servidor parseou)
+  if(resp && typeof resp === 'object' && resp.placa !== undefined){
+    dadosG=resp; renderizar(resp); return;
+  }
+  if(resp && typeof resp === 'object' && resp.itens !== undefined){
+    dadosG=resp; renderizar(resp); return;
+  }
+  // Se é string, tenta parsear
+  var txt = typeof resp === 'string' ? resp : JSON.stringify(resp);
   try{ d=JSON.parse(txt); dadosG=d; renderizar(d); return; }catch(e1){}
-  // Tenta 2: extrai bloco JSON
   try{
     var ini=txt.indexOf('{'), fim=txt.lastIndexOf('}');
     if(ini>=0&&fim>ini){ d=JSON.parse(txt.substring(ini,fim+1)); dadosG=d; renderizar(d); return; }
   }catch(e2){}
-  // Tenta 3: remove markdown e tenta novamente
-  try{
-    var limpo=txt.replace(/```json/gi,'').replace(/```/g,'').trim();
-    d=JSON.parse(limpo); dadosG=d; renderizar(d); return;
-  }catch(e3){}
-  // Falhou tudo
-  erroIA('Não foi possível interpretar. Início da resposta: '+txt.substring(0,100));
+  erroIA('Erro ao processar resposta. Tente usar o modo Texto colando os dados manualmente.');
 }
 
 // RENDERIZAR
