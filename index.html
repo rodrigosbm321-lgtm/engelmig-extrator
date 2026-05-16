@@ -350,35 +350,31 @@ function chamarAPI(parts){
     return r.json();
   }).then(function(d){
     if(d.error)throw new Error(d.error);
-    // Se servidor enviou objeto direto, usa ele
-    if(d.data)return d.data;
-    // Senão tenta parsear o texto
+    // Servidor enviou {data: objetoJSON} — retorna diretamente
+    if(d.data && typeof d.data === 'object'){return d.data;}
+    // Servidor enviou {text: stringJSON} — parseia
     if(d.text){
-      try{return JSON.parse(d.text)}catch(e){return d.text}
+      try{
+        var obj = JSON.parse(d.text);
+        return obj;
+      }catch(e){
+        throw new Error('JSON inválido: '+d.text.substring(0,80));
+      }
     }
-    throw new Error('Resposta vazia do servidor');
+    throw new Error('Resposta vazia');
   });
 }
 
 // PROCESSAR
 function processar(resp){
   setLoad(false);
-  var d;
-  // Se já é objeto (servidor parseou)
-  if(resp && typeof resp === 'object' && resp.placa !== undefined){
-    dadosG=resp; renderizar(resp); return;
+  // resp sempre deve ser objeto neste ponto
+  if(!resp || typeof resp !== 'object'){
+    erroIA('Resposta inválida do servidor. Tente novamente.');
+    return;
   }
-  if(resp && typeof resp === 'object' && resp.itens !== undefined){
-    dadosG=resp; renderizar(resp); return;
-  }
-  // Se é string, tenta parsear
-  var txt = typeof resp === 'string' ? resp : JSON.stringify(resp);
-  try{ d=JSON.parse(txt); dadosG=d; renderizar(d); return; }catch(e1){}
-  try{
-    var ini=txt.indexOf('{'), fim=txt.lastIndexOf('}');
-    if(ini>=0&&fim>ini){ d=JSON.parse(txt.substring(ini,fim+1)); dadosG=d; renderizar(d); return; }
-  }catch(e2){}
-  erroIA('Erro ao processar resposta. Tente usar o modo Texto colando os dados manualmente.');
+  dadosG = resp;
+  renderizar(resp);
 }
 
 // RENDERIZAR
