@@ -350,6 +350,8 @@ function chamarAPI(parts){
     return r.json();
   }).then(function(d){
     if(d.error)throw new Error(d.error);
+    // DEBUG: mostrar o que chegou
+    console.log('Resposta servidor:', JSON.stringify(d).substring(0,300));
     // Caso 1: servidor enviou objeto direto em d.data
     if(d.data && typeof d.data === 'object' && !Array.isArray(d.data)){
       return d.data;
@@ -369,7 +371,7 @@ function chamarAPI(parts){
       }
       throw new Error('Não foi possível processar a resposta');
     }
-    throw new Error('Resposta vazia ou inválida');
+    throw new Error('Estrutura inesperada: keys='+Object.keys(d).join(','));
   });
 }
 
