@@ -3,271 +3,262 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Extrator de Orçamentos IA — Engelmig Frota</title>
-<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;900&family=Barlow+Condensed:wght@700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Engelmig — Extrator de Orçamentos</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;900&family=Barlow+Condensed:wght@700;900&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--G:#1e7e3e;--GD:#155d2d;--GL:#e8f5ee;--Y:#f5c800;--YD:#b8960a;--YL:#fffbe6;--BG:#f0f2f0;--S:#fff;--S2:#f6f8f6;--BD:#dde4dd;--T:#141a14;--T2:#4a5e4a;--T3:#8a9e8a;--R:#c0392b;--RL:#fdecea;--I:#1d4ed8;--IL:#eff6ff;--P:#7c3aed;--PL:#ede9fe}
-body{font-family:'Barlow',sans-serif;background:var(--BG);color:var(--T);font-size:14px;line-height:1.5;min-height:100vh}
-.topbar{background:var(--S);border-bottom:3px solid var(--G);padding:0 20px;height:58px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(30,126,62,.1);position:sticky;top:0;z-index:10}
-.logo-ic{width:34px;height:34px;background:#fff;border:1.5px solid #ddd;border-radius:7px;display:flex;align-items:center;justify-content:center}
-.logo-n{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;color:#1a1a1a;line-height:1}
+:root{--G:#1e7e3e;--GD:#155d2d;--GL:#e8f5ee;--Y:#f5c800;--YD:#b8960a;--YL:#fffbe6;--BG:#f0f2f0;--S:#fff;--S2:#f6f8f6;--BD:#dde4dd;--T:#141a14;--T2:#4a5e4a;--T3:#8a9e8a;--R:#c0392b;--I:#1d4ed8;--IL:#eff6ff}
+body{font-family:'Barlow',sans-serif;background:var(--BG);color:var(--T);font-size:14px;min-height:100vh}
+.topbar{background:#fff;border-bottom:3px solid var(--G);padding:0 20px;height:56px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10}
+.logo-n{font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:900;color:#1a1a1a}
 .logo-n span{color:var(--G)}
 .logo-s{font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--G);text-transform:uppercase}
-.badge{background:var(--YL);color:var(--YD);border:1px solid var(--Y);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;text-transform:uppercase;margin-left:6px}
-.wrap{max-width:1060px;margin:0 auto;padding:24px}
-.modos{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
-.modo-btn{padding:10px 16px;border-radius:9px;border:2px solid var(--BD);background:var(--S);cursor:pointer;font-family:'Barlow',sans-serif;font-size:13px;font-weight:600;color:var(--T2);transition:all .15s;display:flex;align-items:center;gap:7px}
-.modo-btn:hover{border-color:var(--G);color:var(--G);background:var(--GL)}
-.modo-btn.at{border-color:var(--G);background:var(--G);color:#fff}
-.modo-painel{display:none}.modo-painel.at{display:block}
-.drop-zone{border:2px dashed var(--BD);border-radius:12px;padding:36px 24px;text-align:center;cursor:pointer;transition:all .2s;background:var(--S2)}
-.drop-zone:hover,.drop-zone.drag{border-color:var(--G);background:var(--GL)}
-.drop-icon{font-size:44px;margin-bottom:10px}
-.drop-title{font-size:17px;font-weight:700;margin-bottom:6px}
-.drop-sub{font-size:13px;color:var(--T2);margin-bottom:8px}
-.drop-types{font-size:11px;color:var(--T3);background:var(--BG);padding:3px 12px;border-radius:20px;display:inline-block}
-.prev-box{margin-top:14px;display:none}
-.prev-file{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--S);border:1px solid var(--BD);border-radius:8px}
-.prev-img-wrap{margin-top:10px;text-align:center}
-.prev-img-wrap img{max-width:100%;max-height:280px;border-radius:8px;border:1px solid var(--BD)}
-.txt-area{width:100%;padding:14px;border:1.5px solid var(--BD);border-radius:10px;font-family:'Barlow',sans-serif;font-size:14px;color:var(--T);resize:vertical;min-height:160px;background:var(--S)}
-.txt-area:focus{outline:none;border-color:var(--G)}
+.badge-ia{background:var(--YL);color:var(--YD);border:1px solid var(--Y);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;margin-left:6px}
+.wrap{max-width:920px;margin:0 auto;padding:20px}
+.card{background:#fff;border:1px solid var(--BD);border-radius:12px;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,.07);margin-bottom:16px}
+.alert{padding:11px 14px;border-radius:8px;font-size:13px;margin-bottom:14px;border:1px solid transparent;line-height:1.5}
+.ag{background:var(--GL);color:var(--GD);border-color:#a3d4b5}
+.ar{background:#fdecea;color:var(--R);border-color:#fca5a5}
+.aw{background:var(--YL);color:var(--YD);border-color:#fcd34d}
+/* TABS */
+.tabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}
+.tab{padding:10px 16px;border-radius:8px;border:2px solid var(--BD);background:#fff;cursor:pointer;font-family:'Barlow',sans-serif;font-size:13px;font-weight:600;color:var(--T2);transition:all .15s;display:flex;align-items:center;gap:6px}
+.tab:hover{border-color:var(--G);color:var(--G);background:var(--GL)}
+.tab.on{border-color:var(--G);background:var(--G);color:#fff}
+.painel{display:none}.painel.on{display:block}
+/* UPLOAD */
+.uparea{border:2px dashed var(--BD);border-radius:10px;padding:30px 20px;text-align:center;background:var(--S2);cursor:pointer;transition:all .2s}
+.uparea:hover{border-color:var(--G);background:var(--GL)}
+.up-icon{font-size:38px;margin-bottom:8px}
+.up-title{font-size:15px;font-weight:700;margin-bottom:4px}
+.up-sub{font-size:12px;color:var(--T2);margin-bottom:6px}
+.up-types{font-size:11px;color:var(--T3);background:var(--BG);padding:3px 10px;border-radius:20px;display:inline-block}
+.prev-file{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#fff;border:1px solid var(--BD);border-radius:8px;margin-top:12px;font-size:13px;font-weight:600}
+.prev-img{max-width:100%;max-height:260px;border-radius:8px;border:1px solid var(--BD);margin-top:10px;display:block;margin-left:auto;margin-right:auto}
+/* BTN EXTRAIR */
+.btn-ext{width:100%;padding:13px;background:var(--G);color:#fff;border:none;border-radius:9px;font-family:'Barlow',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-top:14px;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .15s}
+.btn-ext:hover{background:var(--GD)}
+.btn-ext:disabled{background:#9ab59a;cursor:not-allowed}
+.spinner{width:20px;height:20px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:giro .8s linear infinite;display:none}
+@keyframes giro{to{transform:rotate(360deg)}}
+/* TEXTO */
+.txt-in{width:100%;padding:14px;border:1.5px solid var(--BD);border-radius:10px;font-family:'Barlow',sans-serif;font-size:14px;color:var(--T);resize:vertical;min-height:150px;background:#fff}
+.txt-in:focus{outline:none;border-color:var(--G)}
 .ex-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center}
-.ex-btn{padding:5px 12px;border-radius:6px;border:1px solid var(--BD);background:var(--S);cursor:pointer;font-size:12px;color:var(--T2);font-family:'Barlow',sans-serif}
-.ex-btn:hover{background:var(--GL);border-color:var(--G);color:var(--G)}
-.audio-area{text-align:center;padding:28px 20px}
-.rec-btn{width:88px;height:88px;border-radius:50%;border:none;cursor:pointer;font-size:34px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;transition:all .2s;background:var(--G);color:#fff;box-shadow:0 4px 16px rgba(30,126,62,.3)}
-.rec-btn.rec{background:var(--R);animation:pulse 1s ease-in-out infinite;box-shadow:0 4px 20px rgba(192,57,43,.4)}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
-.rec-timer{font-family:'DM Mono',monospace;font-size:28px;font-weight:500;color:var(--G);margin-bottom:10px}
+.ex-btn{padding:5px 12px;border-radius:6px;border:1px solid var(--BD);background:#fff;cursor:pointer;font-size:12px;color:var(--T2);font-family:'Barlow',sans-serif}
+.ex-btn:hover{background:var(--GL);border-color:var(--G)}
+/* AUDIO */
+.rec-wrap{text-align:center;padding:20px}
+.rec-btn{width:76px;height:76px;border-radius:50%;border:none;cursor:pointer;font-size:30px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;background:var(--G);color:#fff;box-shadow:0 4px 16px rgba(30,126,62,.3);transition:all .2s}
+.rec-btn.rec{background:var(--R);animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+.rec-timer{font-family:'DM Mono',monospace;font-size:26px;color:var(--G);margin-bottom:6px}
 .rec-timer.verm{color:var(--R)}
-.rec-status{font-size:14px;font-weight:600;color:var(--T2);margin-bottom:4px}
-.audio-prev{margin-top:14px;display:none}
-.audio-prev audio{width:100%;border-radius:8px}
-.btn-extrair{width:100%;padding:14px;background:var(--G);color:#fff;border:none;border-radius:9px;font-family:'Barlow',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-top:14px;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .15s}
-.btn-extrair:hover{background:var(--GD)}
-.btn-extrair:disabled{background:#9ab59a;cursor:not-allowed}
-.spinner{width:20px;height:20px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;display:none}
-@keyframes spin{to{transform:rotate(360deg)}}
-.card{background:var(--S);border:1px solid var(--BD);border-radius:12px;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,.07);margin-top:20px}
-.ctitle{font-size:11px;font-weight:700;color:var(--T2);text-transform:uppercase;letter-spacing:.6px;margin-bottom:12px;padding-left:10px;border-left:3px solid var(--G)}
-.campos{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin-bottom:4px}
-.campo-box{background:var(--S2);border:1px solid var(--BD);border-radius:8px;padding:11px 13px}
+.rec-status{font-size:13px;color:var(--T2);font-weight:600;margin-bottom:4px}
+/* LOADING */
+#loading{display:none;text-align:center;padding:40px}
+.spin{width:48px;height:48px;border:4px solid var(--GL);border-top-color:var(--G);border-radius:50%;animation:giro .8s linear infinite;margin:0 auto 14px}
+/* RESULTADO */
+#resultado{display:none}
+.res-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.res-title{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--GD)}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:7px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;font-size:13px;font-weight:600}
+.bp{background:var(--G);color:#fff}.bp:hover{background:var(--GD)}
+.bs{background:var(--S2);color:var(--T);border:1.5px solid var(--BD)}.bs:hover{background:var(--BD)}
+.sec{font-size:11px;font-weight:700;color:var(--T2);text-transform:uppercase;letter-spacing:.6px;margin:16px 0 10px;padding-left:10px;border-left:3px solid var(--G)}
+.campos{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:10px}
+.campo{background:var(--S2);border:1px solid var(--BD);border-radius:8px;padding:10px 12px}
 .campo-lbl{font-size:10px;font-weight:700;color:var(--T3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
-.campo-val{font-size:14px;font-weight:600;color:var(--T)}
-.campo-val.mono{font-family:'DM Mono',monospace;font-size:13px}
-.campo-val.vazio{color:var(--T3);font-style:italic;font-weight:400;font-size:12px}
-.campo-val[contenteditable=true]{border-bottom:2px dashed var(--G);outline:none;padding:1px 3px;border-radius:2px;min-width:40px;display:inline-block;cursor:text}
-.itens-wrap{overflow-x:auto;border-radius:8px;border:1px solid var(--BD)}
+.campo-row{display:flex;align-items:center;gap:5px}
+.campo-v{flex:1;font-size:14px;font-weight:600;color:var(--T);background:transparent;border:none;font-family:'Barlow',sans-serif;width:100%;outline:none}
+.campo-v.mono{font-family:'DM Mono',monospace;font-size:13px}
+.campo-v:focus{border-bottom:1px dashed var(--G)}
+.cp{background:none;border:1px solid var(--BD);border-radius:4px;padding:2px 6px;cursor:pointer;font-size:11px;flex-shrink:0}
+.cp:hover{background:var(--GL)}
+.cp.ok{background:var(--GL);border-color:var(--G);color:var(--GD)}
+.tw{overflow-x:auto;border-radius:8px;border:1px solid var(--BD)}
 table{width:100%;border-collapse:collapse;font-size:13px}
 th{padding:9px 12px;text-align:left;font-size:10px;font-weight:700;color:var(--T2);text-transform:uppercase;letter-spacing:.5px;background:var(--S2);border-bottom:1.5px solid var(--BD);white-space:nowrap}
 td{padding:10px 12px;border-bottom:1px solid var(--BD);vertical-align:middle}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:var(--GL)}
+td[contenteditable=true]:focus{background:#fffbe6;outline:none}
 .tag-p{background:var(--IL);color:var(--I);padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700}
 .tag-s{background:var(--GL);color:var(--GD);padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700}
 .tag-o{background:var(--YL);color:var(--YD);padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700}
-.totais{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px}
-.total{padding:14px;border-radius:9px;text-align:center}
-.total.s{background:var(--IL);border:1px solid #c7d2fe}
-.total.p{background:var(--YL);border:1px solid #fcd34d}
-.total.g{background:var(--GL);border:2px solid var(--G)}
-.tl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
-.total.s .tl{color:var(--I)}.total.p .tl{color:var(--YD)}.total.g .tl{color:var(--G)}
-.tv{font-size:20px;font-weight:700}
-.total.s .tv{color:var(--I)}.total.p .tv{color:var(--YD)}.total.g .tv{color:var(--GD);font-size:24px}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 15px;border-radius:7px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;font-size:13px;font-weight:600;transition:all .15s}
-.bp{background:var(--G);color:#fff}.bp:hover{background:var(--GD)}
-.bs{background:var(--S2);color:var(--T);border:1.5px solid var(--BD)}.bs:hover{background:var(--BD)}
-.by{background:var(--Y);color:#5a4800}.by:hover{background:#e6bc00}
-.alert{padding:11px 14px;border-radius:8px;font-size:13px;margin-bottom:12px;border:1px solid transparent;line-height:1.5}
-.ai{background:var(--IL);color:var(--I);border-color:#93c5fd}
-.ag{background:var(--GL);color:var(--GD);border-color:#a3d4b5}
-.ar{background:var(--RL);color:var(--R);border-color:#fca5a5}
-.aw{background:var(--YL);color:var(--YD);border-color:#fcd34d}
-.toast{position:fixed;bottom:24px;right:24px;background:var(--GD);color:#fff;padding:12px 18px;border-radius:8px;font-size:13px;font-weight:600;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;border-left:4px solid var(--Y)}
+.resumo-bloco{margin-bottom:10px}
+.resumo-lbl{font-size:10px;font-weight:700;color:var(--T2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px}
+.resumo-row{display:flex;align-items:flex-start;gap:8px}
+.resumo-txt{flex:1;border:1px solid var(--BD);border-radius:7px;padding:10px 13px;font-size:13px;font-weight:500;line-height:1.6;background:var(--S2);word-break:break-word}
+.resumo-txt.azul{background:var(--IL);border-color:#c7d2fe}
+.resumo-txt.verde{background:var(--GL);border-color:#a3d4b5}
+.totais{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:4px}
+.tot{padding:14px;border-radius:9px;text-align:center}
+.tot.p{background:var(--YL);border:1px solid #fcd34d}
+.tot.s{background:var(--IL);border:1px solid #c7d2fe}
+.tot.g{background:var(--GL);border:2px solid var(--G)}
+.tot-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.tot.p .tot-lbl{color:var(--YD)}.tot.s .tot-lbl{color:var(--I)}.tot.g .tot-lbl{color:var(--G)}
+.tot-row{display:flex;align-items:center;justify-content:center;gap:7px}
+.tot-val{font-size:20px;font-weight:700}
+.tot.p .tot-val{color:var(--YD)}.tot.s .tot-val{color:var(--I)}.tot.g .tot-val{color:var(--GD);font-size:24px}
+.toast{position:fixed;bottom:22px;right:22px;background:var(--GD);color:#fff;padding:11px 17px;border-radius:8px;font-size:13px;font-weight:600;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;border-left:4px solid var(--Y)}
 .toast.on{opacity:1}
-.loading{display:none;text-align:center;padding:40px 20px}
-.spin-big{width:52px;height:52px;border:4px solid var(--GL);border-top-color:var(--G);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}
-.loading-msg{font-size:15px;font-weight:600;color:var(--T2)}
-.loading-sub{font-size:12px;color:var(--T3);margin-top:4px}
-@media(max-width:600px){.totais{grid-template-columns:1fr}.campos{grid-template-columns:1fr 1fr}.modos{gap:6px}.modo-btn{padding:8px 10px;font-size:12px}}
+@media(max-width:600px){.totais{grid-template-columns:1fr}.campos{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
-
 <div class="topbar">
-  <div class="logo-ic">
-    <svg width="24" height="24" viewBox="0 0 36 36" fill="none">
-      <polygon points="22,3 15,19 20,19 16,33 28,17 22,17 26,3" fill="#F5C800"/>
-      <polygon points="18,3 11,19 16,19 12,33 24,17 18,17 22,3" fill="#E8391A"/>
-    </svg>
-  </div>
+  <svg width="30" height="30" viewBox="0 0 36 36" fill="none"><polygon points="22,3 15,19 20,19 16,33 28,17 22,17 26,3" fill="#F5C800"/><polygon points="18,3 11,19 16,19 12,33 24,17 18,17 22,3" fill="#E8391A"/></svg>
   <div>
-    <div class="logo-n">ENGEL<span>MIG</span> <span class="badge">Extrator IA</span></div>
+    <div class="logo-n">ENGEL<span>MIG</span> <span class="badge-ia">Extrator IA</span></div>
     <div class="logo-s">Extração automática de orçamentos</div>
   </div>
 </div>
 
 <div class="wrap">
+  <div class="alert ag">🤖 <strong>Envie qualquer formato:</strong> PDF, foto, print de WhatsApp, nota manuscrita, texto ou áudio. A IA lê tudo e extrai placa, KM, CNPJ, fornecedor, Nº orçamento, Nº OS, peças, serviços, descontos e valores automaticamente.</div>
 
-  <div class="alert ai" style="margin-bottom:16px">
-    🤖 <strong>A IA lê qualquer formato:</strong> PDF, foto de orçamento (mesmo letra manuscrita ruim), print de WhatsApp, mensagem de texto ou áudio do fornecedor. Extrai automaticamente placa, KM, CNPJ, fornecedor, Nº orçamento / Nº OS, peças, serviços e todos os valores.
-  </div>
-
-  <!-- MODOS -->
-  <div class="modos">
-    <button class="modo-btn at" onclick="setModo('imagem',this)"><span>🖼</span> Foto / Imagem</button>
-    <button class="modo-btn" onclick="setModo('pdf',this)"><span>📄</span> PDF</button>
-    <button class="modo-btn" onclick="setModo('texto',this)"><span>💬</span> Texto / WhatsApp</button>
-    <button class="modo-btn" onclick="setModo('audio',this)"><span>🎙</span> Áudio / Gravação</button>
+  <div class="tabs">
+    <button class="tab on" onclick="setTab('img',this)">🖼 Foto / Print</button>
+    <button class="tab" onclick="setTab('pdf',this)">📄 PDF</button>
+    <button class="tab" onclick="setTab('txt',this)">💬 Texto / WhatsApp</button>
+    <button class="tab" onclick="setTab('aud',this)">🎙 Áudio</button>
   </div>
 
   <!-- IMAGEM -->
-  <div class="modo-painel at" id="modo-imagem">
-    <div class="drop-zone" id="dz-img" onclick="document.getElementById('fi-img').click()">
-      <div class="drop-icon">📷</div>
-      <div class="drop-title">Foto, print ou imagem do orçamento</div>
-      <div class="drop-sub">Funciona com foto de papel, print de WhatsApp, nota manuscrita — mesmo letra difícil</div>
-      <div class="drop-types">JPG • PNG • JPEG • WEBP • GIF</div>
+  <div id="p-img" class="painel on">
+    <div class="card">
+      <div class="uparea" onclick="document.getElementById('in-img').click()">
+        <div class="up-icon">📷</div>
+        <div class="up-title">Foto, print ou imagem do orçamento</div>
+        <div class="up-sub">Funciona com print de WhatsApp, foto de papel, nota manuscrita</div>
+        <div class="up-types">JPG • PNG • JPEG • WEBP</div>
+      </div>
+      <input type="file" id="in-img" accept="image/*" style="display:none" onchange="selecionarImg(this)">
+      <div id="prev-img" style="display:none">
+        <div class="prev-file"><span>🖼</span><div><div id="nome-img" style="font-weight:600;font-size:13px"></div><div id="tam-img" style="font-size:11px;color:var(--T3)"></div></div></div>
+        <img id="img-preview" class="prev-img" alt="">
+      </div>
+      <button class="btn-ext" id="bt-img" onclick="extrairImg()" disabled>
+        <div class="spinner" id="sp-img"></div>
+        <span>🔍 Extrair dados da imagem</span>
+      </button>
     </div>
-    <input type="file" id="fi-img" accept=".jpg,.jpeg,.png,.webp,.gif" style="display:none" onchange="onImg(this)">
-    <div class="prev-box" id="prev-img-box">
-      <div class="prev-file"><span style="font-size:22px">🖼</span><div><div style="font-weight:600;font-size:13px" id="img-nome"></div><div style="font-size:11px;color:var(--T3)" id="img-tam"></div></div></div>
-      <div class="prev-img-wrap"><img id="img-preview" alt="preview"></div>
-    </div>
-    <button class="btn-extrair" id="btn-img" onclick="extrairImagem()" disabled>
-      <div class="spinner" id="sp-img"></div>
-      <span id="txt-img">🔍 Extrair dados da imagem</span>
-    </button>
   </div>
 
   <!-- PDF -->
-  <div class="modo-painel" id="modo-pdf">
-    <div class="drop-zone" id="dz-pdf" onclick="document.getElementById('fi-pdf').click()">
-      <div class="drop-icon">📄</div>
-      <div class="drop-title">Arquivo PDF do orçamento</div>
-      <div class="drop-sub">Melhor resultado — use o PDF original sempre que possível</div>
-      <div class="drop-types">PDF</div>
+  <div id="p-pdf" class="painel">
+    <div class="card">
+      <div class="uparea" onclick="document.getElementById('in-pdf').click()">
+        <div class="up-icon">📄</div>
+        <div class="up-title">Arquivo PDF do orçamento</div>
+        <div class="up-sub">Melhor resultado — use o PDF original sempre que possível</div>
+        <div class="up-types">PDF</div>
+      </div>
+      <input type="file" id="in-pdf" accept=".pdf" style="display:none" onchange="selecionarPdf(this)">
+      <div id="prev-pdf" style="display:none">
+        <div class="prev-file"><span>📄</span><div><div id="nome-pdf" style="font-weight:600;font-size:13px"></div><div id="tam-pdf" style="font-size:11px;color:var(--T3)"></div></div></div>
+      </div>
+      <button class="btn-ext" id="bt-pdf" onclick="extrairPdf()" disabled>
+        <div class="spinner" id="sp-pdf"></div>
+        <span>🔍 Extrair dados do PDF</span>
+      </button>
     </div>
-    <input type="file" id="fi-pdf" accept=".pdf" style="display:none" onchange="onPDF(this)">
-    <div class="prev-box" id="prev-pdf-box">
-      <div class="prev-file"><span style="font-size:22px">📄</span><div><div style="font-weight:600;font-size:13px" id="pdf-nome"></div><div style="font-size:11px;color:var(--T3)" id="pdf-tam"></div></div></div>
-    </div>
-    <button class="btn-extrair" id="btn-pdf" onclick="extrairPDF()" disabled>
-      <div class="spinner" id="sp-pdf"></div>
-      <span id="txt-pdf">🔍 Extrair dados do PDF</span>
-    </button>
   </div>
 
   <!-- TEXTO -->
-  <div class="modo-painel" id="modo-texto">
-    <div style="font-size:13px;font-weight:600;color:var(--T2);margin-bottom:8px">Cole aqui a mensagem do fornecedor (WhatsApp, SMS, e-mail ou qualquer texto):</div>
-    <textarea class="txt-area" id="txt-input" placeholder="Exemplos do que funciona:
-• Mensagem do WhatsApp: 'Placa ABC1234, km 45000, troca óleo R$80, filtro R$35...'
-• Lista de peças copiada de qualquer lugar
-• Texto de e-mail do fornecedor
-• Você mesmo digitando os itens
-
-Cole ou digite aqui..."></textarea>
-    <div class="ex-row">
-      <span style="font-size:11px;color:var(--T3)">Exemplos:</span>
-      <button class="ex-btn" onclick="ex(1)">Mensagem WhatsApp</button>
-      <button class="ex-btn" onclick="ex(2)">Lista de peças</button>
-      <button class="ex-btn" onclick="ex(3)">E-mail formal</button>
+  <div id="p-txt" class="painel">
+    <div class="card">
+      <div style="font-size:13px;font-weight:600;color:var(--T2);margin-bottom:8px">Cole aqui a mensagem do fornecedor (WhatsApp, e-mail, SMS ou qualquer texto):</div>
+      <textarea class="txt-in" id="in-txt" placeholder="Ex: Placa ABC-1234, km 45000, troca de óleo R$80, filtro R$35, pastilha R$89, mão de obra R$150. Total R$354. CNPJ 12.345.678/0001-90 Oficina Silva"></textarea>
+      <div class="ex-row">
+        <span style="font-size:11px;color:var(--T3)">Exemplos:</span>
+        <button class="ex-btn" onclick="exTxt(1)">Mensagem WhatsApp</button>
+        <button class="ex-btn" onclick="exTxt(2)">Lista de peças</button>
+        <button class="ex-btn" onclick="exTxt(3)">E-mail formal</button>
+      </div>
+      <button class="btn-ext" id="bt-txt" onclick="extrairTxt()">
+        <div class="spinner" id="sp-txt"></div>
+        <span>🔍 Extrair dados do texto</span>
+      </button>
     </div>
-    <button class="btn-extrair" id="btn-txt" onclick="extrairTexto()">
-      <div class="spinner" id="sp-txt"></div>
-      <span>🔍 Extrair dados do texto</span>
-    </button>
   </div>
 
-  <!-- ÁUDIO -->
-  <div class="modo-painel" id="modo-audio">
+  <!-- AUDIO -->
+  <div id="p-aud" class="painel">
     <div class="card">
-      <div class="audio-area">
-        <button class="rec-btn" id="rec-btn" onclick="toggleRec()">🎙</button>
+      <div class="rec-wrap">
+        <button class="rec-btn" id="bt-rec" onclick="toggleRec()">🎙</button>
         <div class="rec-timer" id="rec-timer">0:00</div>
-        <div class="rec-status" id="rec-status">Clique no microfone para iniciar a gravação</div>
-        <div style="font-size:12px;color:var(--T3);margin-top:6px;max-width:400px;margin-left:auto;margin-right:auto">O fornecedor pode falar: placa, KM, peças, serviços e valores. A IA transcreve e extrai tudo automaticamente.</div>
+        <div class="rec-status" id="rec-status">Clique no microfone para gravar</div>
+        <div style="font-size:12px;color:var(--T3);margin-top:6px">Fale a placa, KM, peças, valores e fornecedor</div>
       </div>
-      <div class="audio-prev" id="audio-prev">
+      <div id="audio-prev" style="display:none;margin-bottom:12px">
         <audio id="audio-player" controls style="width:100%;border-radius:8px"></audio>
-        <div style="font-size:12px;color:var(--T3);margin-top:6px;text-align:center">✅ Gravação pronta — clique em Extrair</div>
       </div>
-      <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--BD)">
-        <div style="font-size:13px;font-weight:600;color:var(--T2);margin-bottom:6px">Ou cole a transcrição manual do áudio:</div>
-        <textarea class="txt-area" id="txt-audio" style="min-height:90px" placeholder="Se preferir, transcreva o áudio aqui e clique em Extrair..."></textarea>
+      <div style="padding-top:12px;border-top:1px solid var(--BD)">
+        <div style="font-size:13px;font-weight:600;color:var(--T2);margin-bottom:6px">Ou transcreva manualmente o áudio:</div>
+        <textarea class="txt-in" id="in-aud" style="min-height:90px" placeholder="Digite aqui o que foi falado no áudio..."></textarea>
       </div>
-      <button class="btn-extrair" id="btn-audio" onclick="extrairAudio()">
-        <div class="spinner" id="sp-audio"></div>
+      <button class="btn-ext" id="bt-aud" onclick="extrairAud()">
+        <div class="spinner" id="sp-aud"></div>
         <span>🔍 Extrair dados</span>
       </button>
     </div>
   </div>
 
   <!-- LOADING -->
-  <div class="loading" id="loading">
-    <div class="spin-big"></div>
-    <div class="loading-msg" id="lmsg">Analisando documento...</div>
-    <div class="loading-sub" id="lsub">A IA está lendo e extraindo os dados do orçamento</div>
+  <div id="loading">
+    <div class="spin"></div>
+    <div style="font-size:15px;font-weight:600;color:var(--T2)" id="load-msg">Analisando...</div>
+    <div style="font-size:12px;color:var(--T3);margin-top:4px" id="load-sub">A IA está lendo e extraindo os dados</div>
   </div>
 
   <!-- RESULTADO -->
-  <div id="resultado" style="display:none">
-
-    <div id="alerta-conf"></div>
-
+  <div id="resultado">
+    <div id="alerta-res"></div>
     <div class="card">
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--GD)">✅ Dados extraídos</div>
+      <div class="res-top">
+        <div class="res-title">✅ Dados extraídos</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <button class="btn bs" onclick="novaExtracao()">↩ Nova extração</button>
-          <button class="btn bs" onclick="copiarJSON()">📋 JSON</button>
-          <button class="btn bp" onclick="exportarCSV()">⬇ Exportar CSV</button>
+          <button class="btn bs" onclick="exportarCSV()">⬇ CSV</button>
         </div>
       </div>
 
-      <!-- FORNECEDOR E VEÍCULO -->
-      <div class="ctitle">🏢 Fornecedor e veículo</div>
+      <div class="sec">🏢 Fornecedor e veículo</div>
       <div class="campos" id="campos-fv"></div>
 
-      <!-- DOCUMENTOS -->
-      <div class="ctitle" style="margin-top:14px">📋 Identificação do documento</div>
+      <div class="sec">📋 Identificação do documento</div>
       <div class="campos" id="campos-doc"></div>
 
-      <!-- ITENS -->
-      <div class="ctitle" style="margin-top:14px">🔧 Peças e serviços identificados</div>
-      <div class="itens-wrap">
-        <table>
-          <thead><tr><th>#</th><th>Descrição</th><th>Tipo</th><th>Qtd</th><th>Vlr. unit.</th><th>Vlr. total</th></tr></thead>
-          <tbody id="tb-itens"></tbody>
-        </table>
+      <div class="sec">🔧 Peças e serviços</div>
+      <div class="tw">
+        <table><thead><tr><th>#</th><th>Descrição</th><th>Tipo</th><th>Qtd</th><th>Vlr. unit.</th><th>Vlr. total</th></tr></thead>
+        <tbody id="tb-itens"></tbody></table>
       </div>
-      <!-- RESUMO EM LINHA -->
-      <div id="itens-lista"></div>
 
-      <!-- TOTAIS -->
-      <div class="ctitle" style="margin-top:16px">💰 Resumo de valores</div>
-      <div class="totais" id="totais"></div>
+      <div class="sec" style="margin-top:16px">📋 Resumo para copiar</div>
+      <div id="resumo-area"></div>
 
-      <div id="obs-res" style="margin-top:14px"></div>
+      <div class="sec" style="margin-top:4px">💰 Totais</div>
+      <div class="totais" id="totais-area"></div>
 
       <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--BD);font-size:11px;color:var(--T3)">
-        ✏ Clique em qualquer valor para editar antes de exportar &nbsp;|&nbsp; 🤖 Extraído por IA — revise sempre antes de usar
+        ✏ Clique em qualquer campo para editar &nbsp;|&nbsp; 🤖 Sempre revise antes de usar
       </div>
     </div>
   </div>
-
 </div>
 
 <div class="toast" id="tk"></div>
 
 <script>
-var dados = null;
-var modoAtual = 'imagem';
+// ===== ESTADO =====
+var dadosG = null;
 var imgB64 = null;
+var imgMime = null;
 var pdfB64 = null;
 var mediaRec = null;
 var gravando = false;
@@ -275,474 +266,375 @@ var timerInt = null;
 var tempoG = 0;
 var chunks = [];
 
-// NAV
-function setModo(m, btn) {
-  modoAtual = m;
-  document.querySelectorAll('.modo-btn').forEach(function(b){b.classList.remove('at')});
-  btn.classList.add('at');
-  document.querySelectorAll('.modo-painel').forEach(function(p){p.classList.remove('at')});
-  document.getElementById('modo-'+m).classList.add('at');
-  document.getElementById('resultado').style.display='none';
-  document.getElementById('loading').style.display='none';
+// ===== TABS =====
+function setTab(id, btn) {
+  document.querySelectorAll('.painel').forEach(function(p){p.classList.remove('on')});
+  document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('on')});
+  document.getElementById('p-'+id).classList.add('on');
+  btn.classList.add('on');
 }
 
-// DRAG DROP genérico
-function setupDrop(id, cb) {
-  var el = document.getElementById(id);
-  el.addEventListener('dragover',function(e){e.preventDefault();el.classList.add('drag')});
-  el.addEventListener('dragleave',function(){el.classList.remove('drag')});
-  el.addEventListener('drop',function(e){e.preventDefault();el.classList.remove('drag');var f=e.dataTransfer.files[0];if(f)cb(f)});
-}
-setupDrop('dz-img', processarImg);
-setupDrop('dz-pdf', processarPDF);
-
-// IMAGEM
-function onImg(inp){if(inp.files[0])processarImg(inp.files[0])}
-function processarImg(f){
-  var r=new FileReader();
-  r.onload=function(e){
-    imgB64=e.target.result;
-    document.getElementById('img-nome').textContent=f.name;
-    document.getElementById('img-tam').textContent=(f.size/1024/1024).toFixed(2)+' MB';
-    document.getElementById('img-preview').src=imgB64;
-    document.getElementById('prev-img-box').style.display='block';
-    document.getElementById('btn-img').disabled=false;
+// ===== IMAGEM =====
+function selecionarImg(inp) {
+  var f = inp.files[0];
+  if (!f) return;
+  var r = new FileReader();
+  r.onload = function(e) {
+    imgB64 = e.target.result.split(',')[1];
+    imgMime = f.type || 'image/jpeg';
+    document.getElementById('nome-img').textContent = f.name;
+    document.getElementById('tam-img').textContent = (f.size/1024/1024).toFixed(2) + ' MB';
+    document.getElementById('img-preview').src = e.target.result;
+    document.getElementById('prev-img').style.display = 'block';
+    document.getElementById('bt-img').disabled = false;
   };
   r.readAsDataURL(f);
 }
-async function extrairImagem(){
-  if(!imgB64){toast('⚠ Selecione uma imagem');return}
-  var b64=imgB64.split(',')[1];
-  var mime=imgB64.split(';')[0].split(':')[1];
-  setLoad(true,'Analisando a imagem...','Lendo texto, identificando peças, serviços e valores');
-  try{
-    var r=await apiImagem(b64,mime,prompt());
-    processar(r);
-  }catch(e){erroIA(e.message)}
+
+function extrairImg() {
+  if (!imgB64) { toast('⚠ Selecione uma imagem primeiro'); return; }
+  setLoad(true, 'Analisando a imagem...', 'Lendo o print e extraindo os dados');
+  var parts = [
+    { inline_data: { mime_type: imgMime, data: imgB64 } },
+    { text: montarPrompt() }
+  ];
+  chamarAPI(parts).then(function(txt) {
+    processar(txt);
+  }).catch(function(e) {
+    erroIA(e.message);
+  });
 }
 
-// PDF
-function onPDF(inp){if(inp.files[0])processarPDF(inp.files[0])}
-function processarPDF(f){
-  var r=new FileReader();
-  r.onload=function(e){
-    pdfB64=e.target.result.split(',')[1];
-    document.getElementById('pdf-nome').textContent=f.name;
-    document.getElementById('pdf-tam').textContent=(f.size/1024/1024).toFixed(2)+' MB';
-    document.getElementById('prev-pdf-box').style.display='block';
-    document.getElementById('btn-pdf').disabled=false;
+// ===== PDF =====
+function selecionarPdf(inp) {
+  var f = inp.files[0];
+  if (!f) return;
+  var r = new FileReader();
+  r.onload = function(e) {
+    pdfB64 = e.target.result.split(',')[1];
+    document.getElementById('nome-pdf').textContent = f.name;
+    document.getElementById('tam-pdf').textContent = (f.size/1024/1024).toFixed(2) + ' MB';
+    document.getElementById('prev-pdf').style.display = 'block';
+    document.getElementById('bt-pdf').disabled = false;
   };
   r.readAsDataURL(f);
 }
-async function extrairPDF(){
-  if(!pdfB64){toast('⚠ Selecione um PDF');return}
-  setLoad(true,'Lendo o PDF...','Processando documento e extraindo dados');
-  try{
-    var r=await apiPDF(pdfB64,prompt());
-    processar(r);
-  }catch(e){erroIA(e.message)}
+
+function extrairPdf() {
+  if (!pdfB64) { toast('⚠ Selecione um PDF primeiro'); return; }
+  setLoad(true, 'Lendo o PDF...', 'Processando documento e extraindo dados');
+  var parts = [
+    { inline_data: { mime_type: 'application/pdf', data: pdfB64 } },
+    { text: montarPrompt() }
+  ];
+  chamarAPI(parts).then(function(txt) {
+    processar(txt);
+  }).catch(function(e) {
+    erroIA(e.message);
+  });
 }
 
-// TEXTO
-function ex(n){
-  var e={
-    1:'Boa tarde Rodrigo!\nPlaca ABC-1234, km 47.500\nOS nº 2025-089\nTroca óleo 10W40 Shell - R$ 45,00\nFiltro de óleo - R$ 28,00\nFiltro de ar - R$ 22,00\nPastilha freio dianteira (jogo) - R$ 89,00\nMão de obra geral - R$ 80,00\nCNPJ: 12.345.678/0001-90\nOficina do Silva',
-    2:'Placa: XYZ-5678 | KM: 89.200 | Orçamento nº ORC-447\nAmortecedor dianteiro esq - R$ 180,00\nAmortecedor dianteiro dir - R$ 180,00\nBandeja inferior esq - R$ 95,00\nRolete tensor - R$ 45,00\nServiço alinhamento - R$ 60,00\nServiço balanceamento - R$ 40,00\nTotal peças: R$ 500,00 | MO: R$ 100,00\nFornecedor: Auto Peças Norte LTDA - CNPJ 98.765.432/0001-10',
-    3:'Prezado Rodrigo,\nSegue orçamento nº 2025-053 / OS 8841:\nVeículo: Honda CG 160 | Placa: DEF-9012 | KM: 12.400\n- Corrente e pinhões kit: R$ 85,00\n- Vela de ignição NGK: R$ 18,00\n- Óleo 10W30 (1L): R$ 32,00\n- Limpeza carburador: R$ 50,00\n- Mão de obra: R$ 80,00\nTotal: R$ 265,00\nElétrica e Mecânica Rápida - CNPJ: 55.123.456/0001-78'
+// ===== TEXTO =====
+function exTxt(n) {
+  var ex = {
+    1: 'Boa tarde!\nPlaca ABC-1234, km 47.500, OS nº 089\nTroca óleo 10W40 - R$ 45,00\nFiltro de óleo - R$ 28,00\nPastilha freio dianteira - R$ 89,00\nDesconto 10% - R$ 16,20\nMão de obra - R$ 80,00\nTotal com desconto: R$ 225,80\nCNPJ: 12.345.678/0001-90 - Oficina Silva',
+    2: 'Placa XYZ-5678 | KM 89.200 | Orç. 447\nAmortecedor dianteiro esq R$ 180,00\nAmortecedor dianteiro dir R$ 180,00\nServiço alinhamento R$ 60,00\nServiço balanceamento R$ 40,00\nDesconto fidelidade R$ 20,00\nTotal R$ 440,00\nAuto Peças Norte - CNPJ 98.765.432/0001-10',
+    3: 'Prezado Rodrigo,\nSegue orçamento nº 2025-053:\nVeículo: Honda CG 160 | Placa DEF-9012 | KM 12.400\n- Corrente e pinhões: R$ 85,00\n- Vela NGK: R$ 18,00\n- Óleo 10W30: R$ 32,00\n- Mão de obra: R$ 80,00\nSubtotal: R$ 215,00\nDesconto 5%: R$ 10,75\nTotal: R$ 204,25\nElétrica Rápida - CNPJ 55.123.456/0001-78'
   };
-  document.getElementById('txt-input').value=e[n];
-}
-async function extrairTexto(){
-  var txt=document.getElementById('txt-input').value.trim();
-  if(!txt){toast('⚠ Cole ou digite o texto do orçamento');return}
-  setLoad(true,'Analisando o texto...','Extraindo dados da mensagem do fornecedor');
-  try{
-    var p=prompt()+'\n\nTexto do orçamento:\n"""\n'+txt+'\n"""';
-    var r=await apiTexto(p);
-    processar(r);
-  }catch(e){erroIA(e.message)}
+  document.getElementById('in-txt').value = ex[n];
 }
 
-// ÁUDIO
-async function toggleRec(){
-  if(!gravando){
-    try{
-      var stream=await navigator.mediaDevices.getUserMedia({audio:true});
-      mediaRec=new MediaRecorder(stream);chunks=[];
-      mediaRec.ondataavailable=function(e){if(e.data.size>0)chunks.push(e.data)};
-      mediaRec.onstop=function(){
-        var blob=new Blob(chunks,{type:'audio/webm'});
-        document.getElementById('audio-player').src=URL.createObjectURL(blob);
-        document.getElementById('audio-prev').style.display='block';
+function extrairTxt() {
+  var txt = document.getElementById('in-txt').value.trim();
+  if (!txt) { toast('⚠ Cole ou digite o texto do orçamento'); return; }
+  setLoad(true, 'Analisando o texto...', 'Extraindo dados da mensagem');
+  var parts = [{ text: montarPrompt() + '\n\nTexto do orçamento:\n"""\n' + txt + '\n"""' }];
+  chamarAPI(parts).then(function(r) {
+    processar(r);
+  }).catch(function(e) {
+    erroIA(e.message);
+  });
+}
+
+// ===== AUDIO =====
+function toggleRec() {
+  if (!gravando) {
+    navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream) {
+      mediaRec = new MediaRecorder(stream);
+      chunks = [];
+      mediaRec.ondataavailable = function(e) { if(e.data.size>0) chunks.push(e.data); };
+      mediaRec.onstop = function() {
+        var blob = new Blob(chunks, {type:'audio/webm'});
+        document.getElementById('audio-player').src = URL.createObjectURL(blob);
+        document.getElementById('audio-prev').style.display = 'block';
         stream.getTracks().forEach(function(t){t.stop()});
       };
-      mediaRec.start();gravando=true;tempoG=0;
-      document.getElementById('rec-btn').classList.add('rec');
-      document.getElementById('rec-btn').textContent='⏹';
-      document.getElementById('rec-status').textContent='Gravando... fale a placa, KM, peças e valores';
-      timerInt=setInterval(function(){
+      mediaRec.start();
+      gravando = true; tempoG = 0;
+      document.getElementById('bt-rec').classList.add('rec');
+      document.getElementById('bt-rec').textContent = '⏹';
+      document.getElementById('rec-status').textContent = 'Gravando... fale as peças e valores';
+      timerInt = setInterval(function() {
         tempoG++;
-        var m=Math.floor(tempoG/60),s=tempoG%60;
-        var el=document.getElementById('rec-timer');
-        el.textContent=m+':'+(s<10?'0':'')+s;
-        el.className='rec-timer'+(tempoG>60?' verm':'');
-        if(tempoG>=120)toggleRec();
-      },1000);
-    }catch(e){toast('⚠ Microfone não disponível. Use a transcrição manual abaixo.')}
+        var m = Math.floor(tempoG/60), s = tempoG%60;
+        document.getElementById('rec-timer').textContent = m+':'+(s<10?'0':'')+s;
+        if(tempoG >= 120) toggleRec();
+      }, 1000);
+    }).catch(function() {
+      toast('⚠ Microfone não disponível. Use a transcrição manual.');
+    });
   } else {
-    gravando=false;clearInterval(timerInt);
-    if(mediaRec)mediaRec.stop();
-    document.getElementById('rec-btn').classList.remove('rec');
-    document.getElementById('rec-btn').textContent='🎙';
-    document.getElementById('rec-status').textContent='Gravação concluída! Clique em Extrair.';
+    gravando = false;
+    clearInterval(timerInt);
+    if(mediaRec) mediaRec.stop();
+    document.getElementById('bt-rec').classList.remove('rec');
+    document.getElementById('bt-rec').textContent = '🎙';
+    document.getElementById('rec-status').textContent = 'Gravação concluída! Clique em Extrair.';
   }
 }
-async function extrairAudio(){
-  var manual=document.getElementById('txt-audio').value.trim();
-  if(manual){
-    setLoad(true,'Analisando transcrição...','Extraindo dados do texto');
-    try{
-      var p=prompt()+'\n\nTranscrição do áudio:\n"""\n'+manual+'\n"""';
-      var r=await apiTexto(p);processar(r);
-    }catch(e){erroIA(e.message)}
-    return;
-  }
-  if(!chunks.length){toast('⚠ Grave um áudio ou use a transcrição manual');return}
-  // Áudio real: em produção enviar para Whisper. Aqui orienta o usuário.
-  toast('💡 Transcreva o áudio no campo abaixo e clique em Extrair');
+
+function extrairAud() {
+  var manual = document.getElementById('in-aud').value.trim();
+  if (!manual) { toast('⚠ Grave um áudio ou use a transcrição manual'); return; }
+  setLoad(true, 'Analisando transcrição...', 'Extraindo dados do texto');
+  var parts = [{ text: montarPrompt() + '\n\nTranscrição do áudio:\n"""\n' + manual + '\n"""' }];
+  chamarAPI(parts).then(function(r) {
+    processar(r);
+  }).catch(function(e) {
+    erroIA(e.message);
+  });
 }
 
-// PROMPT
-function prompt(){
-  return `INSTRUÇÃO: Você deve analisar este orçamento automotivo e retornar APENAS um objeto JSON válido, sem nenhum texto antes ou depois, sem markdown, sem explicação.
-
-JSON a retornar (substitua os valores pelos dados reais encontrados, use null se não encontrar):
-{"placa":null,"km":null,"data_execucao":null,"num_orcamento":null,"num_os":null,"fornecedor_nome":null,"fornecedor_cnpj":null,"itens":[{"descricao":"nome do item","tipo":"peca ou servico","quantidade":1,"valor_unitario":0.00,"valor_total":0.00}],"total_pecas":0.00,"total_servicos":0.00,"total_geral":0.00,"observacoes":null,"confianca":"alta","motivo_baixa_confianca":null}
-
-REGRAS IMPORTANTES:
-- placa: formato AAA-0000 maiúsculo
-- km: número inteiro sem pontos
-- CNPJ: somente do FORNECEDOR (quem emitiu), nunca da Engelmig
-- tipo de cada item: "peca" para peças/materiais, "servico" para mão de obra/serviços
-- valores: número decimal com ponto (ex: 150.00)
-- Retorne SOMENTE o JSON, começando com { e terminando com }`;
-}`;
+// ===== PROMPT =====
+function montarPrompt() {
+  return 'Analise este orçamento automotivo brasileiro e retorne APENAS um JSON válido, sem texto antes ou depois.\n\nIMPORTANTE: Extraia também descontos — se houver desconto, inclua como item com tipo "desconto" e valor negativo.\n\nRetorne exatamente neste formato:\n{"placa":null,"km":null,"data_execucao":null,"num_orcamento":null,"num_os":null,"fornecedor_nome":null,"fornecedor_cnpj":null,"itens":[{"descricao":"nome","tipo":"peca ou servico ou desconto","quantidade":1,"valor_unitario":0.00,"valor_total":0.00}],"total_pecas":0.00,"total_servicos":0.00,"total_desconto":0.00,"total_geral":0.00,"observacoes":null,"confianca":"alta"}\n\nRegras:\n- placa: maiúscula com traço ex: ABC-1234\n- km: número inteiro\n- CNPJ: somente do fornecedor, nunca da Engelmig\n- valores: decimal com ponto ex: 150.00\n- desconto: valor_total negativo ex: -16.20\n- total_geral: valor final após desconto\n- Retorne SOMENTE o JSON, começando com { e terminando com }';
 }
 
-// APIS
-// APIs usando Google Gemini (gratuito) via Netlify Function
-async function chamarGemini(parts){
-  var r = await fetch('/api', {
+// ===== API =====
+function chamarAPI(parts) {
+  return fetch('/api', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
       contents: [{ parts: parts }],
-      generationConfig: { maxOutputTokens: 2500, temperature: 0.1 }
+      generationConfig: { maxOutputTokens: 3000, temperature: 0.1 }
     })
+  }).then(function(r) {
+    if (!r.ok) return r.text().then(function(t){ throw new Error('Erro servidor: ' + t.substring(0,100)); });
+    return r.json();
+  }).then(function(d) {
+    if (d.error) throw new Error(d.error);
+    if (!d.text) throw new Error('Resposta vazia do servidor');
+    return d.text;
   });
-  if(!r.ok){
-    var err = await r.text();
-    throw new Error('Servidor retornou erro: ' + err.substring(0,100));
-  }
-  var d = await r.json();
-  if(d.error) throw new Error(d.error);
-  // Retorna o texto da resposta
-  return d.text || d;
-}
-async function apiImagem(b64, mime, p){
-  return chamarGemini([
-    { inline_data: { mime_type: mime, data: b64 } },
-    { text: p }
-  ]);
-}
-async function apiPDF(b64, p){
-  return chamarGemini([
-    { inline_data: { mime_type: 'application/pdf', data: b64 } },
-    { text: p }
-  ]);
-}
-async function apiTexto(p){
-  return chamarGemini([{ text: p }]);
 }
 
-// PROCESSAR
-function processar(resp){
+// ===== PROCESSAR =====
+function processar(txt) {
   setLoad(false);
-  try{
-    // resp pode ser string direta ou objeto {text: ...}
-    var txt = typeof resp === 'object' ? (resp.text || JSON.stringify(resp)) : resp;
-    // Limpar markdown
-    txt = txt.replace(/```json/gi,'').replace(/```/g,'').trim();
+  try {
+    var limpo = txt.replace(/```json/gi,'').replace(/```/g,'').trim();
     var d;
-    // Tenta parse direto
-    try{d=JSON.parse(txt)}catch(e1){
-      // Tenta extrair JSON do meio do texto
-      var m=txt.match(/\{[\s\S]*\}/);
-      if(m){
-        try{d=JSON.parse(m[0])}catch(e2){
-          // Última tentativa: pega o maior bloco JSON
-          var blocos = txt.match(/\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}/g);
-          if(blocos){
-            var maior = blocos.sort(function(a,b){return b.length-a.length})[0];
-            d=JSON.parse(maior);
-          } else throw e2;
-        }
-      } else throw e1;
+    try { d = JSON.parse(limpo); }
+    catch(e) {
+      var m = limpo.match(/\{[\s\S]*\}/);
+      if (m) d = JSON.parse(m[0]);
+      else throw new Error('JSON não encontrado na resposta');
     }
-    dados=d;renderizar(d);
-  }catch(e){
-    erroIA('Erro ao interpretar: '+e.message+'. Tente com imagem mais nítida ou use o modo Texto.');
+    dadosG = d;
+    renderizar(d);
+  } catch(e) {
+    erroIA('Erro ao processar: ' + e.message + '. Tente com imagem mais nítida ou use o modo Texto.');
   }
 }
 
-function renderizar(d){
-  document.getElementById('resultado').style.display='block';
-  document.getElementById('resultado').scrollIntoView({behavior:'smooth',block:'start'});
+// ===== RENDERIZAR =====
+function fmtR(v) { return v ? 'R$ ' + parseFloat(v).toFixed(2).replace('.',',') : 'R$ 0,00'; }
+
+function campo(lbl, val, mono) {
+  if (!val && val !== 0) return '<div class="campo"><div class="campo-lbl">'+lbl+'</div><div style="font-size:12px;color:var(--T3);font-style:italic">Não identificado</div></div>';
+  var id = 'c-'+Math.random().toString(36).substr(2,5);
+  var cls = 'campo-v' + (mono ? ' mono' : '');
+  return '<div class="campo"><div class="campo-lbl">'+lbl+'</div><div class="campo-row"><input class="'+cls+'" id="'+id+'" value="'+String(val).replace(/"/g,'&quot;')+'"><button class="cp" onclick="cpInput(\''+id+'\',this)">📋</button></div></div>';
+}
+
+function renderizar(d) {
+  document.getElementById('resultado').style.display = 'block';
+  document.getElementById('resultado').scrollIntoView({behavior:'smooth', block:'start'});
 
   // Alerta confiança
-  var ca=document.getElementById('alerta-conf');
-  if(d.confianca==='baixa'){
-    ca.innerHTML='<div class="alert ar">⚠ <strong>Confiança baixa</strong> — '+(d.motivo_baixa_confianca||'Imagem com baixa qualidade ou texto ilegível')+'.<br>Revise todos os campos antes de usar. Clique em qualquer valor para editar.</div>';
-  } else if(d.confianca==='media'){
-    ca.innerHTML='<div class="alert aw">⚠ <strong>Confiança média</strong> — '+(d.motivo_baixa_confianca||'Alguns campos podem ter erros de leitura')+'. Verifique antes de exportar.</div>';
-  } else {
-    ca.innerHTML='<div class="alert ag">✅ <strong>Alta confiança</strong> — dados extraídos com clareza. Revise e exporte.</div>';
+  var ac = document.getElementById('alerta-res');
+  if (d.confianca === 'baixa') ac.innerHTML = '<div class="alert ar">⚠ <strong>Confiança baixa</strong> — verifique todos os campos antes de usar.</div>';
+  else if (d.confianca === 'media') ac.innerHTML = '<div class="alert aw">⚠ <strong>Confiança média</strong> — revise os valores.</div>';
+  else ac.innerHTML = '<div class="alert ag">✅ <strong>Alta confiança</strong> — dados extraídos com clareza.</div>';
+
+  // Formatar placa
+  if (d.placa) {
+    var p = d.placa.toUpperCase().replace(/[^A-Z0-9]/g,'');
+    d.placa = p.length >= 4 ? p.substring(0,3)+'-'+p.substring(3) : p;
   }
 
-  // Fornecedor e veículo
-  // Formatar placa: maiúscula e com traço
-  if(d.placa){
-    var p=d.placa.toUpperCase().replace(/[^A-Z0-9]/g,'');
-    if(p.length>=4)d.placa=p.substring(0,3)+'-'+p.substring(3);
-    else d.placa=p;
-  }
-  var fv=[
-    {l:'Placa',v:d.placa,cls:'mono'},
-    {l:'KM',v:d.km?d.km.toLocaleString('pt-BR'):null},
-    {l:'Data de execução',v:d.data_execucao},
-    {l:'Fornecedor',v:d.fornecedor_nome},
-    {l:'CNPJ do fornecedor',v:d.fornecedor_cnpj,cls:'mono'},
-  ];
-  document.getElementById('campos-fv').innerHTML=fv.map(campoHtml).join('');
+  // Campos fornecedor/veículo
+  document.getElementById('campos-fv').innerHTML =
+    campo('Placa', d.placa, true) +
+    campo('KM', d.km ? d.km.toLocaleString('pt-BR') : null) +
+    campo('Data execução', d.data_execucao) +
+    campo('Fornecedor', d.fornecedor_nome) +
+    campo('CNPJ fornecedor', d.fornecedor_cnpj, true);
 
-  // Documentos
-  var doc=[
-    {l:'Nº do orçamento',v:d.num_orcamento,cls:'mono'},
-    {l:'Nº da OS (Ordem de Serviço)',v:d.num_os,cls:'mono'},
-  ];
-  document.getElementById('campos-doc').innerHTML=doc.map(campoHtml).join('');
+  // Campos documento
+  document.getElementById('campos-doc').innerHTML =
+    campo('Nº orçamento', d.num_orcamento, true) +
+    campo('Nº OS', d.num_os, true);
 
-  // Itens — tabela detalhada
-  var it=d.itens||[];
-  document.getElementById('tb-itens').innerHTML=!it.length
-    ?'<tr><td colspan="6" style="text-align:center;color:var(--T3);padding:20px">Nenhum item identificado</td></tr>'
-    :it.map(function(x,i){
-      var tag=x.tipo==='peca'?'<span class="tag-p">Peça</span>':x.tipo==='servico'?'<span class="tag-s">Serviço</span>':'<span class="tag-o">Outro</span>';
-      return '<tr>'+
-        '<td style="color:var(--T3);font-size:12px">'+(i+1)+'</td>'+
-        '<td style="font-weight:500" contenteditable="true">'+x.descricao+'</td>'+
-        '<td>'+tag+'</td>'+
-        '<td style="text-align:center" contenteditable="true">'+(x.quantidade||1)+'</td>'+
-        '<td contenteditable="true">'+(x.valor_unitario?'R$ '+x.valor_unitario.toFixed(2).replace('.',','):'—')+'</td>'+
-        '<td style="font-weight:600" contenteditable="true">'+(x.valor_total?'R$ '+x.valor_total.toFixed(2).replace('.',','):'—')+'</td>'+
-      '</tr>';
-    }).join('');
+  // Tabela itens
+  var it = d.itens || [];
+  document.getElementById('tb-itens').innerHTML = !it.length
+    ? '<tr><td colspan="6" style="text-align:center;color:var(--T3);padding:20px">Nenhum item identificado</td></tr>'
+    : it.map(function(x,i) {
+        var tag = x.tipo==='peca'?'<span class="tag-p">Peça</span>':x.tipo==='servico'?'<span class="tag-s">Serviço</span>':x.tipo==='desconto'?'<span class="tag-o" style="background:#fdecea;color:#c0392b">Desconto</span>':'<span class="tag-o">Outro</span>';
+        var cor = x.tipo==='desconto' ? 'color:#c0392b;font-weight:700' : '';
+        return '<tr>' +
+          '<td style="color:var(--T3);font-size:12px">'+(i+1)+'</td>'+
+          '<td style="font-weight:500" contenteditable="true">'+x.descricao+'</td>'+
+          '<td>'+tag+'</td>'+
+          '<td style="text-align:center" contenteditable="true">'+(x.quantidade||1)+'</td>'+
+          '<td contenteditable="true">'+(x.valor_unitario!=null?'R$ '+Math.abs(x.valor_unitario).toFixed(2).replace('.',','):'—')+'</td>'+
+          '<td style="font-weight:600;'+cor+'" contenteditable="true">'+(x.valor_total!=null?'R$ '+Math.abs(x.valor_total).toFixed(2).replace('.',',')+'':'—')+'</td>'+
+        '</tr>';
+      }).join('');
 
-  // Resumo em linha separado por vírgula (sem valores)
-  if(it.length){
-    var pecas=it.filter(function(x){return x.tipo==='peca'}).map(function(x){return x.descricao.toUpperCase()});
-    var servicos=it.filter(function(x){return x.tipo!=='peca'}).map(function(x){return x.descricao.toUpperCase()});
-    var todos=it.map(function(x){return x.descricao.toUpperCase()});
-    var resumoHtml='<div style="margin-top:14px;padding-top:14px;border-top:1px dashed var(--BD)">';
-    resumoHtml+='<div style="font-size:11px;font-weight:700;color:var(--T2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">📋 Resumo para copiar — itens sem valores</div>';
-    if(pecas.length){
-      resumoHtml+='<div style="margin-bottom:8px">'+
-        '<div style="font-size:10px;font-weight:700;color:var(--I);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px">🔩 Peças</div>'+
-        '<div style="display:flex;align-items:flex-start;gap:8px">'+
-        '<div id="res-pecas" contenteditable="true" style="flex:1;background:var(--IL);border:1px solid #c7d2fe;border-radius:7px;padding:10px 13px;font-size:13px;font-weight:500;color:var(--T);line-height:1.6">'+pecas.join(', ')+'</div>'+
-        '<button class="btn bs" style="padding:5px 10px;font-size:11px;flex-shrink:0;margin-top:2px" onclick="copiarEl(\'res-pecas\')">📋</button>'+
-        '</div></div>';
-    }
-    if(servicos.length){
-      resumoHtml+='<div style="margin-bottom:8px">'+
-        '<div style="font-size:10px;font-weight:700;color:var(--GD);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px">🔧 Serviços / Mão de obra</div>'+
-        '<div style="display:flex;align-items:flex-start;gap:8px">'+
-        '<div id="res-servicos" contenteditable="true" style="flex:1;background:var(--GL);border:1px solid #a3d4b5;border-radius:7px;padding:10px 13px;font-size:13px;font-weight:500;color:var(--T);line-height:1.6">'+servicos.join(', ')+'</div>'+
-        '<button class="btn bs" style="padding:5px 10px;font-size:11px;flex-shrink:0;margin-top:2px" onclick="copiarEl(\'res-servicos\')">📋</button>'+
-        '</div></div>';
-    }
-    resumoHtml+='<div>'+
-      '<div style="font-size:10px;font-weight:700;color:var(--T2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px">📄 Tudo junto</div>'+
-      '<div style="display:flex;align-items:flex-start;gap:8px">'+
-      '<div id="res-todos" contenteditable="true" style="flex:1;background:var(--S2);border:1px solid var(--BD);border-radius:7px;padding:10px 13px;font-size:13px;font-weight:500;color:var(--T);line-height:1.6">'+todos.join(', ')+'</div>'+
-      '<button class="btn bp" style="padding:5px 10px;font-size:11px;flex-shrink:0;margin-top:2px" onclick="copiarEl(\'res-todos\')">📋</button>'+
-      '</div></div>';
-    resumoHtml+='</div>';
-    document.getElementById('itens-lista').innerHTML=resumoHtml;
-  }
+  // Resumo em linha (MAIÚSCULO, sem valores)
+  var pecas = it.filter(function(x){return x.tipo==='peca'}).map(function(x){return x.descricao.toUpperCase()});
+  var servicos = it.filter(function(x){return x.tipo==='servico'}).map(function(x){return x.descricao.toUpperCase()});
+  var todos = it.filter(function(x){return x.tipo!=='desconto'}).map(function(x){return x.descricao.toUpperCase()});
+  var ra = document.getElementById('resumo-area');
+  var rhtml = '';
+  if (pecas.length) rhtml += blocoResumo('🔩 Peças', pecas.join(', '), 'azul', 'res-p');
+  if (servicos.length) rhtml += blocoResumo('🔧 Serviços / MO', servicos.join(', '), 'verde', 'res-s');
+  rhtml += blocoResumo('📄 Tudo junto', todos.join(', '), '', 'res-t');
+  ra.innerHTML = rhtml;
 
   // Totais
-  var fmt=function(v){return v?'R$ '+parseFloat(v).toFixed(2).replace('.',','):'R$ 0,00'};
-  document.getElementById('totais').innerHTML=
-    '<div class="total p"><div class="tl">Valor peças</div><div style="display:flex;align-items:center;justify-content:center;gap:8px"><div class="tv" contenteditable="true">'+fmt(d.total_pecas)+'</div><button onclick="copiarTexto(this)" data-txt="'+fmt(d.total_pecas)+'" title="Copiar" style="background:rgba(255,255,255,.3);border:1px solid rgba(255,255,255,.4);border-radius:5px;padding:3px 7px;cursor:pointer;font-size:12px">📋</button></div></div>'+
-    '<div class="total s"><div class="tl">Valor serviços / MO</div><div style="display:flex;align-items:center;justify-content:center;gap:8px"><div class="tv" contenteditable="true">'+fmt(d.total_servicos)+'</div><button onclick="copiarTexto(this)" data-txt="'+fmt(d.total_servicos)+'" title="Copiar" style="background:rgba(255,255,255,.3);border:1px solid rgba(255,255,255,.4);border-radius:5px;padding:3px 7px;cursor:pointer;font-size:12px">📋</button></div></div>'+
-    '<div class="total g"><div class="tl">Total geral</div><div style="display:flex;align-items:center;justify-content:center;gap:8px"><div class="tv" contenteditable="true">'+fmt(d.total_geral)+'</div><button onclick="copiarTexto(this)" data-txt="'+fmt(d.total_geral)+'" title="Copiar" style="background:rgba(255,255,255,.3);border:1px solid rgba(255,255,255,.4);border-radius:5px;padding:3px 7px;cursor:pointer;font-size:12px">📋</button></div></div>';
-
-  // Obs
-  document.getElementById('obs-res').innerHTML=d.observacoes
-    ?'<div class="ctitle">📝 Observações</div><div style="background:var(--S2);padding:12px;border-radius:8px;font-size:13px;color:var(--T2)">'+d.observacoes+'</div>':'' ;
+  document.getElementById('totais-area').innerHTML =
+    '<div class="tot p"><div class="tot-lbl">Valor peças</div><div class="tot-row"><div class="tot-val" id="tv-p" contenteditable="true">'+fmtR(d.total_pecas)+'</div><button class="cp" onclick="cpEl(\'tv-p\',this)">📋</button></div></div>'+
+    '<div class="tot s"><div class="tot-lbl">Valor serviços / MO</div><div class="tot-row"><div class="tot-val" id="tv-s" contenteditable="true">'+fmtR(d.total_servicos)+'</div><button class="cp" onclick="cpEl(\'tv-s\',this)">📋</button></div></div>'+
+    '<div class="tot g"><div class="tot-lbl">Total geral'+(d.total_desconto?' (c/ desconto)':'')+'</div><div class="tot-row"><div class="tot-val" id="tv-g" contenteditable="true">'+fmtR(d.total_geral)+'</div><button class="cp" onclick="cpEl(\'tv-g\',this)">📋</button></div></div>';
 }
 
-function campoHtml(c){
-  if(!c.v)return '<div class="campo-box"><div class="campo-lbl">'+c.l+'</div><div class="campo-val vazio">Não identificado</div></div>';
-  var cls='campo-val'+(c.cls?' '+c.cls:'');
-  var txt=String(c.v).replace(/"/g,'&quot;');
-  return '<div class="campo-box"><div class="campo-lbl">'+c.l+'</div><div style="display:flex;align-items:center;gap:6px"><div class="'+cls+'" contenteditable="true">'+c.v+'</div><button onclick="copiarTexto(this)" data-txt="'+txt+'" title="Copiar" style="background:none;border:1px solid var(--BD);border-radius:5px;padding:3px 7px;cursor:pointer;font-size:12px;color:var(--T2);flex-shrink:0">📋</button></div></div>';
+function blocoResumo(lbl, txt, cls, id) {
+  return '<div class="resumo-bloco"><div class="resumo-lbl">'+lbl+'</div><div class="resumo-row"><div class="resumo-txt '+cls+'" id="'+id+'" contenteditable="true">'+txt+'</div><button class="cp" onclick="cpEl(\''+id+'\',this)">📋</button></div></div>';
 }
 
-// EXPORTAR
-function copiarJSON(){
-  if(!dados){toast('Nenhum dado');return}
-  navigator.clipboard.writeText(JSON.stringify(dados,null,2));
-  toast('✅ JSON copiado!');
+// ===== COPIAR =====
+function cpInput(id, btn) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  var txt = el.value.trim();
+  if (!txt) { toast('⚠ Campo vazio'); return; }
+  copiarTxt(txt, btn);
 }
-function exportarCSV(){
-  if(!dados){toast('Nenhum dado');return}
-  var d=dados;
-  var linhas=[
+
+function cpEl(id, btn) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  var txt = (el.value || el.textContent || el.innerText || '').trim();
+  if (!txt) { toast('⚠ Campo vazio'); return; }
+  copiarTxt(txt, btn);
+}
+
+function copiarTxt(txt, btn) {
+  var ta = document.createElement('textarea');
+  ta.value = txt;
+  ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
+  document.body.appendChild(ta);
+  ta.focus(); ta.select();
+  var ok = false;
+  try { ok = document.execCommand('copy'); } catch(e) {}
+  document.body.removeChild(ta);
+  if (!ok && navigator.clipboard) {
+    navigator.clipboard.writeText(txt).then(function() {
+      marcarCopiado(btn);
+    }).catch(function() { toast('⚠ Erro ao copiar'); });
+    return;
+  }
+  if (ok) marcarCopiado(btn);
+  else toast('⚠ Erro ao copiar — tente selecionar manualmente');
+}
+
+function marcarCopiado(btn) {
+  if (btn) { btn.textContent = '✅'; setTimeout(function(){btn.textContent='📋'},1500); }
+  toast('✅ Copiado!');
+}
+
+// ===== LOAD / ERRO =====
+function setLoad(on, msg, sub) {
+  document.getElementById('loading').style.display = on ? 'block' : 'none';
+  if (on) {
+    document.getElementById('resultado').style.display = 'none';
+    document.getElementById('load-msg').textContent = msg || 'Analisando...';
+    document.getElementById('load-sub').textContent = sub || '';
+    document.getElementById('loading').scrollIntoView({behavior:'smooth', block:'start'});
+  }
+}
+
+function erroIA(msg) {
+  setLoad(false);
+  document.getElementById('resultado').style.display = 'block';
+  document.getElementById('alerta-res').innerHTML = '<div class="alert ar">❌ <strong>Erro:</strong> '+(msg||'Tente novamente.')+'</div>';
+  document.getElementById('campos-fv').innerHTML = '';
+  document.getElementById('campos-doc').innerHTML = '';
+  document.getElementById('tb-itens').innerHTML = '';
+  document.getElementById('resumo-area').innerHTML = '';
+  document.getElementById('totais-area').innerHTML = '';
+}
+
+// ===== NOVA EXTRAÇÃO =====
+function novaExtracao() {
+  dadosG = null; imgB64 = null; pdfB64 = null;
+  document.getElementById('resultado').style.display = 'none';
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('prev-img').style.display = 'none';
+  document.getElementById('prev-pdf').style.display = 'none';
+  document.getElementById('bt-img').disabled = true;
+  document.getElementById('bt-pdf').disabled = true;
+  document.getElementById('in-img').value = '';
+  document.getElementById('in-pdf').value = '';
+  document.getElementById('in-txt').value = '';
+  document.getElementById('in-aud').value = '';
+  document.getElementById('audio-prev').style.display = 'none';
+  chunks = []; tempoG = 0;
+  document.getElementById('rec-timer').textContent = '0:00';
+  document.getElementById('rec-status').textContent = 'Clique no microfone para gravar';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ===== EXPORTAR CSV =====
+function exportarCSV() {
+  if (!dadosG) { toast('Nenhum dado para exportar'); return; }
+  var d = dadosG;
+  var linhas = [
     ['DADOS DO ORÇAMENTO',''],
-    ['Placa',d.placa||''],
-    ['KM',d.km||''],
-    ['Data de execução',d.data_execucao||''],
-    ['Nº Orçamento',d.num_orcamento||''],
-    ['Nº OS (Ordem de Serviço)',d.num_os||''],
-    ['Fornecedor',d.fornecedor_nome||''],
-    ['CNPJ Fornecedor',d.fornecedor_cnpj||''],
-    [''],
-    ['ITENS'],
-    ['#','Descrição','Tipo','Qtd','Vlr. Unit.','Vlr. Total']
+    ['Placa', d.placa||''], ['KM', d.km||''], ['Data', d.data_execucao||''],
+    ['Nº Orçamento', d.num_orcamento||''], ['Nº OS', d.num_os||''],
+    ['Fornecedor', d.fornecedor_nome||''], ['CNPJ', d.fornecedor_cnpj||''],
+    [''], ['ITENS'], ['#','Descrição','Tipo','Qtd','Vlr. Unit.','Vlr. Total']
   ];
-  linhas.push(['ITENS DETALHADOS']);
-  linhas.push(['#','Descrição','Tipo','Qtd','Vlr. Unit.','Vlr. Total']);
-  (d.itens||[]).forEach(function(it,i){
-    linhas.push([i+1,it.descricao,it.tipo,it.quantidade||1,it.valor_unitario||'',it.valor_total||'']);
-  });
-  linhas.push(['']);
-  linhas.push(['RESUMO — ITENS SEM VALORES']);
-  var it2=d.itens||[];
-  linhas.push(['Peças',it2.filter(function(x){return x.tipo==='peca'}).map(function(x){return x.descricao}).join(', ')]);
-  linhas.push(['Serviços / MO',it2.filter(function(x){return x.tipo!=='peca'}).map(function(x){return x.descricao}).join(', ')]);
-  linhas.push(['Todos os itens',it2.map(function(x){return x.descricao}).join(', ')]);
-  linhas.push(['']);
-  linhas.push(['TOTAIS']);
-  linhas.push(['Total serviços',d.total_servicos||'']);
-  linhas.push(['Total peças',d.total_pecas||'']);
-  linhas.push(['TOTAL GERAL',d.total_geral||'']);
-  if(d.observacoes)linhas.push(['Observações',d.observacoes]);
-  var csv=linhas.map(function(r){return r.map(function(c){return'"'+String(c||'').replace(/"/g,"'")+'"'}).join(';')}).join('\n');
-  var blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
-  var url=URL.createObjectURL(blob);
-  var a=document.createElement('a');a.href=url;a.download='orcamento_extraido.csv';a.click();
+  (d.itens||[]).forEach(function(it,i){ linhas.push([i+1,it.descricao,it.tipo,it.quantidade||1,it.valor_unitario||'',it.valor_total||'']); });
+  linhas.push([''],['TOTAIS'],['Peças',d.total_pecas||''],['Serviços',d.total_servicos||''],['Desconto',d.total_desconto||''],['TOTAL GERAL',d.total_geral||'']);
+  var csv = linhas.map(function(r){ return r.map(function(c){ return '"'+String(c||'').replace(/"/g,"'")+'"'; }).join(';'); }).join('\n');
+  var blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a'); a.href=url; a.download='orcamento_extraido.csv'; a.click();
   toast('✅ CSV exportado!');
 }
 
-function novaExtracao(){
-  dados=null;imgB64=null;pdfB64=null;
-  document.getElementById('resultado').style.display='none';
-  document.getElementById('loading').style.display='none';
-  document.getElementById('prev-img-box').style.display='none';
-  document.getElementById('prev-pdf-box').style.display='none';
-  document.getElementById('btn-img').disabled=true;
-  document.getElementById('btn-pdf').disabled=true;
-  document.getElementById('btn-txt').disabled=false;
-  document.getElementById('btn-audio').disabled=false;
-  document.getElementById('fi-img').value='';
-  document.getElementById('fi-pdf').value='';
-  document.getElementById('txt-input').value='';
-  document.getElementById('txt-audio').value='';
-  document.getElementById('audio-prev').style.display='none';
-  chunks=[];tempoG=0;
-  document.getElementById('rec-timer').textContent='0:00';
-  document.getElementById('rec-status').textContent='Clique no microfone para iniciar a gravação';
-  window.scrollTo({top:0,behavior:'smooth'});
+// ===== TOAST =====
+function toast(m) {
+  var t = document.getElementById('tk');
+  t.textContent = m; t.classList.add('on');
+  setTimeout(function(){t.classList.remove('on')}, 3000);
 }
-
-function setLoad(on,msg,sub){
-  document.getElementById('loading').style.display=on?'block':'none';
-  if(on){
-    document.getElementById('resultado').style.display='none';
-    document.getElementById('lmsg').textContent=msg||'Analisando...';
-    document.getElementById('lsub').textContent=sub||'';
-    document.getElementById('loading').scrollIntoView({behavior:'smooth',block:'start'});
-    ['btn-img','btn-pdf','btn-txt','btn-audio'].forEach(function(id){
-      var b=document.getElementById(id);if(!b)return;
-      b.disabled=true;
-      var sp=b.querySelector('.spinner');if(sp)sp.style.display='inline-block';
-    });
-  } else {
-    ['btn-img','btn-pdf','btn-txt','btn-audio'].forEach(function(id){
-      var b=document.getElementById(id);if(!b)return;
-      b.disabled=false;
-      var sp=b.querySelector('.spinner');if(sp)sp.style.display='none';
-    });
-    // Reabilitar inputs de arquivo
-    var fi=document.getElementById('fi-img');if(fi)fi.disabled=false;
-    var fp=document.getElementById('fi-pdf');if(fp)fp.disabled=false;
-  }
-}
-
-function erroIA(msg){
-  setLoad(false);
-  document.getElementById('resultado').style.display='block';
-  document.getElementById('alerta-conf').innerHTML='<div class="alert ar">❌ <strong>Erro na extração:</strong> '+(msg||'Tente novamente.')+'</div>';
-  document.getElementById('campos-fv').innerHTML='';
-  document.getElementById('campos-doc').innerHTML='';
-  document.getElementById('tb-itens').innerHTML='';
-  document.getElementById('itens-lista').innerHTML='';
-  document.getElementById('totais').innerHTML='';
-  document.getElementById('obs-res').innerHTML='';
-}
-
-function copiarTexto(btn){
-  var txt=(btn.getAttribute('data-txt')||'').trim();
-  // Se o campo ao lado foi editado, pega o texto atual dele
-  var campo=btn.previousElementSibling;
-  if(campo)txt=(campo.textContent||campo.innerText||txt).trim();
-  if(!txt){toast('⚠ Campo vazio');return}
-  var ta=document.createElement('textarea');
-  ta.value=txt;
-  ta.style.cssText='position:fixed;top:-9999px;left:-9999px;opacity:0';
-  document.body.appendChild(ta);
-  ta.focus();ta.select();
-  var ok=false;
-  try{ok=document.execCommand('copy')}catch(e){}
-  document.body.removeChild(ta);
-  if(ok){
-    btn.textContent='✅';
-    setTimeout(function(){btn.textContent='📋'},1500);
-    toast('✅ Copiado!');
-  } else if(navigator.clipboard){
-    navigator.clipboard.writeText(txt).then(function(){
-      btn.textContent='✅';
-      setTimeout(function(){btn.textContent='📋'},1500);
-      toast('✅ Copiado!');
-    }).catch(function(){toast('⚠ Erro ao copiar')});
-  }
-}
-function copiarEl(id){
-  var el=document.getElementById(id);
-  if(!el)return;
-  var txt=(el.textContent||el.innerText||'').trim();
-  var ta=document.createElement('textarea');
-  ta.value=txt;
-  ta.style.cssText='position:fixed;top:-9999px;left:-9999px;opacity:0';
-  document.body.appendChild(ta);
-  ta.focus();ta.select();
-  try{document.execCommand('copy');toast('✅ Copiado!');}
-  catch(e){if(navigator.clipboard)navigator.clipboard.writeText(txt).then(function(){toast('✅ Copiado!')})}
-  document.body.removeChild(ta);
-}
-function toast(m){var t=document.getElementById('tk');t.textContent=m;t.classList.add('on');setTimeout(function(){t.classList.remove('on')},3000)}
 </script>
 </body>
 </html>
