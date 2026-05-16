@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Extrator de Orçamentos IA — Engelmig Frota</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;900&family=Barlow+Condensed:wght@700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--G:#1e7e3e;--GD:#155d2d;--GL:#e8f5ee;--Y:#f5c800;--YD:#b8960a;--YL:#fffbe6;--BG:#f0f2f0;--S:#fff;--S2:#f6f8f6;--BD:#dde4dd;--T:#141a14;--T2:#4a5e4a;--T3:#8a9e8a;--R:#c0392b;--RL:#fdecea;--I:#1d4ed8;--IL:#eff6ff;--P:#7c3aed;--PL:#ede9fe}
+body{font-family:'Barlow',sans-serif;background:var(--BG);color:var(--T);font-size:14px;line-height:1.5;min-height:100vh}
+.topbar{background:var(--S);border-bottom:3px solid var(--G);padding:0 20px;height:58px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(30,126,62,.1);position:sticky;top:0;z-index:10}
+.logo-ic{width:34px;height:34px;background:#fff;border:1.5px solid #ddd;border-radius:7px;display:flex;align-items:center;justify-content:center}
+.logo-n{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;color:#1a1a1a;line-height:1}
+.logo-n span{color:var(--G)}
+.logo-s{font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--G);text-transform:uppercase}
+.badge{background:var(--YL);color:var(--YD);border:1px solid var(--Y);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;text-transform:uppercase;margin-left:6px}
+.wrap{max-width:1060px;margin:0 auto;padding:24px}
+.modos{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.modo-btn{padding:10px 16px;border-radius:9px;border:2px solid var(--BD);background:var(--S);cursor:pointer;font-family:'Barlow',sans-serif;font-size:13px;font-weight:600;color:var(--T2);transition:all .15s;display:flex;align-items:center;gap:7px}
+.modo-btn:hover{border-color:var(--G);color:var(--G);background:var(--GL)}
+.modo-btn.at{border-color:var(--G);background:var(--G);color:#fff}
+.modo-painel{display:none}.modo-painel.at{display:block}
+.drop-zone{border:2px dashed var(--BD);border-radius:12px;padding:36px 24px;text-align:center;cursor:pointer;transition:all .2s;background:var(--S2)}
+.drop-zone:hover,.drop-zone.drag{border-color:var(--G);background:var(--GL)}
+.drop-icon{font-size:44px;margin-bottom:10px}
+.drop-title{font-size:17px;font-weight:700;margin-bottom:6px}
+.drop-sub{font-size:13px;color:var(--T2);margin-bottom:8px}
+.drop-types{font-size:11px;color:var(--T3);background:var(--BG);padding:3px 12px;border-radius:20px;display:inline-block}
+.prev-box{margin-top:14px;display:none}
+.prev-file{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--S);border:1px solid var(--BD);border-radius:8px}
+.prev-img-wrap{margin-top:10px;text-align:center}
+.prev-img-wrap img{max-width:100%;max-height:280px;border-radius:8px;border:1px solid var(--BD)}
+.txt-area{width:100%;padding:14px;border:1.5px solid var(--BD);border-radius:10px;font-family:'Barlow',sans-serif;font-size:14px;color:var(--T);resize:vertical;min-height:160px;background:var(--S)}
+.txt-area:focus{outline:none;border-color:var(--G)}
+.ex-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center}
+.ex-btn{padding:5px 12px;border-radius:6px;border:1px solid var(--BD);background:var(--S);cursor:pointer;font-size:12px;color:var(--T2);font-family:'Barlow',sans-serif}
+.ex-btn:hover{background:var(--GL);border-color:var(--G);color:var(--G)}
+.audio-area{text-align:center;padding:28px 20px}
+.rec-btn{width:88px;height:88px;border-radius:50%;border:none;cursor:pointer;font-size:34px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;transition:all .2s;background:var(--G);color:#fff;box-shadow:0 4px 16px rgba(30,126,62,.3)}
+.rec-btn.rec{background:var(--R);animation:pulse 1s ease-in-out infinite;box-shadow:0 4px 20px rgba(192,57,43,.4)}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.rec-timer{font-family:'DM Mono',monospace;font-size:28px;font-weight:500;color:var(--G);margin-bottom:10px}
+.rec-timer.verm{color:var(--R)}
+.rec-status{font-size:14px;font-weight:600;color:var(--T2);margin-bottom:4px}
+.audio-prev{margin-top:14px;display:none}
+.audio-prev audio{width:100%;border-radius:8px}
+.btn-extrair{width:100%;padding:14px;background:var(--G);color:#fff;border:none;border-radius:9px;font-family:'Barlow',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-top:14px;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .15s}
+.btn-extrair:hover{background:var(--GD)}
+.btn-extrair:disabled{background:#9ab59a;cursor:not-allowed}
+.spinner{width:20px;height:20px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.card{background:var(--S);border:1px solid var(--BD);border-radius:12px;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,.07);margin-top:20px}
+.ctitle{font-size:11px;font-weight:700;color:var(--T2);text-transform:uppercase;letter-spacing:.6px;margin-bottom:12px;padding-left:10px;border-left:3px solid var(--G)}
+.campos{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin-bottom:4px}
+.campo-box{background:var(--S2);border:1px solid var(--BD);border-radius:8px;padding:11px 13px}
+.campo-lbl{font-size:10px;font-weight:700;color:var(--T3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.campo-val{font-size:14px;font-weight:600;color:var(--T)}
+.campo-val.mono{font-family:'DM Mono',monospace;font-size:13px}
+.campo-val.vazio{color:var(--T3);font-style:italic;font-weight:400;font-size:12px}
+.campo-val[contenteditable=true]{border-bottom:2px dashed var(--G);outline:none;padding:1px 3px;border-radius:2px;min-width:40px;display:inline-block;cursor:text}
+.itens-wrap{overflow-x:auto;border-radius:8px;border:1px solid var(--BD)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{padding:9px 12px;text-align:left;font-size:10px;font-weight:700;color:var(--T2);text-transform:uppercase;letter-spacing:.5px;background:var(--S2);border-bottom:1.5px solid var(--BD);white-space:nowrap}
+td{padding:10px 12px;border-bottom:1px solid var(--BD);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--GL)}
+.tag-p{background:var(--IL);color:var(--I);padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700}
+.tag-s{background:var(--GL);color:var(--GD);padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700}
+.tag-o{background:var(--YL);color:var(--YD);padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700}
+.totais{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px}
+.total{padding:14px;border-radius:9px;text-align:center}
+.total.s{background:var(--IL);border:1px solid #c7d2fe}
+.total.p{background:var(--YL);border:1px solid #fcd34d}
+.total.g{background:var(--GL);border:2px solid var(--G)}
+.tl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.total.s .tl{color:var(--I)}.total.p .tl{color:var(--YD)}.total.g .tl{color:var(--G)}
+.tv{font-size:20px;font-weight:700}
+.total.s .tv{color:var(--I)}.total.p .tv{color:var(--YD)}.total.g .tv{color:var(--GD);font-size:24px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 15px;border-radius:7px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;font-size:13px;font-weight:600;transition:all .15s}
+.bp{background:var(--G);color:#fff}.bp:hover{background:var(--GD)}
+.bs{background:var(--S2);color:var(--T);border:1.5px solid var(--BD)}.bs:hover{background:var(--BD)}
+.by{background:var(--Y);color:#5a4800}.by:hover{background:#e6bc00}
+.alert{padding:11px 14px;border-radius:8px;font-size:13px;margin-bottom:12px;border:1px solid transparent;line-height:1.5}
+.ai{background:var(--IL);color:var(--I);border-color:#93c5fd}
+.ag{background:var(--GL);color:var(--GD);border-color:#a3d4b5}
+.ar{background:var(--RL);color:var(--R);border-color:#fca5a5}
+.aw{background:var(--YL);color:var(--YD);border-color:#fcd34d}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--GD);color:#fff;padding:12px 18px;border-radius:8px;font-size:13px;font-weight:600;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;border-left:4px solid var(--Y)}
+.toast.on{opacity:1}
+.loading{display:none;text-align:center;padding:40px 20px}
+.spin-big{width:52px;height:52px;border:4px solid var(--GL);border-top-color:var(--G);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}
+.loading-msg{font-size:15px;font-weight:600;color:var(--T2)}
+.loading-sub{font-size:12px;color:var(--T3);margin-top:4px}
+@media(max-width:600px){.totais{grid-template-columns:1fr}.campos{grid-template-columns:1fr 1fr}.modos{gap:6px}.modo-btn{padding:8px 10px;font-size:12px}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo-ic">
+    <svg width="24" height="24" viewBox="0 0 36 36" fill="none">
+      <polygon points="22,3 15,19 20,19 16,33 28,17 22,17 26,3" fill="#F5C800"/>
+      <polygon points="18,3 11,19 16,19 12,33 24,17 18,17 22,3" fill="#E8391A"/>
+    </svg>
+  </div>
+  <div>
+    <div class="logo-n">ENGEL<span>MIG</span> <span class="badge">Extrator IA</span></div>
+    <div class="logo-s">Extração automática de orçamentos</div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="alert ai" style="margin-bottom:16px">
+    🤖 <strong>A IA lê qualquer formato:</strong> PDF, foto de orçamento (mesmo letra manuscrita ruim), print de WhatsApp, mensagem de texto ou áudio do fornecedor. Extrai automaticamente placa, KM, CNPJ, fornecedor, Nº orçamento / Nº OS, peças, serviços e todos os valores.
+  </div>
+
+  <!-- MODOS -->
+  <div class="modos">
+    <button class="modo-btn at" onclick="setModo('imagem',this)"><span>🖼</span> Foto / Imagem</button>
+    <button class="modo-btn" onclick="setModo('pdf',this)"><span>📄</span> PDF</button>
+    <button class="modo-btn" onclick="setModo('texto',this)"><span>💬</span> Texto / WhatsApp</button>
+    <button class="modo-btn" onclick="setModo('audio',this)"><span>🎙</span> Áudio / Gravação</button>
+  </div>
+
+  <!-- IMAGEM -->
+  <div class="modo-painel at" id="modo-imagem">
+    <div class="drop-zone" id="dz-img" onclick="document.getElementById('fi-img').click()">
+      <div class="drop-icon">📷</div>
+      <div class="drop-title">Foto, print ou imagem do orçamento</div>
+      <div class="drop-sub">Funciona com foto de papel, print de WhatsApp, nota manuscrita — mesmo letra difícil</div>
+      <div class="drop-types">JPG • PNG • JPEG • WEBP • GIF</div>
+    </div>
+    <input type="file" id="fi-img" accept=".jpg,.jpeg,.png,.webp,.gif" style="display:none" onchange="onImg(this)">
+    <div class="prev-box" id="prev-img-box">
+      <div class="prev-file"><span style="font-size:22px">🖼</span><div><div style="font-weight:600;font-size:13px" id="img-nome"></div><div style="font-size:11px;color:var(--T3)" id="img-tam"></div></div></div>
+      <div class="prev-img-wrap"><img id="img-preview" alt="preview"></div>
+    </div>
+    <button class="btn-extrair" id="btn-img" onclick="extrairImagem()" disabled>
+      <div class="spinner" id="sp-img"></div>
+      <span id="txt-img">🔍 Extrair dados da imagem</span>
+    </button>
+  </div>
+
+  <!-- PDF -->
+  <div class="modo-painel" id="modo-pdf">
+    <div class="drop-zone" id="dz-pdf" onclick="document.getElementById('fi-pdf').click()">
+      <div class="drop-icon">📄</div>
+      <div class="drop-title">Arquivo PDF do orçamento</div>
+      <div class="drop-sub">Melhor resultado — use o PDF original sempre que possível</div>
+      <div class="drop-types">PDF</div>
+    </div>
+    <input type="file" id="fi-pdf" accept=".pdf" style="display:none" onchange="onPDF(this)">
+    <div class="prev-box" id="prev-pdf-box">
+      <div class="prev-file"><span style="font-size:22px">📄</span><div><div style="font-weight:600;font-size:13px" id="pdf-nome"></div><div style="font-size:11px;color:var(--T3)" id="pdf-tam"></div></div></div>
+    </div>
+    <button class="btn-extrair" id="btn-pdf" onclick="extrairPDF()" disabled>
+      <div class="spinner" id="sp-pdf"></div>
+      <span id="txt-pdf">🔍 Extrair dados do PDF</span>
+    </button>
+  </div>
+
+  <!-- TEXTO -->
+  <div class="modo-painel" id="modo-texto">
+    <div style="font-size:13px;font-weight:600;color:var(--T2);margin-bottom:8px">Cole aqui a mensagem do fornecedor (WhatsApp, SMS, e-mail ou qualquer texto):</div>
+    <textarea class="txt-area" id="txt-input" placeholder="Exemplos do que funciona:
+• Mensagem do WhatsApp: 'Placa ABC1234, km 45000, troca óleo R$80, filtro R$35...'
+• Lista de peças copiada de qualquer lugar
+• Texto de e-mail do fornecedor
+• Você mesmo digitando os itens
+
+Cole ou digite aqui..."></textarea>
+    <div class="ex-row">
+      <span style="font-size:11px;color:var(--T3)">Exemplos:</span>
+      <button class="ex-btn" onclick="ex(1)">Mensagem WhatsApp</button>
+      <button class="ex-btn" onclick="ex(2)">Lista de peças</button>
+      <button class="ex-btn" onclick="ex(3)">E-mail formal</button>
+    </div>
+    <button class="btn-extrair" id="btn-txt" onclick="extrairTexto()">
+      <div class="spinner" id="sp-txt"></div>
+      <span>🔍 Extrair dados do texto</span>
+    </button>
+  </div>
+
+  <!-- ÁUDIO -->
+  <div class="modo-painel" id="modo-audio">
+    <div class="card">
+      <div class="audio-area">
+        <button class="rec-btn" id="rec-btn" onclick="toggleRec()">🎙</button>
+        <div class="rec-timer" id="rec-timer">0:00</div>
+        <div class="rec-status" id="rec-status">Clique no microfone para iniciar a gravação</div>
+        <div style="font-size:12px;color:var(--T3);margin-top:6px;max-width:400px;margin-left:auto;margin-right:auto">O fornecedor pode falar: placa, KM, peças, serviços e valores. A IA transcreve e extrai tudo automaticamente.</div>
+      </div>
+      <div class="audio-prev" id="audio-prev">
+        <audio id="audio-player" controls style="width:100%;border-radius:8px"></audio>
+        <div style="font-size:12px;color:var(--T3);margin-top:6px;text-align:center">✅ Gravação pronta — clique em Extrair</div>
+      </div>
+      <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--BD)">
+        <div style="font-size:13px;font-weight:600;color:var(--T2);margin-bottom:6px">Ou cole a transcrição manual do áudio:</div>
+        <textarea class="txt-area" id="txt-audio" style="min-height:90px" placeholder="Se preferir, transcreva o áudio aqui e clique em Extrair..."></textarea>
+      </div>
+      <button class="btn-extrair" id="btn-audio" onclick="extrairAudio()">
+        <div class="spinner" id="sp-audio"></div>
+        <span>🔍 Extrair dados</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- LOADING -->
+  <div class="loading" id="loading">
+    <div class="spin-big"></div>
+    <div class="loading-msg" id="lmsg">Analisando documento...</div>
+    <div class="loading-sub" id="lsub">A IA está lendo e extraindo os dados do orçamento</div>
+  </div>
+
+  <!-- RESULTADO -->
+  <div id="resultado" style="display:none">
+
+    <div id="alerta-conf"></div>
+
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--GD)">✅ Dados extraídos</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn bs" onclick="novaExtracao()">↩ Nova extração</button>
+          <button class="btn bs" onclick="copiarJSON()">📋 JSON</button>
+          <button class="btn bp" onclick="exportarCSV()">⬇ Exportar CSV</button>
+        </div>
+      </div>
+
+      <!-- FORNECEDOR E VEÍCULO -->
+      <div class="ctitle">🏢 Fornecedor e veículo</div>
+      <div class="campos" id="campos-fv"></div>
+
+      <!-- DOCUMENTOS -->
+      <div class="ctitle" style="margin-top:14px">📋 Identificação do documento</div>
+      <div class="campos" id="campos-doc"></div>
+
+      <!-- ITENS -->
+      <div class="ctitle" style="margin-top:14px">🔧 Peças e serviços identificados</div>
+      <div class="itens-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Descrição</th><th>Tipo</th><th>Qtd</th><th>Vlr. unit.</th><th>Vlr. total</th></tr></thead>
+          <tbody id="tb-itens"></tbody>
+        </table>
+      </div>
+      <!-- RESUMO EM LINHA -->
+      <div id="itens-lista"></div>
+
+      <!-- TOTAIS -->
+      <div class="ctitle" style="margin-top:16px">💰 Resumo de valores</div>
+      <div class="totais" id="totais"></div>
+
+      <div id="obs-res" style="margin-top:14px"></div>
+
+      <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--BD);font-size:11px;color:var(--T3)">
+        ✏ Clique em qualquer valor para editar antes de exportar &nbsp;|&nbsp; 🤖 Extraído por IA — revise sempre antes de usar
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="tk"></div>
+
+<script>
+var dados = null;
+var modoAtual = 'imagem';
+var imgB64 = null;
+var pdfB64 = null;
+var mediaRec = null;
+var gravando = false;
+var timerInt = null;
+var tempoG = 0;
+var chunks = [];
+
+// NAV
+function setModo(m, btn) {
+  modoAtual = m;
+  document.querySelectorAll('.modo-btn').forEach(function(b){b.classList.remove('at')});
+  btn.classList.add('at');
+  document.querySelectorAll('.modo-painel').forEach(function(p){p.classList.remove('at')});
+  document.getElementById('modo-'+m).classList.add('at');
+  document.getElementById('resultado').style.display='none';
+  document.getElementById('loading').style.display='none';
+}
+
+// DRAG DROP genérico
+function setupDrop(id, cb) {
+  var el = document.getElementById(id);
+  el.addEventListener('dragover',function(e){e.preventDefault();el.classList.add('drag')});
+  el.addEventListener('dragleave',function(){el.classList.remove('drag')});
+  el.addEventListener('drop',function(e){e.preventDefault();el.classList.remove('drag');var f=e.dataTransfer.files[0];if(f)cb(f)});
+}
+setupDrop('dz-img', processarImg);
+setupDrop('dz-pdf', processarPDF);
+
+// IMAGEM
+function onImg(inp){if(inp.files[0])processarImg(inp.files[0])}
+function processarImg(f){
+  var r=new FileReader();
+  r.onload=function(e){
+    imgB64=e.target.result;
+    document.getElementById('img-nome').textContent=f.name;
+    document.getElementById('img-tam').textContent=(f.size/1024/1024).toFixed(2)+' MB';
+    document.getElementById('img-preview').src=imgB64;
+    document.getElementById('prev-img-box').style.display='block';
+    document.getElementById('btn-img').disabled=false;
+  };
+  r.readAsDataURL(f);
+}
+async function extrairImagem(){
+  if(!imgB64){toast('⚠ Selecione uma imagem');return}
+  var b64=imgB64.split(',')[1];
+  var mime=imgB64.split(';')[0].split(':')[1];
+  setLoad(true,'Analisando a imagem...','Lendo texto, identificando peças, serviços e valores');
+  try{
+    var r=await apiImagem(b64,mime,prompt());
+    processar(r);
+  }catch(e){erroIA(e.message)}
+}
+
+// PDF
+function onPDF(inp){if(inp.files[0])processarPDF(inp.files[0])}
+function processarPDF(f){
+  var r=new FileReader();
+  r.onload=function(e){
+    pdfB64=e.target.result.split(',')[1];
+    document.getElementById('pdf-nome').textContent=f.name;
+    document.getElementById('pdf-tam').textContent=(f.size/1024/1024).toFixed(2)+' MB';
+    document.getElementById('prev-pdf-box').style.display='block';
+    document.getElementById('btn-pdf').disabled=false;
+  };
+  r.readAsDataURL(f);
+}
+async function extrairPDF(){
+  if(!pdfB64){toast('⚠ Selecione um PDF');return}
+  setLoad(true,'Lendo o PDF...','Processando documento e extraindo dados');
+  try{
+    var r=await apiPDF(pdfB64,prompt());
+    processar(r);
+  }catch(e){erroIA(e.message)}
+}
+
+// TEXTO
+function ex(n){
+  var e={
+    1:'Boa tarde Rodrigo!\nPlaca ABC-1234, km 47.500\nOS nº 2025-089\nTroca óleo 10W40 Shell - R$ 45,00\nFiltro de óleo - R$ 28,00\nFiltro de ar - R$ 22,00\nPastilha freio dianteira (jogo) - R$ 89,00\nMão de obra geral - R$ 80,00\nCNPJ: 12.345.678/0001-90\nOficina do Silva',
+    2:'Placa: XYZ-5678 | KM: 89.200 | Orçamento nº ORC-447\nAmortecedor dianteiro esq - R$ 180,00\nAmortecedor dianteiro dir - R$ 180,00\nBandeja inferior esq - R$ 95,00\nRolete tensor - R$ 45,00\nServiço alinhamento - R$ 60,00\nServiço balanceamento - R$ 40,00\nTotal peças: R$ 500,00 | MO: R$ 100,00\nFornecedor: Auto Peças Norte LTDA - CNPJ 98.765.432/0001-10',
+    3:'Prezado Rodrigo,\nSegue orçamento nº 2025-053 / OS 8841:\nVeículo: Honda CG 160 | Placa: DEF-9012 | KM: 12.400\n- Corrente e pinhões kit: R$ 85,00\n- Vela de ignição NGK: R$ 18,00\n- Óleo 10W30 (1L): R$ 32,00\n- Limpeza carburador: R$ 50,00\n- Mão de obra: R$ 80,00\nTotal: R$ 265,00\nElétrica e Mecânica Rápida - CNPJ: 55.123.456/0001-78'
+  };
+  document.getElementById('txt-input').value=e[n];
+}
+async function extrairTexto(){
+  var txt=document.getElementById('txt-input').value.trim();
+  if(!txt){toast('⚠ Cole ou digite o texto do orçamento');return}
+  setLoad(true,'Analisando o texto...','Extraindo dados da mensagem do fornecedor');
+  try{
+    var p=prompt()+'\n\nTexto do orçamento:\n"""\n'+txt+'\n"""';
+    var r=await apiTexto(p);
+    processar(r);
+  }catch(e){erroIA(e.message)}
+}
+
+// ÁUDIO
+async function toggleRec(){
+  if(!gravando){
+    try{
+      var stream=await navigator.mediaDevices.getUserMedia({audio:true});
+      mediaRec=new MediaRecorder(stream);chunks=[];
+      mediaRec.ondataavailable=function(e){if(e.data.size>0)chunks.push(e.data)};
+      mediaRec.onstop=function(){
+        var blob=new Blob(chunks,{type:'audio/webm'});
+        document.getElementById('audio-player').src=URL.createObjectURL(blob);
+        document.getElementById('audio-prev').style.display='block';
+        stream.getTracks().forEach(function(t){t.stop()});
+      };
+      mediaRec.start();gravando=true;tempoG=0;
+      document.getElementById('rec-btn').classList.add('rec');
+      document.getElementById('rec-btn').textContent='⏹';
+      document.getElementById('rec-status').textContent='Gravando... fale a placa, KM, peças e valores';
+      timerInt=setInterval(function(){
+        tempoG++;
+        var m=Math.floor(tempoG/60),s=tempoG%60;
+        var el=document.getElementById('rec-timer');
+        el.textContent=m+':'+(s<10?'0':'')+s;
+        el.className='rec-timer'+(tempoG>60?' verm':'');
+        if(tempoG>=120)toggleRec();
+      },1000);
+    }catch(e){toast('⚠ Microfone não disponível. Use a transcrição manual abaixo.')}
+  } else {
+    gravando=false;clearInterval(timerInt);
+    if(mediaRec)mediaRec.stop();
+    document.getElementById('rec-btn').classList.remove('rec');
+    document.getElementById('rec-btn').textContent='🎙';
+    document.getElementById('rec-status').textContent='Gravação concluída! Clique em Extrair.';
+  }
+}
+async function extrairAudio(){
+  var manual=document.getElementById('txt-audio').value.trim();
+  if(manual){
+    setLoad(true,'Analisando transcrição...','Extraindo dados do texto');
+    try{
+      var p=prompt()+'\n\nTranscrição do áudio:\n"""\n'+manual+'\n"""';
+      var r=await apiTexto(p);processar(r);
+    }catch(e){erroIA(e.message)}
+    return;
+  }
+  if(!chunks.length){toast('⚠ Grave um áudio ou use a transcrição manual');return}
+  // Áudio real: em produção enviar para Whisper. Aqui orienta o usuário.
+  toast('💡 Transcreva o áudio no campo abaixo e clique em Extrair');
+}
+
+// PROMPT
+function prompt(){
+  return `Você é especialista em análise de orçamentos automotivos brasileiros.
+Analise o documento e extraia TODOS os dados em JSON.
+
+REGRAS:
+- Extraia TODAS as peças e serviços, mesmo com letra manuscrita difícil
+- Nº orçamento: procure por "Orçamento nº", "ORC", "Orç.", números de documento
+- Nº OS: procure por "OS", "Ordem de Serviço", "O.S.", "nº OS"
+- Se o mesmo número servir para os dois, coloque em ambos os campos
+- CNPJ fornecedor: quem EMITIU o orçamento — NUNCA o CNPJ da Engelmig
+- Fornecedor: quem fez o serviço, não a Engelmig Energia
+- Separe PEÇAS de SERVIÇOS/MÃO DE OBRA
+- Valores como número decimal com ponto (ex: 150.00)
+- Campo não encontrado = null
+
+RETORNE APENAS JSON puro, sem texto extra:
+{
+  "placa": "ABC-1234 (sempre maiúscula com traço, ex: SSI-4658) ou null",
+  "km": 45000,
+  "data_execucao": "DD/MM/AAAA ou null",
+  "num_orcamento": "número do orçamento ou null",
+  "num_os": "número da OS (Ordem de Serviço) ou null",
+  "fornecedor_nome": "nome fantasia ou razão social do fornecedor",
+  "fornecedor_cnpj": "CNPJ formatado ou null",
+  "itens": [
+    {
+      "descricao": "nome do item",
+      "tipo": "peca ou servico ou outro",
+      "quantidade": 1,
+      "valor_unitario": 0.00,
+      "valor_total": 0.00
+    }
+  ],
+  "total_pecas": 0.00,
+  "total_servicos": 0.00,
+  "total_geral": 0.00,
+  "observacoes": "observações relevantes ou null",
+  "confianca": "alta ou media ou baixa",
+  "motivo_baixa_confianca": "explicação se baixa, senão null"
+}`;
+}
+
+// APIS
+// APIs usando Google Gemini (gratuito) via Netlify Function
+async function chamarGemini(parts){
+  var r = await fetch('/api', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      contents: [{ parts: parts }],
+      generationConfig: { maxOutputTokens: 2500, temperature: 0.1 }
+    })
+  });
+  var d = await r.json();
+  if(d.error) throw new Error(d.error);
+  return d.text;
+}
+async function apiImagem(b64, mime, p){
+  return chamarGemini([
+    { inline_data: { mime_type: mime, data: b64 } },
+    { text: p }
+  ]);
+}
+async function apiPDF(b64, p){
+  return chamarGemini([
+    { inline_data: { mime_type: 'application/pdf', data: b64 } },
+    { text: p }
+  ]);
+}
+async function apiTexto(p){
+  return chamarGemini([{ text: p }]);
+}
+
+// PROCESSAR
+function processar(resp){
+  setLoad(false);
+  try{
+    var txt=resp.replace(/```json|```/g,'').trim();
+    var d;
+    try{d=JSON.parse(txt)}
+    catch(e){var m=txt.match(/\{[\s\S]*\}/);if(m)d=JSON.parse(m[0]);else throw e}
+    dados=d;renderizar(d);
+  }catch(e){
+    erroIA('Não foi possível interpretar a resposta. Tente com imagem mais nítida ou texto mais detalhado.');
+  }
+}
+
+function renderizar(d){
+  document.getElementById('resultado').style.display='block';
+  document.getElementById('resultado').scrollIntoView({behavior:'smooth',block:'start'});
+
+  // Alerta confiança
+  var ca=document.getElementById('alerta-conf');
+  if(d.confianca==='baixa'){
+    ca.innerHTML='<div class="alert ar">⚠ <strong>Confiança baixa</strong> — '+(d.motivo_baixa_confianca||'Imagem com baixa qualidade ou texto ilegível')+'.<br>Revise todos os campos antes de usar. Clique em qualquer valor para editar.</div>';
+  } else if(d.confianca==='media'){
+    ca.innerHTML='<div class="alert aw">⚠ <strong>Confiança média</strong> — '+(d.motivo_baixa_confianca||'Alguns campos podem ter erros de leitura')+'. Verifique antes de exportar.</div>';
+  } else {
+    ca.innerHTML='<div class="alert ag">✅ <strong>Alta confiança</strong> — dados extraídos com clareza. Revise e exporte.</div>';
+  }
+
+  // Fornecedor e veículo
+  // Formatar placa: maiúscula e com traço
+  if(d.placa){
+    var p=d.placa.toUpperCase().replace(/[^A-Z0-9]/g,'');
+    if(p.length>=4)d.placa=p.substring(0,3)+'-'+p.substring(3);
+    else d.placa=p;
+  }
+  var fv=[
+    {l:'Placa',v:d.placa,cls:'mono'},
+    {l:'KM',v:d.km?d.km.toLocaleString('pt-BR'):null},
+    {l:'Data de execução',v:d.data_execucao},
+    {l:'Fornecedor',v:d.fornecedor_nome},
+    {l:'CNPJ do fornecedor',v:d.fornecedor_cnpj,cls:'mono'},
+  ];
+  document.getElementById('campos-fv').innerHTML=fv.map(campoHtml).join('');
+
+  // Documentos
+  var doc=[
+    {l:'Nº do orçamento',v:d.num_orcamento,cls:'mono'},
+    {l:'Nº da OS (Ordem de Serviço)',v:d.num_os,cls:'mono'},
+  ];
+  document.getElementById('campos-doc').innerHTML=doc.map(campoHtml).join('');
+
+  // Itens — tabela detalhada
+  var it=d.itens||[];
+  document.getElementById('tb-itens').innerHTML=!it.length
+    ?'<tr><td colspan="6" style="text-align:center;color:var(--T3);padding:20px">Nenhum item identificado</td></tr>'
+    :it.map(function(x,i){
+      var tag=x.tipo==='peca'?'<span class="tag-p">Peça</span>':x.tipo==='servico'?'<span class="tag-s">Serviço</span>':'<span class="tag-o">Outro</span>';
+      return '<tr>'+
+        '<td style="color:var(--T3);font-size:12px">'+(i+1)+'</td>'+
+        '<td style="font-weight:500" contenteditable="true">'+x.descricao+'</td>'+
+        '<td>'+tag+'</td>'+
+        '<td style="text-align:center" contenteditable="true">'+(x.quantidade||1)+'</td>'+
+        '<td contenteditable="true">'+(x.valor_unitario?'R$ '+x.valor_unitario.toFixed(2).replace('.',','):'—')+'</td>'+
+        '<td style="font-weight:600" contenteditable="true">'+(x.valor_total?'R$ '+x.valor_total.toFixed(2).replace('.',','):'—')+'</td>'+
+      '</tr>';
+    }).join('');
+
+  // Resumo em linha separado por vírgula (sem valores)
+  if(it.length){
+    var pecas=it.filter(function(x){return x.tipo==='peca'}).map(function(x){return x.descricao.toUpperCase()});
+    var servicos=it.filter(function(x){return x.tipo!=='peca'}).map(function(x){return x.descricao.toUpperCase()});
+    var todos=it.map(function(x){return x.descricao.toUpperCase()});
+    var resumoHtml='<div style="margin-top:14px;padding-top:14px;border-top:1px dashed var(--BD)">';
+    resumoHtml+='<div style="font-size:11px;font-weight:700;color:var(--T2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">📋 Resumo para copiar — itens sem valores</div>';
+    if(pecas.length){
+      resumoHtml+='<div style="margin-bottom:8px">'+
+        '<div style="font-size:10px;font-weight:700;color:var(--I);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px">🔩 Peças</div>'+
+        '<div style="display:flex;align-items:flex-start;gap:8px">'+
+        '<div id="res-pecas" contenteditable="true" style="flex:1;background:var(--IL);border:1px solid #c7d2fe;border-radius:7px;padding:10px 13px;font-size:13px;font-weight:500;color:var(--T);line-height:1.6">'+pecas.join(', ')+'</div>'+
+        '<button class="btn bs" style="padding:5px 10px;font-size:11px;flex-shrink:0;margin-top:2px" onclick="copiarEl(\'res-pecas\')">📋</button>'+
+        '</div></div>';
+    }
+    if(servicos.length){
+      resumoHtml+='<div style="margin-bottom:8px">'+
+        '<div style="font-size:10px;font-weight:700;color:var(--GD);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px">🔧 Serviços / Mão de obra</div>'+
+        '<div style="display:flex;align-items:flex-start;gap:8px">'+
+        '<div id="res-servicos" contenteditable="true" style="flex:1;background:var(--GL);border:1px solid #a3d4b5;border-radius:7px;padding:10px 13px;font-size:13px;font-weight:500;color:var(--T);line-height:1.6">'+servicos.join(', ')+'</div>'+
+        '<button class="btn bs" style="padding:5px 10px;font-size:11px;flex-shrink:0;margin-top:2px" onclick="copiarEl(\'res-servicos\')">📋</button>'+
+        '</div></div>';
+    }
+    resumoHtml+='<div>'+
+      '<div style="font-size:10px;font-weight:700;color:var(--T2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px">📄 Tudo junto</div>'+
+      '<div style="display:flex;align-items:flex-start;gap:8px">'+
+      '<div id="res-todos" contenteditable="true" style="flex:1;background:var(--S2);border:1px solid var(--BD);border-radius:7px;padding:10px 13px;font-size:13px;font-weight:500;color:var(--T);line-height:1.6">'+todos.join(', ')+'</div>'+
+      '<button class="btn bp" style="padding:5px 10px;font-size:11px;flex-shrink:0;margin-top:2px" onclick="copiarEl(\'res-todos\')">📋</button>'+
+      '</div></div>';
+    resumoHtml+='</div>';
+    document.getElementById('itens-lista').innerHTML=resumoHtml;
+  }
+
+  // Totais
+  var fmt=function(v){return v?'R$ '+parseFloat(v).toFixed(2).replace('.',','):'R$ 0,00'};
+  document.getElementById('totais').innerHTML=
+    '<div class="total p"><div class="tl">Valor peças</div><div style="display:flex;align-items:center;justify-content:center;gap:8px"><div class="tv" contenteditable="true">'+fmt(d.total_pecas)+'</div><button onclick="copiarTexto(this)" data-txt="'+fmt(d.total_pecas)+'" title="Copiar" style="background:rgba(255,255,255,.3);border:1px solid rgba(255,255,255,.4);border-radius:5px;padding:3px 7px;cursor:pointer;font-size:12px">📋</button></div></div>'+
+    '<div class="total s"><div class="tl">Valor serviços / MO</div><div style="display:flex;align-items:center;justify-content:center;gap:8px"><div class="tv" contenteditable="true">'+fmt(d.total_servicos)+'</div><button onclick="copiarTexto(this)" data-txt="'+fmt(d.total_servicos)+'" title="Copiar" style="background:rgba(255,255,255,.3);border:1px solid rgba(255,255,255,.4);border-radius:5px;padding:3px 7px;cursor:pointer;font-size:12px">📋</button></div></div>'+
+    '<div class="total g"><div class="tl">Total geral</div><div style="display:flex;align-items:center;justify-content:center;gap:8px"><div class="tv" contenteditable="true">'+fmt(d.total_geral)+'</div><button onclick="copiarTexto(this)" data-txt="'+fmt(d.total_geral)+'" title="Copiar" style="background:rgba(255,255,255,.3);border:1px solid rgba(255,255,255,.4);border-radius:5px;padding:3px 7px;cursor:pointer;font-size:12px">📋</button></div></div>';
+
+  // Obs
+  document.getElementById('obs-res').innerHTML=d.observacoes
+    ?'<div class="ctitle">📝 Observações</div><div style="background:var(--S2);padding:12px;border-radius:8px;font-size:13px;color:var(--T2)">'+d.observacoes+'</div>':'' ;
+}
+
+function campoHtml(c){
+  if(!c.v)return '<div class="campo-box"><div class="campo-lbl">'+c.l+'</div><div class="campo-val vazio">Não identificado</div></div>';
+  var cls='campo-val'+(c.cls?' '+c.cls:'');
+  var txt=String(c.v).replace(/"/g,'&quot;');
+  return '<div class="campo-box"><div class="campo-lbl">'+c.l+'</div><div style="display:flex;align-items:center;gap:6px"><div class="'+cls+'" contenteditable="true">'+c.v+'</div><button onclick="copiarTexto(this)" data-txt="'+txt+'" title="Copiar" style="background:none;border:1px solid var(--BD);border-radius:5px;padding:3px 7px;cursor:pointer;font-size:12px;color:var(--T2);flex-shrink:0">📋</button></div></div>';
+}
+
+// EXPORTAR
+function copiarJSON(){
+  if(!dados){toast('Nenhum dado');return}
+  navigator.clipboard.writeText(JSON.stringify(dados,null,2));
+  toast('✅ JSON copiado!');
+}
+function exportarCSV(){
+  if(!dados){toast('Nenhum dado');return}
+  var d=dados;
+  var linhas=[
+    ['DADOS DO ORÇAMENTO',''],
+    ['Placa',d.placa||''],
+    ['KM',d.km||''],
+    ['Data de execução',d.data_execucao||''],
+    ['Nº Orçamento',d.num_orcamento||''],
+    ['Nº OS (Ordem de Serviço)',d.num_os||''],
+    ['Fornecedor',d.fornecedor_nome||''],
+    ['CNPJ Fornecedor',d.fornecedor_cnpj||''],
+    [''],
+    ['ITENS'],
+    ['#','Descrição','Tipo','Qtd','Vlr. Unit.','Vlr. Total']
+  ];
+  linhas.push(['ITENS DETALHADOS']);
+  linhas.push(['#','Descrição','Tipo','Qtd','Vlr. Unit.','Vlr. Total']);
+  (d.itens||[]).forEach(function(it,i){
+    linhas.push([i+1,it.descricao,it.tipo,it.quantidade||1,it.valor_unitario||'',it.valor_total||'']);
+  });
+  linhas.push(['']);
+  linhas.push(['RESUMO — ITENS SEM VALORES']);
+  var it2=d.itens||[];
+  linhas.push(['Peças',it2.filter(function(x){return x.tipo==='peca'}).map(function(x){return x.descricao}).join(', ')]);
+  linhas.push(['Serviços / MO',it2.filter(function(x){return x.tipo!=='peca'}).map(function(x){return x.descricao}).join(', ')]);
+  linhas.push(['Todos os itens',it2.map(function(x){return x.descricao}).join(', ')]);
+  linhas.push(['']);
+  linhas.push(['TOTAIS']);
+  linhas.push(['Total serviços',d.total_servicos||'']);
+  linhas.push(['Total peças',d.total_pecas||'']);
+  linhas.push(['TOTAL GERAL',d.total_geral||'']);
+  if(d.observacoes)linhas.push(['Observações',d.observacoes]);
+  var csv=linhas.map(function(r){return r.map(function(c){return'"'+String(c||'').replace(/"/g,"'")+'"'}).join(';')}).join('\n');
+  var blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;a.download='orcamento_extraido.csv';a.click();
+  toast('✅ CSV exportado!');
+}
+
+function novaExtracao(){
+  dados=null;imgB64=null;pdfB64=null;
+  document.getElementById('resultado').style.display='none';
+  document.getElementById('loading').style.display='none';
+  document.getElementById('prev-img-box').style.display='none';
+  document.getElementById('prev-pdf-box').style.display='none';
+  document.getElementById('btn-img').disabled=true;
+  document.getElementById('btn-pdf').disabled=true;
+  document.getElementById('fi-img').value='';
+  document.getElementById('fi-pdf').value='';
+  document.getElementById('txt-input').value='';
+  document.getElementById('txt-audio').value='';
+  document.getElementById('audio-prev').style.display='none';
+  chunks=[];tempoG=0;
+  document.getElementById('rec-timer').textContent='0:00';
+  document.getElementById('rec-status').textContent='Clique no microfone para iniciar a gravação';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function setLoad(on,msg,sub){
+  document.getElementById('loading').style.display=on?'block':'none';
+  if(on){
+    document.getElementById('resultado').style.display='none';
+    document.getElementById('lmsg').textContent=msg||'Analisando...';
+    document.getElementById('lsub').textContent=sub||'';
+    document.getElementById('loading').scrollIntoView({behavior:'smooth',block:'start'});
+    ['btn-img','btn-pdf','btn-txt','btn-audio'].forEach(function(id){
+      var b=document.getElementById(id);if(!b)return;
+      b.disabled=true;
+      var sp=b.querySelector('.spinner');if(sp)sp.style.display='inline-block';
+    });
+  } else {
+    ['btn-img','btn-pdf','btn-txt','btn-audio'].forEach(function(id){
+      var b=document.getElementById(id);if(!b)return;
+      if(id!=='btn-img'&&id!=='btn-pdf')b.disabled=false;
+      var sp=b.querySelector('.spinner');if(sp)sp.style.display='none';
+    });
+  }
+}
+
+function erroIA(msg){
+  setLoad(false);
+  document.getElementById('resultado').style.display='block';
+  document.getElementById('alerta-conf').innerHTML='<div class="alert ar">❌ <strong>Erro na extração:</strong> '+(msg||'Tente novamente.')+'</div>';
+  document.getElementById('campos-fv').innerHTML='';
+  document.getElementById('campos-doc').innerHTML='';
+  document.getElementById('tb-itens').innerHTML='';
+  document.getElementById('itens-lista').innerHTML='';
+  document.getElementById('totais').innerHTML='';
+  document.getElementById('obs-res').innerHTML='';
+}
+
+function copiarTexto(btn){
+  var txt=(btn.getAttribute('data-txt')||'').trim();
+  // Se o campo ao lado foi editado, pega o texto atual dele
+  var campo=btn.previousElementSibling;
+  if(campo)txt=(campo.textContent||campo.innerText||txt).trim();
+  if(!txt){toast('⚠ Campo vazio');return}
+  var ta=document.createElement('textarea');
+  ta.value=txt;
+  ta.style.cssText='position:fixed;top:-9999px;left:-9999px;opacity:0';
+  document.body.appendChild(ta);
+  ta.focus();ta.select();
+  var ok=false;
+  try{ok=document.execCommand('copy')}catch(e){}
+  document.body.removeChild(ta);
+  if(ok){
+    btn.textContent='✅';
+    setTimeout(function(){btn.textContent='📋'},1500);
+    toast('✅ Copiado!');
+  } else if(navigator.clipboard){
+    navigator.clipboard.writeText(txt).then(function(){
+      btn.textContent='✅';
+      setTimeout(function(){btn.textContent='📋'},1500);
+      toast('✅ Copiado!');
+    }).catch(function(){toast('⚠ Erro ao copiar')});
+  }
+}
+function copiarEl(id){
+  var el=document.getElementById(id);
+  if(!el)return;
+  var txt=(el.textContent||el.innerText||'').trim();
+  var ta=document.createElement('textarea');
+  ta.value=txt;
+  ta.style.cssText='position:fixed;top:-9999px;left:-9999px;opacity:0';
+  document.body.appendChild(ta);
+  ta.focus();ta.select();
+  try{document.execCommand('copy');toast('✅ Copiado!');}
+  catch(e){if(navigator.clipboard)navigator.clipboard.writeText(txt).then(function(){toast('✅ Copiado!')})}
+  document.body.removeChild(ta);
+}
+function toast(m){var t=document.getElementById('tk');t.textContent=m;t.classList.add('on');setTimeout(function(){t.classList.remove('on')},3000)}
+</script>
+</body>
+</html>
