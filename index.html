@@ -358,26 +358,29 @@ function chamarAPI(parts){
 // PROCESSAR
 function processar(txt){
   setLoad(false);
+  var d;
   try{
-    var limpo=txt.replace(/```json/gi,'').replace(/```/g,'').trim();
-    // Remove caracteres de controle
-    limpo=limpo.replace(/[\x00-\x1F\x7F]/g,function(c){return c==='\n'||c==='\r'||c==='\t'?' ':''});
-    var d;
-    try{d=JSON.parse(limpo)}
-    catch(e1){
-      var ini=limpo.indexOf('{'), fim=limpo.lastIndexOf('}');
+    // Servidor já limpa o JSON — tenta parse direto
+    d=JSON.parse(txt);
+  }catch(e1){
+    try{
+      // Tenta extrair JSON do texto
+      var ini=txt.indexOf('{'), fim=txt.lastIndexOf('}');
       if(ini>=0&&fim>ini){
-        var trecho=limpo.substring(ini,fim+1);
-        // Remove vírgulas antes de fechar
+        var trecho=txt.substring(ini,fim+1);
         trecho=trecho.replace(/,(\s*[}\]])/g,'$1');
-        try{d=JSON.parse(trecho)}
-        catch(e2){throw new Error('Não foi possível interpretar a resposta da IA')}
-      } else throw new Error('JSON não encontrado na resposta');
+        d=JSON.parse(trecho);
+      } else {
+        // Última tentativa: limpa e tenta novamente
+        var limpo=txt.replace(/```json/gi,'').replace(/```/g,'').trim();
+        d=JSON.parse(limpo);
+      }
+    }catch(e2){
+      erroIA('Erro ao processar. Texto recebido: '+txt.substring(0,150));
+      return;
     }
-    dadosG=d; renderizar(d);
-  }catch(e){
-    erroIA(e.message);
   }
+  dadosG=d; renderizar(d);
 }
 
 // RENDERIZAR
