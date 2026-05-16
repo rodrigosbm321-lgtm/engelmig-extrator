@@ -414,44 +414,18 @@ async function extrairAudio(){
 
 // PROMPT
 function prompt(){
-  return `Você é especialista em análise de orçamentos automotivos brasileiros.
-Analise o documento e extraia TODOS os dados em JSON.
+  return `INSTRUÇÃO: Você deve analisar este orçamento automotivo e retornar APENAS um objeto JSON válido, sem nenhum texto antes ou depois, sem markdown, sem explicação.
 
-REGRAS:
-- Extraia TODAS as peças e serviços, mesmo com letra manuscrita difícil
-- Nº orçamento: procure por "Orçamento nº", "ORC", "Orç.", números de documento
-- Nº OS: procure por "OS", "Ordem de Serviço", "O.S.", "nº OS"
-- Se o mesmo número servir para os dois, coloque em ambos os campos
-- CNPJ fornecedor: quem EMITIU o orçamento — NUNCA o CNPJ da Engelmig
-- Fornecedor: quem fez o serviço, não a Engelmig Energia
-- Separe PEÇAS de SERVIÇOS/MÃO DE OBRA
-- Valores como número decimal com ponto (ex: 150.00)
-- Campo não encontrado = null
+JSON a retornar (substitua os valores pelos dados reais encontrados, use null se não encontrar):
+{"placa":null,"km":null,"data_execucao":null,"num_orcamento":null,"num_os":null,"fornecedor_nome":null,"fornecedor_cnpj":null,"itens":[{"descricao":"nome do item","tipo":"peca ou servico","quantidade":1,"valor_unitario":0.00,"valor_total":0.00}],"total_pecas":0.00,"total_servicos":0.00,"total_geral":0.00,"observacoes":null,"confianca":"alta","motivo_baixa_confianca":null}
 
-RETORNE APENAS JSON puro, sem texto extra:
-{
-  "placa": "ABC-1234 (sempre maiúscula com traço, ex: SSI-4658) ou null",
-  "km": 45000,
-  "data_execucao": "DD/MM/AAAA ou null",
-  "num_orcamento": "número do orçamento ou null",
-  "num_os": "número da OS (Ordem de Serviço) ou null",
-  "fornecedor_nome": "nome fantasia ou razão social do fornecedor",
-  "fornecedor_cnpj": "CNPJ formatado ou null",
-  "itens": [
-    {
-      "descricao": "nome do item",
-      "tipo": "peca ou servico ou outro",
-      "quantidade": 1,
-      "valor_unitario": 0.00,
-      "valor_total": 0.00
-    }
-  ],
-  "total_pecas": 0.00,
-  "total_servicos": 0.00,
-  "total_geral": 0.00,
-  "observacoes": "observações relevantes ou null",
-  "confianca": "alta ou media ou baixa",
-  "motivo_baixa_confianca": "explicação se baixa, senão null"
+REGRAS IMPORTANTES:
+- placa: formato AAA-0000 maiúsculo
+- km: número inteiro sem pontos
+- CNPJ: somente do FORNECEDOR (quem emitiu), nunca da Engelmig
+- tipo de cada item: "peca" para peças/materiais, "servico" para mão de obra/serviços
+- valores: número decimal com ponto (ex: 150.00)
+- Retorne SOMENTE o JSON, começando com { e terminando com }`;
 }`;
 }
 
