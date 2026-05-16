@@ -654,6 +654,8 @@ function novaExtracao(){
   document.getElementById('prev-pdf-box').style.display='none';
   document.getElementById('btn-img').disabled=true;
   document.getElementById('btn-pdf').disabled=true;
+  document.getElementById('btn-txt').disabled=false;
+  document.getElementById('btn-audio').disabled=false;
   document.getElementById('fi-img').value='';
   document.getElementById('fi-pdf').value='';
   document.getElementById('txt-input').value='';
@@ -680,9 +682,12 @@ function setLoad(on,msg,sub){
   } else {
     ['btn-img','btn-pdf','btn-txt','btn-audio'].forEach(function(id){
       var b=document.getElementById(id);if(!b)return;
-      if(id!=='btn-img'&&id!=='btn-pdf')b.disabled=false;
+      b.disabled=false;
       var sp=b.querySelector('.spinner');if(sp)sp.style.display='none';
     });
+    // Reabilitar inputs de arquivo
+    var fi=document.getElementById('fi-img');if(fi)fi.disabled=false;
+    var fp=document.getElementById('fi-pdf');if(fp)fp.disabled=false;
   }
 }
 
