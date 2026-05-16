@@ -346,11 +346,12 @@ function chamarAPI(parts){
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify({contents:[{parts:parts}],generationConfig:{maxOutputTokens:3000,temperature:0.1}})
   }).then(function(r){
-    if(!r.ok)return r.text().then(function(t){throw new Error('Erro: '+t.substring(0,100))});
+    if(!r.ok)return r.text().then(function(t){throw new Error('Erro servidor: '+t.substring(0,100))});
     return r.json();
   }).then(function(d){
     if(d.error)throw new Error(d.error);
-    if(!d.text)throw new Error('Resposta vazia');
+    if(!d.text)throw new Error('Resposta vazia do servidor');
+    // d.text já é o JSON string limpo — retorna diretamente
     return d.text;
   });
 }
@@ -359,28 +360,20 @@ function chamarAPI(parts){
 function processar(txt){
   setLoad(false);
   var d;
+  // Tenta 1: parse direto (servidor já limpou)
+  try{ d=JSON.parse(txt); dadosG=d; renderizar(d); return; }catch(e1){}
+  // Tenta 2: extrai bloco JSON
   try{
-    // Servidor já limpa o JSON — tenta parse direto
-    d=JSON.parse(txt);
-  }catch(e1){
-    try{
-      // Tenta extrair JSON do texto
-      var ini=txt.indexOf('{'), fim=txt.lastIndexOf('}');
-      if(ini>=0&&fim>ini){
-        var trecho=txt.substring(ini,fim+1);
-        trecho=trecho.replace(/,(\s*[}\]])/g,'$1');
-        d=JSON.parse(trecho);
-      } else {
-        // Última tentativa: limpa e tenta novamente
-        var limpo=txt.replace(/```json/gi,'').replace(/```/g,'').trim();
-        d=JSON.parse(limpo);
-      }
-    }catch(e2){
-      erroIA('Erro ao processar. Texto recebido: '+txt.substring(0,150));
-      return;
-    }
-  }
-  dadosG=d; renderizar(d);
+    var ini=txt.indexOf('{'), fim=txt.lastIndexOf('}');
+    if(ini>=0&&fim>ini){ d=JSON.parse(txt.substring(ini,fim+1)); dadosG=d; renderizar(d); return; }
+  }catch(e2){}
+  // Tenta 3: remove markdown e tenta novamente
+  try{
+    var limpo=txt.replace(/```json/gi,'').replace(/```/g,'').trim();
+    d=JSON.parse(limpo); dadosG=d; renderizar(d); return;
+  }catch(e3){}
+  // Falhou tudo
+  erroIA('Não foi possível interpretar. Início da resposta: '+txt.substring(0,100));
 }
 
 // RENDERIZAR
