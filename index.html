@@ -433,18 +433,45 @@ function chamarAPI(parts) {
 function processar(txt) {
   setLoad(false);
   try {
-    var limpo = txt.replace(/```json/gi,'').replace(/```/g,'').trim();
+    // Limpar markdown e caracteres problemáticos
+    var limpo = txt
+      .replace(/```json/gi,'').replace(/```/g,'')
+      .replace(/[ -]/g, ' ')
+      .trim();
+    
     var d;
+    // Tenta parse direto
     try { d = JSON.parse(limpo); }
-    catch(e) {
-      var m = limpo.match(/\{[\s\S]*\}/);
-      if (m) d = JSON.parse(m[0]);
-      else throw new Error('JSON não encontrado na resposta');
+    catch(e1) {
+      // Extrai o maior bloco JSON
+      var inicio = limpo.indexOf('{');
+      var fim = limpo.lastIndexOf('}');
+      if (inicio >= 0 && fim > inicio) {
+        var trecho = limpo.substring(inicio, fim+1);
+        try { d = JSON.parse(trecho); }
+        catch(e2) {
+          // Tenta corrigir JSON truncado adicionando fechamentos
+          var tentativa = trecho;
+          // Conta arrays e objetos abertos
+          var abre = (tentativa.match(/\[/g)||[]).length;
+          var fecha = (tentativa.match(/\]/g)||[]).length;
+          var abreO = (tentativa.match(/\{/g)||[]).length;
+          var fechaO = (tentativa.match(/\}/g)||[]).length;
+          // Remove última vírgula antes de fechar
+          tentativa = tentativa.replace(/,\s*([}\]])/g,'$1');
+          for(var i=0;i<abre-fecha;i++) tentativa += ']';
+          for(var j=0;j<abreO-fechaO;j++) tentativa += '}';
+          try { d = JSON.parse(tentativa); }
+          catch(e3) { throw new Error('Não foi possível interpretar a resposta'); }
+        }
+      } else {
+        throw new Error('JSON não encontrado na resposta');
+      }
     }
     dadosG = d;
     renderizar(d);
   } catch(e) {
-    erroIA('Erro ao processar: ' + e.message + '. Tente com imagem mais nítida ou use o modo Texto.');
+    erroIA(e.message + '. Use o modo Texto colando os itens manualmente para garantir a extração.');
   }
 }
 
