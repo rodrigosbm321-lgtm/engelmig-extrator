@@ -350,18 +350,26 @@ function chamarAPI(parts){
     return r.json();
   }).then(function(d){
     if(d.error)throw new Error(d.error);
-    // Servidor enviou {data: objetoJSON} — retorna diretamente
-    if(d.data && typeof d.data === 'object'){return d.data;}
-    // Servidor enviou {text: stringJSON} — parseia
-    if(d.text){
-      try{
-        var obj = JSON.parse(d.text);
-        return obj;
-      }catch(e){
-        throw new Error('JSON inválido: '+d.text.substring(0,80));
-      }
+    // Caso 1: servidor enviou objeto direto em d.data
+    if(d.data && typeof d.data === 'object' && !Array.isArray(d.data)){
+      return d.data;
     }
-    throw new Error('Resposta vazia');
+    // Caso 2: servidor enviou string em d.text
+    if(d.text && typeof d.text === 'string'){
+      var txt = d.text.trim();
+      // Tenta parse direto
+      try{ return JSON.parse(txt); }catch(e1){}
+      // Extrai bloco JSON
+      var ini=txt.indexOf('{'), fim=txt.lastIndexOf('}');
+      if(ini>=0&&fim>ini){
+        try{ return JSON.parse(txt.substring(ini,fim+1)); }catch(e2){}
+        // Tenta corrigir JSON incompleto
+        var trecho=txt.substring(ini,fim+1).replace(/,(\s*[}\]])/g,'$1');
+        try{ return JSON.parse(trecho); }catch(e3){}
+      }
+      throw new Error('Não foi possível processar a resposta');
+    }
+    throw new Error('Resposta vazia ou inválida');
   });
 }
 
