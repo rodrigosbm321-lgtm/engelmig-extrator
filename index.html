@@ -466,9 +466,14 @@ async function chamarGemini(parts){
       generationConfig: { maxOutputTokens: 2500, temperature: 0.1 }
     })
   });
+  if(!r.ok){
+    var err = await r.text();
+    throw new Error('Servidor retornou erro: ' + err.substring(0,100));
+  }
   var d = await r.json();
   if(d.error) throw new Error(d.error);
-  return d.text;
+  // Retorna o texto da resposta
+  return d.text || d;
 }
 async function apiImagem(b64, mime, p){
   return chamarGemini([
@@ -490,13 +495,29 @@ async function apiTexto(p){
 function processar(resp){
   setLoad(false);
   try{
-    var txt=resp.replace(/```json|```/g,'').trim();
+    // resp pode ser string direta ou objeto {text: ...}
+    var txt = typeof resp === 'object' ? (resp.text || JSON.stringify(resp)) : resp;
+    // Limpar markdown
+    txt = txt.replace(/```json/gi,'').replace(/```/g,'').trim();
     var d;
-    try{d=JSON.parse(txt)}
-    catch(e){var m=txt.match(/\{[\s\S]*\}/);if(m)d=JSON.parse(m[0]);else throw e}
+    // Tenta parse direto
+    try{d=JSON.parse(txt)}catch(e1){
+      // Tenta extrair JSON do meio do texto
+      var m=txt.match(/\{[\s\S]*\}/);
+      if(m){
+        try{d=JSON.parse(m[0])}catch(e2){
+          // Última tentativa: pega o maior bloco JSON
+          var blocos = txt.match(/\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}/g);
+          if(blocos){
+            var maior = blocos.sort(function(a,b){return b.length-a.length})[0];
+            d=JSON.parse(maior);
+          } else throw e2;
+        }
+      } else throw e1;
+    }
     dados=d;renderizar(d);
   }catch(e){
-    erroIA('Não foi possível interpretar a resposta. Tente com imagem mais nítida ou texto mais detalhado.');
+    erroIA('Erro ao interpretar: '+e.message+'. Tente com imagem mais nítida ou use o modo Texto.');
   }
 }
 
