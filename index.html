@@ -129,13 +129,13 @@ td[contenteditable=true]:focus{background:#fffbe6;outline:none}
   <!-- IMAGEM -->
   <div id="p-img" class="painel on">
     <div class="card">
-      <label for="in-img" class="uparea" style="display:block;cursor:pointer">
+      <label class="uparea" style="display:block;cursor:pointer">
+        <input type="file" id="in-img" accept="image/*" style="display:none" onchange="selecionarImg(this)">
         <div class="up-icon">📷</div>
-        <div class="up-title">Foto, print ou imagem do orçamento</div>
+        <div class="up-title">Clique aqui para selecionar foto ou print</div>
         <div class="up-sub">Funciona com print de WhatsApp, foto de papel, nota manuscrita</div>
         <div class="up-types">JPG • PNG • JPEG • WEBP</div>
       </label>
-      <input type="file" id="in-img" accept="image/*" style="display:none" onchange="selecionarImg(this)">
       <div id="prev-img" style="display:none">
         <div class="prev-file"><span>🖼</span><div><div id="nome-img" style="font-weight:600;font-size:13px"></div><div id="tam-img" style="font-size:11px;color:var(--T3)"></div></div></div>
         <img id="img-preview" class="prev-img" alt="">
@@ -150,13 +150,13 @@ td[contenteditable=true]:focus{background:#fffbe6;outline:none}
   <!-- PDF -->
   <div id="p-pdf" class="painel">
     <div class="card">
-      <label for="in-pdf" class="uparea" style="display:block;cursor:pointer">
+      <label class="uparea" style="display:block;cursor:pointer">
+        <input type="file" id="in-pdf" accept=".pdf" style="display:none" onchange="selecionarPdf(this)">
         <div class="up-icon">📄</div>
-        <div class="up-title">Arquivo PDF do orçamento</div>
+        <div class="up-title">Clique aqui para selecionar o PDF</div>
         <div class="up-sub">Melhor resultado — use o PDF original sempre que possível</div>
         <div class="up-types">PDF</div>
       </label>
-      <input type="file" id="in-pdf" accept=".pdf" style="display:none" onchange="selecionarPdf(this)">
       <div id="prev-pdf" style="display:none">
         <div class="prev-file"><span>📄</span><div><div id="nome-pdf" style="font-weight:600;font-size:13px"></div><div id="tam-pdf" style="font-size:11px;color:var(--T3)"></div></div></div>
       </div>
