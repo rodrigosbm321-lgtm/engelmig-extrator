@@ -336,7 +336,7 @@ function extrairAud(){
 
 // PROMPT
 function prompt(){
-  return 'Analise este orçamento automotivo brasileiro.\nRetorne SOMENTE um JSON válido, começando com { e terminando com }, sem texto antes ou depois, sem markdown.\n\nFormato obrigatório:\n{"placa":null,"km":null,"data_execucao":null,"num_orcamento":null,"num_os":null,"fornecedor_nome":null,"fornecedor_cnpj":null,"itens":[{"descricao":"nome do item","tipo":"peca","quantidade":1,"valor_unitario":0.00,"valor_total":0.00}],"total_pecas":0.00,"total_servicos":0.00,"total_desconto":0.00,"total_geral":0.00,"observacoes":null,"confianca":"alta"}\n\nRegras:\n- placa: maiúscula com traço ex ABC-1234\n- km: número inteiro sem pontos\n- fornecedor_cnpj: somente do fornecedor nunca da Engelmig\n- tipo de item: peca para peças materiais, servico para mão de obra, desconto para descontos\n- desconto: valor_total negativo ex -16.20\n- total_geral: valor final com desconto\n- valores com ponto decimal ex 150.00\n- Retorne SOMENTE o JSON';
+  return 'Analise este orçamento automotivo. Retorne APENAS JSON sem texto extra:\n{"placa":"AAA-0000","km":0,"data_execucao":null,"num_orcamento":null,"num_os":null,"fornecedor_nome":null,"fornecedor_cnpj":null,"itens":[{"d":"descricao","t":"peca","q":1,"vu":0.00,"vt":0.00}],"tp":0.00,"ts":0.00,"td":0.00,"tg":0.00,"obs":null,"c":"alta"}\n\nCampos dos itens: d=descricao, t=tipo(peca/servico/desconto), q=quantidade, vu=vlr_unit, vt=vlr_total\nCampos totais: tp=total_pecas, ts=total_servicos, td=total_desconto, tg=total_geral, c=confianca\nRegras: placa maiuscula com traco, km inteiro, cnpj so do fornecedor, desconto vt negativo';
 }
 
 // API
@@ -344,197 +344,24 @@ function chamarAPI(parts){
   return fetch('/api',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({contents:[{parts:parts}],generationConfig:{maxOutputTokens:3000,temperature:0.1}})
+    body:JSON.stringify({contents:[{parts:parts}],generationConfig:{maxOutputTokens:8192,temperature:0.1}})
   }).then(function(r){
     if(!r.ok)return r.text().then(function(t){throw new Error('Erro servidor: '+t.substring(0,100))});
     return r.json();
   }).then(function(d){
-    if(d.error)throw new Error(d.error);
-    console.log('DEBUG keys:', Object.keys(d), 'text tipo:', typeof d.text, 'data tipo:', typeof d.data);
-    
-    // Caso 1: d.data é objeto direto
-    if(d.data && typeof d.data === 'object'){
-      console.log('Usando d.data objeto');
-      return d.data;
+    if(d.erro && !d.ok)throw new Error(d.erro);
+    // Servidor retornou objeto parseado
+    if(d.ok && d.dados) return d.dados;
+    // Servidor não conseguiu parsear — texto bruto
+    if(d.texto){
+      try{ return JSON.parse(d.texto); }catch(e){}
     }
-    
-    // Caso 2: d.text é string com JSON
-    if(d.text !== undefined && d.text !== null){
-      var txt = String(d.text).trim();
-      console.log('d.text primeiros 100 chars:', txt.substring(0,100));
-      try{ 
-        var obj = JSON.parse(txt); 
-        console.log('Parse d.text OK:', obj.placa);
-        return obj; 
-      }catch(e1){
-        console.log('Parse falhou:', e1.message);
-        // Extrai bloco JSON
-        var ini=txt.indexOf('{'), fim=txt.lastIndexOf('}');
-        if(ini>=0&&fim>ini){
-          var trecho=txt.substring(ini,fim+1);
-          try{ return JSON.parse(trecho); }catch(e2){
-            console.log('Parse trecho falhou:', e2.message, 'pos:', e2.message.match(/position (\d+)/));
-          }
-        }
-      }
-    }
-    throw new Error('Falhou. Ver console F12 para detalhes.');
+    throw new Error('Não foi possível processar');
   });
 }
-
-// PROCESSAR
 function processar(resp){
   setLoad(false);
-  // resp sempre deve ser objeto neste ponto
-  if(!resp || typeof resp !== 'object'){
-    erroIA('Resposta inválida do servidor. Tente novamente.');
-    return;
-  }
-  dadosG = resp;
-  renderizar(resp);
+  if(!resp||typeof resp!=='object'){erroIA('Resposta inválida');return;}
+  dadosG=resp; renderizar(resp);
 }
 
-// RENDERIZAR
-function fR(v){return v?'R$ '+parseFloat(v).toFixed(2).replace('.',','):'R$ 0,00'}
-
-function mkCampo(lbl,val,mono){
-  if(!val&&val!==0)return '<div class="campo"><div class="campo-lbl">'+lbl+'</div><div style="font-size:12px;color:var(--T3);font-style:italic">Não identificado</div></div>';
-  var id='f'+Math.random().toString(36).substr(2,5);
-  return '<div class="campo"><div class="campo-lbl">'+lbl+'</div><div class="campo-row"><input class="campo-v'+(mono?' mono':'')+'" id="'+id+'" value="'+String(val).replace(/"/g,'&quot;')+'"><button class="cp" onclick="cpInput(\''+id+'\',this)">📋</button></div></div>';
-}
-
-function renderizar(d){
-  document.getElementById('resultado').style.display='block';
-  document.getElementById('resultado').scrollIntoView({behavior:'smooth',block:'start'});
-
-  // Alerta
-  var ac=document.getElementById('alerta-res');
-  if(d.confianca==='baixa')ac.innerHTML='<div class="alert ar">⚠ <strong>Confiança baixa</strong> — verifique todos os campos.</div>';
-  else if(d.confianca==='media')ac.innerHTML='<div class="alert aw">⚠ <strong>Confiança média</strong> — revise os valores.</div>';
-  else ac.innerHTML='<div class="alert ag">✅ <strong>Alta confiança</strong> — dados extraídos com clareza.</div>';
-
-  // Formatar placa
-  if(d.placa){var p=d.placa.toUpperCase().replace(/[^A-Z0-9]/g,'');d.placa=p.length>=4?p.substring(0,3)+'-'+p.substring(3):p}
-
-  document.getElementById('campos-fv').innerHTML=
-    mkCampo('Placa',d.placa,true)+
-    mkCampo('KM',d.km?d.km.toLocaleString('pt-BR'):null)+
-    mkCampo('Data execução',d.data_execucao)+
-    mkCampo('Fornecedor',d.fornecedor_nome)+
-    mkCampo('CNPJ fornecedor',d.fornecedor_cnpj,true);
-
-  document.getElementById('campos-doc').innerHTML=
-    mkCampo('Nº orçamento',d.num_orcamento,true)+
-    mkCampo('Nº OS',d.num_os,true);
-
-  // Tabela itens
-  var it=d.itens||[];
-  document.getElementById('tb-itens').innerHTML=!it.length
-    ?'<tr><td colspan="6" style="text-align:center;color:var(--T3);padding:20px">Nenhum item identificado</td></tr>'
-    :it.map(function(x,i){
-      var tag=x.tipo==='peca'?'<span class="tag-p">Peça</span>':x.tipo==='servico'?'<span class="tag-s">Serviço</span>':'<span class="tag-d">Desconto</span>';
-      var cor=x.tipo==='desconto'?'color:var(--R);font-weight:700':'';
-      var vu=x.valor_unitario!=null?'R$ '+Math.abs(x.valor_unitario).toFixed(2).replace('.',','):'—';
-      var vt=x.valor_total!=null?(x.tipo==='desconto'?'- ':'')+'R$ '+Math.abs(x.valor_total).toFixed(2).replace('.',','):'—';
-      return '<tr><td style="color:var(--T3);font-size:12px">'+(i+1)+'</td><td style="font-weight:500" contenteditable="true">'+x.descricao+'</td><td>'+tag+'</td><td style="text-align:center" contenteditable="true">'+(x.quantidade||1)+'</td><td contenteditable="true">'+vu+'</td><td style="font-weight:600;'+cor+'" contenteditable="true">'+vt+'</td></tr>';
-    }).join('');
-
-  // Resumo
-  var pecas=it.filter(function(x){return x.tipo==='peca'}).map(function(x){return x.descricao.toUpperCase()});
-  var servs=it.filter(function(x){return x.tipo==='servico'}).map(function(x){return x.descricao.toUpperCase()});
-  var todos=it.filter(function(x){return x.tipo!=='desconto'}).map(function(x){return x.descricao.toUpperCase()});
-  var ra='';
-  if(pecas.length)ra+=mkResumo('🔩 Peças',pecas.join(', '),'azul','rp');
-  if(servs.length)ra+=mkResumo('🔧 Serviços / MO',servs.join(', '),'verde','rs');
-  ra+=mkResumo('📄 Tudo junto',todos.join(', '),'','rt');
-  document.getElementById('resumo-area').innerHTML=ra;
-
-  // Totais
-  document.getElementById('totais-area').innerHTML=
-    '<div class="tot p"><div class="tot-lbl">Valor peças</div><div class="tot-row"><div class="tot-val" id="tv-p" contenteditable="true">'+fR(d.total_pecas)+'</div><button class="cp" onclick="cpEl(\'tv-p\',this)">📋</button></div></div>'+
-    '<div class="tot s"><div class="tot-lbl">Valor serviços / MO</div><div class="tot-row"><div class="tot-val" id="tv-s" contenteditable="true">'+fR(d.total_servicos)+'</div><button class="cp" onclick="cpEl(\'tv-s\',this)">📋</button></div></div>'+
-    '<div class="tot g"><div class="tot-lbl">Total geral'+(d.total_desconto?' (c/ desconto)':'')+'</div><div class="tot-row"><div class="tot-val" id="tv-g" contenteditable="true">'+fR(d.total_geral)+'</div><button class="cp" onclick="cpEl(\'tv-g\',this)">📋</button></div></div>';
-}
-
-function mkResumo(lbl,txt,cls,id){
-  return '<div class="res-bloco"><div class="res-lbl">'+lbl+'</div><div class="res-row"><div class="res-txt '+cls+'" id="'+id+'" contenteditable="true">'+txt+'</div><button class="cp" onclick="cpEl(\''+id+'\',this)">📋</button></div></div>';
-}
-
-// COPIAR
-function cpInput(id,btn){
-  var el=document.getElementById(id); if(!el)return;
-  copiarTxt(el.value.trim(),btn);
-}
-function cpEl(id,btn){
-  var el=document.getElementById(id); if(!el)return;
-  copiarTxt((el.value||el.textContent||el.innerText||'').trim(),btn);
-}
-function copiarTxt(txt,btn){
-  if(!txt){toast('⚠ Campo vazio');return}
-  var ta=document.createElement('textarea');
-  ta.value=txt; ta.style.cssText='position:fixed;top:-9999px;left:-9999px;opacity:0';
-  document.body.appendChild(ta); ta.focus(); ta.select();
-  var ok=false; try{ok=document.execCommand('copy')}catch(e){}
-  document.body.removeChild(ta);
-  if(ok){if(btn){btn.textContent='✅';setTimeout(function(){btn.textContent='📋'},1500)}toast('✅ Copiado!')}
-  else if(navigator.clipboard){navigator.clipboard.writeText(txt).then(function(){if(btn){btn.textContent='✅';setTimeout(function(){btn.textContent='📋'},1500)}toast('✅ Copiado!')})}
-  else toast('⚠ Selecione o texto manualmente e copie');
-}
-
-// LOAD / ERRO
-function setLoad(on,msg,sub){
-  document.getElementById('loading').style.display=on?'block':'none';
-  if(on){
-    document.getElementById('resultado').style.display='none';
-    document.getElementById('load-msg').textContent=msg||'Analisando...';
-    document.getElementById('load-sub').textContent=sub||'';
-    document.getElementById('loading').scrollIntoView({behavior:'smooth',block:'start'});
-  }
-}
-function erroIA(msg){
-  setLoad(false);
-  document.getElementById('resultado').style.display='block';
-  document.getElementById('alerta-res').innerHTML='<div class="alert ar">❌ <strong>Erro:</strong> '+(msg||'Tente novamente.')+'</div>';
-  ['campos-fv','campos-doc','tb-itens','resumo-area','totais-area'].forEach(function(id){document.getElementById(id).innerHTML=''});
-}
-
-// NOVA EXTRAÇÃO
-function novaExtracao(){
-  dadosG=null; imgB64=null; pdfB64=null;
-  document.getElementById('resultado').style.display='none';
-  document.getElementById('loading').style.display='none';
-  document.getElementById('prev-img').style.display='none';
-  document.getElementById('prev-pdf').style.display='none';
-  document.getElementById('bt-img').disabled=true;
-  document.getElementById('bt-pdf').disabled=true;
-  document.getElementById('in-img').value='';
-  document.getElementById('in-pdf').value='';
-  document.getElementById('in-txt').value='';
-  document.getElementById('in-aud').value='';
-  document.getElementById('audio-prev').style.display='none';
-  chunks=[]; tempoG=0;
-  document.getElementById('rec-timer').textContent='0:00';
-  document.getElementById('rec-status').textContent='Clique no microfone para gravar';
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-// CSV
-function exportarCSV(){
-  if(!dadosG){toast('Nenhum dado');return}
-  var d=dadosG;
-  var linhas=[['DADOS DO ORÇAMENTO',''],['Placa',d.placa||''],['KM',d.km||''],['Data',d.data_execucao||''],['Nº Orçamento',d.num_orcamento||''],['Nº OS',d.num_os||''],['Fornecedor',d.fornecedor_nome||''],['CNPJ',d.fornecedor_cnpj||''],[''],['ITENS'],['#','Descrição','Tipo','Qtd','Vlr. Unit.','Vlr. Total']];
-  (d.itens||[]).forEach(function(it,i){linhas.push([i+1,it.descricao,it.tipo,it.quantidade||1,it.valor_unitario||'',it.valor_total||''])});
-  linhas.push([''],['TOTAIS'],['Peças',d.total_pecas||''],['Serviços',d.total_servicos||''],['Desconto',d.total_desconto||''],['TOTAL GERAL',d.total_geral||'']);
-  if(d.observacoes)linhas.push(['Observações',d.observacoes]);
-  var csv=linhas.map(function(r){return r.map(function(c){return'"'+String(c||'').replace(/"/g,"'")+'"'}).join(';')}).join('\n');
-  var blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
-  var url=URL.createObjectURL(blob);
-  var a=document.createElement('a');a.href=url;a.download='orcamento.csv';a.click();
-  toast('✅ CSV exportado!');
-}
-
-// TOAST
-function toast(m){var t=document.getElementById('tk');t.textContent=m;t.classList.add('on');setTimeout(function(){t.classList.remove('on')},3000)}
-</script>
-</body>
-</html>
