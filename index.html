@@ -350,28 +350,35 @@ function chamarAPI(parts){
     return r.json();
   }).then(function(d){
     if(d.error)throw new Error(d.error);
-    // DEBUG: mostrar o que chegou
-    console.log('Resposta servidor:', JSON.stringify(d).substring(0,300));
-    // Caso 1: servidor enviou objeto direto em d.data
-    if(d.data && typeof d.data === 'object' && !Array.isArray(d.data)){
+    console.log('DEBUG keys:', Object.keys(d), 'text tipo:', typeof d.text, 'data tipo:', typeof d.data);
+    
+    // Caso 1: d.data é objeto direto
+    if(d.data && typeof d.data === 'object'){
+      console.log('Usando d.data objeto');
       return d.data;
     }
-    // Caso 2: servidor enviou string em d.text
-    if(d.text && typeof d.text === 'string'){
-      var txt = d.text.trim();
-      // Tenta parse direto
-      try{ return JSON.parse(txt); }catch(e1){}
-      // Extrai bloco JSON
-      var ini=txt.indexOf('{'), fim=txt.lastIndexOf('}');
-      if(ini>=0&&fim>ini){
-        try{ return JSON.parse(txt.substring(ini,fim+1)); }catch(e2){}
-        // Tenta corrigir JSON incompleto
-        var trecho=txt.substring(ini,fim+1).replace(/,(\s*[}\]])/g,'$1');
-        try{ return JSON.parse(trecho); }catch(e3){}
+    
+    // Caso 2: d.text é string com JSON
+    if(d.text !== undefined && d.text !== null){
+      var txt = String(d.text).trim();
+      console.log('d.text primeiros 100 chars:', txt.substring(0,100));
+      try{ 
+        var obj = JSON.parse(txt); 
+        console.log('Parse d.text OK:', obj.placa);
+        return obj; 
+      }catch(e1){
+        console.log('Parse falhou:', e1.message);
+        // Extrai bloco JSON
+        var ini=txt.indexOf('{'), fim=txt.lastIndexOf('}');
+        if(ini>=0&&fim>ini){
+          var trecho=txt.substring(ini,fim+1);
+          try{ return JSON.parse(trecho); }catch(e2){
+            console.log('Parse trecho falhou:', e2.message, 'pos:', e2.message.match(/position (\d+)/));
+          }
+        }
       }
-      throw new Error('Não foi possível processar a resposta');
     }
-    throw new Error('Estrutura inesperada: keys='+Object.keys(d).join(','));
+    throw new Error('Falhou. Ver console F12 para detalhes.');
   });
 }
 
