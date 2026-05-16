@@ -10,61 +10,51 @@
 :root{--G:#1e7e3e;--GD:#155d2d;--GL:#e8f5ee;--Y:#f5c800;--YD:#b8960a;--YL:#fffbe6;--BG:#f0f2f0;--S:#fff;--S2:#f6f8f6;--BD:#dde4dd;--T:#141a14;--T2:#4a5e4a;--T3:#8a9e8a;--R:#c0392b;--I:#1d4ed8;--IL:#eff6ff}
 body{font-family:'Barlow',sans-serif;background:var(--BG);color:var(--T);font-size:14px;min-height:100vh}
 .topbar{background:#fff;border-bottom:3px solid var(--G);padding:0 20px;height:56px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10}
-.logo-n{font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:900;color:#1a1a1a}
+.logo-n{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;color:#1a1a1a}
 .logo-n span{color:var(--G)}
 .logo-s{font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--G);text-transform:uppercase}
 .badge-ia{background:var(--YL);color:var(--YD);border:1px solid var(--Y);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;margin-left:6px}
-.wrap{max-width:920px;margin:0 auto;padding:20px}
-.card{background:#fff;border:1px solid var(--BD);border-radius:12px;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,.07);margin-bottom:16px}
+.wrap{max-width:880px;margin:0 auto;padding:20px}
+.card{background:#fff;border:1px solid var(--BD);border-radius:12px;padding:22px;box-shadow:0 1px 4px rgba(0,0,0,.07);margin-bottom:16px}
 .alert{padding:11px 14px;border-radius:8px;font-size:13px;margin-bottom:14px;border:1px solid transparent;line-height:1.5}
 .ag{background:var(--GL);color:var(--GD);border-color:#a3d4b5}
 .ar{background:#fdecea;color:var(--R);border-color:#fca5a5}
 .aw{background:var(--YL);color:var(--YD);border-color:#fcd34d}
-/* TABS */
 .tabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}
-.tab{padding:10px 16px;border-radius:8px;border:2px solid var(--BD);background:#fff;cursor:pointer;font-family:'Barlow',sans-serif;font-size:13px;font-weight:600;color:var(--T2);transition:all .15s;display:flex;align-items:center;gap:6px}
+.tab{padding:10px 16px;border-radius:8px;border:2px solid var(--BD);background:#fff;cursor:pointer;font-family:'Barlow',sans-serif;font-size:13px;font-weight:600;color:var(--T2)}
 .tab:hover{border-color:var(--G);color:var(--G);background:var(--GL)}
 .tab.on{border-color:var(--G);background:var(--G);color:#fff}
 .painel{display:none}.painel.on{display:block}
-/* UPLOAD */
-.uparea{border:2px dashed var(--BD);border-radius:10px;padding:30px 20px;text-align:center;background:var(--S2);cursor:pointer;transition:all .2s}
-.uparea:hover{border-color:var(--G);background:var(--GL)}
-.up-icon{font-size:38px;margin-bottom:8px}
-.up-title{font-size:15px;font-weight:700;margin-bottom:4px}
-.up-sub{font-size:12px;color:var(--T2);margin-bottom:6px}
-.up-types{font-size:11px;color:var(--T3);background:var(--BG);padding:3px 10px;border-radius:20px;display:inline-block}
-.prev-file{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#fff;border:1px solid var(--BD);border-radius:8px;margin-top:12px;font-size:13px;font-weight:600}
-.prev-img{max-width:100%;max-height:260px;border-radius:8px;border:1px solid var(--BD);margin-top:10px;display:block;margin-left:auto;margin-right:auto}
-/* BTN EXTRAIR */
-.btn-ext{width:100%;padding:13px;background:var(--G);color:#fff;border:none;border-radius:9px;font-family:'Barlow',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-top:14px;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .15s}
+/* UPLOAD — botão simples e direto */
+.up-btn{display:block;width:100%;padding:30px 20px;background:var(--S2);border:2px dashed var(--BD);border-radius:10px;text-align:center;cursor:pointer;font-family:'Barlow',sans-serif;font-size:15px;font-weight:700;color:var(--G);transition:all .2s;margin-bottom:12px}
+.up-btn:hover{background:var(--GL);border-color:var(--G)}
+.up-sub{display:block;font-size:12px;color:var(--T3);font-weight:400;margin-top:6px}
+.up-types{display:inline-block;font-size:11px;color:var(--T3);background:var(--BG);padding:2px 10px;border-radius:20px;margin-top:6px}
+.prev-file{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#fff;border:1px solid var(--BD);border-radius:8px;margin-bottom:12px;font-size:13px;font-weight:600}
+.prev-img{max-width:100%;max-height:250px;border-radius:8px;border:1px solid var(--BD);display:block;margin:0 auto 12px}
+.btn-ext{width:100%;padding:13px;background:var(--G);color:#fff;border:none;border-radius:9px;font-family:'Barlow',sans-serif;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px}
 .btn-ext:hover{background:var(--GD)}
 .btn-ext:disabled{background:#9ab59a;cursor:not-allowed}
-.spinner{width:20px;height:20px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:giro .8s linear infinite;display:none}
+.spin{width:20px;height:20px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:giro .8s linear infinite;display:none}
 @keyframes giro{to{transform:rotate(360deg)}}
-/* TEXTO */
-.txt-in{width:100%;padding:14px;border:1.5px solid var(--BD);border-radius:10px;font-family:'Barlow',sans-serif;font-size:14px;color:var(--T);resize:vertical;min-height:150px;background:#fff}
+.txt-in{width:100%;padding:14px;border:1.5px solid var(--BD);border-radius:10px;font-family:'Barlow',sans-serif;font-size:14px;color:var(--T);resize:vertical;min-height:150px;background:#fff;margin-bottom:8px}
 .txt-in:focus{outline:none;border-color:var(--G)}
-.ex-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center}
+.ex-row{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center}
 .ex-btn{padding:5px 12px;border-radius:6px;border:1px solid var(--BD);background:#fff;cursor:pointer;font-size:12px;color:var(--T2);font-family:'Barlow',sans-serif}
 .ex-btn:hover{background:var(--GL);border-color:var(--G)}
-/* AUDIO */
-.rec-wrap{text-align:center;padding:20px}
-.rec-btn{width:76px;height:76px;border-radius:50%;border:none;cursor:pointer;font-size:30px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;background:var(--G);color:#fff;box-shadow:0 4px 16px rgba(30,126,62,.3);transition:all .2s}
+.rec-wrap{text-align:center;padding:20px 0}
+.rec-btn{width:76px;height:76px;border-radius:50%;border:none;cursor:pointer;font-size:30px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;background:var(--G);color:#fff}
 .rec-btn.rec{background:var(--R);animation:pulse 1s ease-in-out infinite}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
 .rec-timer{font-family:'DM Mono',monospace;font-size:26px;color:var(--G);margin-bottom:6px}
-.rec-timer.verm{color:var(--R)}
-.rec-status{font-size:13px;color:var(--T2);font-weight:600;margin-bottom:4px}
-/* LOADING */
+.rec-status{font-size:13px;color:var(--T2);font-weight:600;margin-bottom:12px}
 #loading{display:none;text-align:center;padding:40px}
-.spin{width:48px;height:48px;border:4px solid var(--GL);border-top-color:var(--G);border-radius:50%;animation:giro .8s linear infinite;margin:0 auto 14px}
-/* RESULTADO */
+.spin-big{width:48px;height:48px;border:4px solid var(--GL);border-top-color:var(--G);border-radius:50%;animation:giro .8s linear infinite;margin:0 auto 14px}
 #resultado{display:none}
 .res-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px}
 .res-title{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--GD)}
 .btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:7px;border:none;cursor:pointer;font-family:'Barlow',sans-serif;font-size:13px;font-weight:600}
-.bp{background:var(--G);color:#fff}.bp:hover{background:var(--GD)}
-.bs{background:var(--S2);color:var(--T);border:1.5px solid var(--BD)}.bs:hover{background:var(--BD)}
+.bp{background:var(--G);color:#fff}.bs{background:var(--S2);color:var(--T);border:1.5px solid var(--BD)}
 .sec{font-size:11px;font-weight:700;color:var(--T2);text-transform:uppercase;letter-spacing:.6px;margin:16px 0 10px;padding-left:10px;border-left:3px solid var(--G)}
 .campos{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:10px}
 .campo{background:var(--S2);border:1px solid var(--BD);border-radius:8px;padding:10px 12px}
@@ -72,26 +62,24 @@ body{font-family:'Barlow',sans-serif;background:var(--BG);color:var(--T);font-si
 .campo-row{display:flex;align-items:center;gap:5px}
 .campo-v{flex:1;font-size:14px;font-weight:600;color:var(--T);background:transparent;border:none;font-family:'Barlow',sans-serif;width:100%;outline:none}
 .campo-v.mono{font-family:'DM Mono',monospace;font-size:13px}
-.campo-v:focus{border-bottom:1px dashed var(--G)}
 .cp{background:none;border:1px solid var(--BD);border-radius:4px;padding:2px 6px;cursor:pointer;font-size:11px;flex-shrink:0}
 .cp:hover{background:var(--GL)}
-.cp.ok{background:var(--GL);border-color:var(--G);color:var(--GD)}
 .tw{overflow-x:auto;border-radius:8px;border:1px solid var(--BD)}
 table{width:100%;border-collapse:collapse;font-size:13px}
 th{padding:9px 12px;text-align:left;font-size:10px;font-weight:700;color:var(--T2);text-transform:uppercase;letter-spacing:.5px;background:var(--S2);border-bottom:1.5px solid var(--BD);white-space:nowrap}
 td{padding:10px 12px;border-bottom:1px solid var(--BD);vertical-align:middle}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:var(--GL)}
-td[contenteditable=true]:focus{background:#fffbe6;outline:none}
+td[contenteditable]:focus{background:#fffbe6;outline:none}
 .tag-p{background:var(--IL);color:var(--I);padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700}
 .tag-s{background:var(--GL);color:var(--GD);padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700}
-.tag-o{background:var(--YL);color:var(--YD);padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700}
-.resumo-bloco{margin-bottom:10px}
-.resumo-lbl{font-size:10px;font-weight:700;color:var(--T2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px}
-.resumo-row{display:flex;align-items:flex-start;gap:8px}
-.resumo-txt{flex:1;border:1px solid var(--BD);border-radius:7px;padding:10px 13px;font-size:13px;font-weight:500;line-height:1.6;background:var(--S2);word-break:break-word}
-.resumo-txt.azul{background:var(--IL);border-color:#c7d2fe}
-.resumo-txt.verde{background:var(--GL);border-color:#a3d4b5}
+.tag-d{background:#fdecea;color:var(--R);padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700}
+.res-bloco{margin-bottom:10px}
+.res-lbl{font-size:10px;font-weight:700;color:var(--T2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px}
+.res-row{display:flex;align-items:flex-start;gap:8px}
+.res-txt{flex:1;border:1px solid var(--BD);border-radius:7px;padding:10px 13px;font-size:13px;font-weight:500;line-height:1.6;background:var(--S2);word-break:break-word;min-height:36px}
+.res-txt.azul{background:var(--IL);border-color:#c7d2fe}
+.res-txt.verde{background:var(--GL);border-color:#a3d4b5}
 .totais{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:4px}
 .tot{padding:14px;border-radius:9px;text-align:center}
 .tot.p{background:var(--YL);border:1px solid #fcd34d}
@@ -117,7 +105,7 @@ td[contenteditable=true]:focus{background:#fffbe6;outline:none}
 </div>
 
 <div class="wrap">
-  <div class="alert ag">🤖 <strong>Envie qualquer formato:</strong> PDF, foto, print de WhatsApp, nota manuscrita, texto ou áudio. A IA lê tudo e extrai placa, KM, CNPJ, fornecedor, Nº orçamento, Nº OS, peças, serviços, descontos e valores automaticamente.</div>
+  <div class="alert ag">🤖 <strong>Envie qualquer formato:</strong> PDF, foto, print de WhatsApp, nota manuscrita, texto ou áudio. A IA extrai placa, KM, CNPJ, fornecedor, Nº orçamento, Nº OS, peças, serviços, descontos e valores.</div>
 
   <div class="tabs">
     <button class="tab on" onclick="setTab('img',this)">🖼 Foto / Print</button>
@@ -129,20 +117,18 @@ td[contenteditable=true]:focus{background:#fffbe6;outline:none}
   <!-- IMAGEM -->
   <div id="p-img" class="painel on">
     <div class="card">
-      <label class="uparea" style="display:block;cursor:pointer">
-        <input type="file" id="in-img" accept="image/*" style="display:none" onchange="selecionarImg(this)">
-        <div class="up-icon">📷</div>
-        <div class="up-title">Clique aqui para selecionar foto ou print</div>
-        <div class="up-sub">Funciona com print de WhatsApp, foto de papel, nota manuscrita</div>
-        <div class="up-types">JPG • PNG • JPEG • WEBP</div>
-      </label>
+      <input type="file" id="in-img" accept="image/*" style="display:none" onchange="selecionarImg(this)">
+      <button class="up-btn" onclick="document.getElementById('in-img').click()">
+        📷 Clique aqui para selecionar foto ou print
+        <span class="up-sub">Funciona com print de WhatsApp, foto de papel, nota manuscrita</span>
+        <span class="up-types">JPG • PNG • JPEG • WEBP</span>
+      </button>
       <div id="prev-img" style="display:none">
-        <div class="prev-file"><span>🖼</span><div><div id="nome-img" style="font-weight:600;font-size:13px"></div><div id="tam-img" style="font-size:11px;color:var(--T3)"></div></div></div>
-        <img id="img-preview" class="prev-img" alt="">
+        <div class="prev-file"><span>🖼</span><div><b id="nome-img"></b><div id="tam-img" style="font-size:11px;color:var(--T3)"></div></div></div>
+        <img id="img-show" class="prev-img" alt="">
       </div>
       <button class="btn-ext" id="bt-img" onclick="extrairImg()" disabled>
-        <div class="spinner" id="sp-img"></div>
-        <span>🔍 Extrair dados da imagem</span>
+        <div class="spin" id="sp-img"></div><span>🔍 Extrair dados da imagem</span>
       </button>
     </div>
   </div>
@@ -150,19 +136,17 @@ td[contenteditable=true]:focus{background:#fffbe6;outline:none}
   <!-- PDF -->
   <div id="p-pdf" class="painel">
     <div class="card">
-      <label class="uparea" style="display:block;cursor:pointer">
-        <input type="file" id="in-pdf" accept=".pdf" style="display:none" onchange="selecionarPdf(this)">
-        <div class="up-icon">📄</div>
-        <div class="up-title">Clique aqui para selecionar o PDF</div>
-        <div class="up-sub">Melhor resultado — use o PDF original sempre que possível</div>
-        <div class="up-types">PDF</div>
-      </label>
+      <input type="file" id="in-pdf" accept=".pdf" style="display:none" onchange="selecionarPdf(this)">
+      <button class="up-btn" onclick="document.getElementById('in-pdf').click()">
+        📄 Clique aqui para selecionar o PDF
+        <span class="up-sub">Melhor resultado — use o PDF original sempre que possível</span>
+        <span class="up-types">PDF</span>
+      </button>
       <div id="prev-pdf" style="display:none">
-        <div class="prev-file"><span>📄</span><div><div id="nome-pdf" style="font-weight:600;font-size:13px"></div><div id="tam-pdf" style="font-size:11px;color:var(--T3)"></div></div></div>
+        <div class="prev-file"><span>📄</span><div><b id="nome-pdf"></b><div id="tam-pdf" style="font-size:11px;color:var(--T3)"></div></div></div>
       </div>
       <button class="btn-ext" id="bt-pdf" onclick="extrairPdf()" disabled>
-        <div class="spinner" id="sp-pdf"></div>
-        <span>🔍 Extrair dados do PDF</span>
+        <div class="spin" id="sp-pdf"></div><span>🔍 Extrair dados do PDF</span>
       </button>
     </div>
   </div>
@@ -170,17 +154,16 @@ td[contenteditable=true]:focus{background:#fffbe6;outline:none}
   <!-- TEXTO -->
   <div id="p-txt" class="painel">
     <div class="card">
-      <div style="font-size:13px;font-weight:600;color:var(--T2);margin-bottom:8px">Cole aqui a mensagem do fornecedor (WhatsApp, e-mail, SMS ou qualquer texto):</div>
-      <textarea class="txt-in" id="in-txt" placeholder="Ex: Placa ABC-1234, km 45000, troca de óleo R$80, filtro R$35, pastilha R$89, mão de obra R$150. Total R$354. CNPJ 12.345.678/0001-90 Oficina Silva"></textarea>
+      <div style="font-size:13px;font-weight:600;color:var(--T2);margin-bottom:8px">Cole aqui a mensagem do fornecedor (WhatsApp, e-mail, SMS):</div>
+      <textarea class="txt-in" id="in-txt" placeholder="Ex: Placa ABC-1234, km 45000, troca de óleo R$80, filtro R$35, mão de obra R$150. Total R$265. CNPJ 12.345.678/0001-90 Oficina Silva"></textarea>
       <div class="ex-row">
         <span style="font-size:11px;color:var(--T3)">Exemplos:</span>
         <button class="ex-btn" onclick="exTxt(1)">Mensagem WhatsApp</button>
-        <button class="ex-btn" onclick="exTxt(2)">Lista de peças</button>
+        <button class="ex-btn" onclick="exTxt(2)">Lista com desconto</button>
         <button class="ex-btn" onclick="exTxt(3)">E-mail formal</button>
       </div>
       <button class="btn-ext" id="bt-txt" onclick="extrairTxt()">
-        <div class="spinner" id="sp-txt"></div>
-        <span>🔍 Extrair dados do texto</span>
+        <div class="spin" id="sp-txt"></div><span>🔍 Extrair dados do texto</span>
       </button>
     </div>
   </div>
@@ -192,32 +175,30 @@ td[contenteditable=true]:focus{background:#fffbe6;outline:none}
         <button class="rec-btn" id="bt-rec" onclick="toggleRec()">🎙</button>
         <div class="rec-timer" id="rec-timer">0:00</div>
         <div class="rec-status" id="rec-status">Clique no microfone para gravar</div>
-        <div style="font-size:12px;color:var(--T3);margin-top:6px">Fale a placa, KM, peças, valores e fornecedor</div>
       </div>
       <div id="audio-prev" style="display:none;margin-bottom:12px">
         <audio id="audio-player" controls style="width:100%;border-radius:8px"></audio>
       </div>
       <div style="padding-top:12px;border-top:1px solid var(--BD)">
-        <div style="font-size:13px;font-weight:600;color:var(--T2);margin-bottom:6px">Ou transcreva manualmente o áudio:</div>
-        <textarea class="txt-in" id="in-aud" style="min-height:90px" placeholder="Digite aqui o que foi falado no áudio..."></textarea>
+        <div style="font-size:13px;font-weight:600;color:var(--T2);margin-bottom:6px">Ou transcreva o áudio aqui:</div>
+        <textarea class="txt-in" id="in-aud" style="min-height:90px" placeholder="Digite o que foi falado no áudio..."></textarea>
       </div>
       <button class="btn-ext" id="bt-aud" onclick="extrairAud()">
-        <div class="spinner" id="sp-aud"></div>
-        <span>🔍 Extrair dados</span>
+        <div class="spin" id="sp-aud"></div><span>🔍 Extrair dados</span>
       </button>
     </div>
   </div>
 
   <!-- LOADING -->
   <div id="loading">
-    <div class="spin"></div>
+    <div class="spin-big"></div>
     <div style="font-size:15px;font-weight:600;color:var(--T2)" id="load-msg">Analisando...</div>
     <div style="font-size:12px;color:var(--T3);margin-top:4px" id="load-sub">A IA está lendo e extraindo os dados</div>
   </div>
 
   <!-- RESULTADO -->
   <div id="resultado">
-    <div id="alerta-res"></div>
+    <div id="alerta-res" style="margin-bottom:12px"></div>
     <div class="card">
       <div class="res-top">
         <div class="res-title">✅ Dados extraídos</div>
@@ -226,28 +207,17 @@ td[contenteditable=true]:focus{background:#fffbe6;outline:none}
           <button class="btn bs" onclick="exportarCSV()">⬇ CSV</button>
         </div>
       </div>
-
       <div class="sec">🏢 Fornecedor e veículo</div>
       <div class="campos" id="campos-fv"></div>
-
       <div class="sec">📋 Identificação do documento</div>
       <div class="campos" id="campos-doc"></div>
-
       <div class="sec">🔧 Peças e serviços</div>
-      <div class="tw">
-        <table><thead><tr><th>#</th><th>Descrição</th><th>Tipo</th><th>Qtd</th><th>Vlr. unit.</th><th>Vlr. total</th></tr></thead>
-        <tbody id="tb-itens"></tbody></table>
-      </div>
-
-      <div class="sec" style="margin-top:16px">📋 Resumo para copiar</div>
+      <div class="tw"><table><thead><tr><th>#</th><th>Descrição</th><th>Tipo</th><th>Qtd</th><th>Vlr. unit.</th><th>Vlr. total</th></tr></thead><tbody id="tb-itens"></tbody></table></div>
+      <div class="sec" style="margin-top:16px">📋 Resumo para copiar (sem valores)</div>
       <div id="resumo-area"></div>
-
       <div class="sec" style="margin-top:4px">💰 Totais</div>
       <div class="totais" id="totais-area"></div>
-
-      <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--BD);font-size:11px;color:var(--T3)">
-        ✏ Clique em qualquer campo para editar &nbsp;|&nbsp; 🤖 Sempre revise antes de usar
-      </div>
+      <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--BD);font-size:11px;color:var(--T3)">✏ Clique em qualquer campo para editar &nbsp;|&nbsp; 🤖 Revise sempre antes de usar</div>
     </div>
   </div>
 </div>
@@ -255,413 +225,302 @@ td[contenteditable=true]:focus{background:#fffbe6;outline:none}
 <div class="toast" id="tk"></div>
 
 <script>
-// ===== ESTADO =====
-var dadosG = null;
-var imgB64 = null;
-var imgMime = null;
-var pdfB64 = null;
-var mediaRec = null;
-var gravando = false;
-var timerInt = null;
-var tempoG = 0;
-var chunks = [];
+var dadosG=null, imgB64=null, imgMime=null, pdfB64=null;
+var mediaRec=null, gravando=false, timerInt=null, tempoG=0, chunks=[];
 
-// ===== TABS =====
-function setTab(id, btn) {
+// TABS
+function setTab(id,btn){
   document.querySelectorAll('.painel').forEach(function(p){p.classList.remove('on')});
   document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('on')});
   document.getElementById('p-'+id).classList.add('on');
   btn.classList.add('on');
 }
 
-// ===== IMAGEM =====
-function selecionarImg(inp) {
-  var f = inp.files[0];
-  if (!f) return;
-  var r = new FileReader();
-  r.onload = function(e) {
-    imgB64 = e.target.result.split(',')[1];
-    imgMime = f.type || 'image/jpeg';
-    document.getElementById('nome-img').textContent = f.name;
-    document.getElementById('tam-img').textContent = (f.size/1024/1024).toFixed(2) + ' MB';
-    document.getElementById('img-preview').src = e.target.result;
-    document.getElementById('prev-img').style.display = 'block';
-    document.getElementById('bt-img').disabled = false;
+// IMAGEM
+function selecionarImg(inp){
+  var f=inp.files[0]; if(!f)return;
+  var r=new FileReader();
+  r.onload=function(e){
+    imgB64=e.target.result.split(',')[1];
+    imgMime=f.type||'image/jpeg';
+    document.getElementById('nome-img').textContent=f.name;
+    document.getElementById('tam-img').textContent=(f.size/1024/1024).toFixed(2)+' MB';
+    document.getElementById('img-show').src=e.target.result;
+    document.getElementById('prev-img').style.display='block';
+    document.getElementById('bt-img').disabled=false;
   };
   r.readAsDataURL(f);
 }
-
-function extrairImg() {
-  if (!imgB64) { toast('⚠ Selecione uma imagem primeiro'); return; }
-  setLoad(true, 'Analisando a imagem...', 'Lendo o print e extraindo os dados');
-  var parts = [
-    { inline_data: { mime_type: imgMime, data: imgB64 } },
-    { text: montarPrompt() }
-  ];
-  chamarAPI(parts).then(function(txt) {
-    processar(txt);
-  }).catch(function(e) {
-    erroIA(e.message);
-  });
+function extrairImg(){
+  if(!imgB64){toast('⚠ Selecione uma imagem');return}
+  setLoad(true,'Analisando a imagem...','Lendo o print e identificando os dados');
+  chamarAPI([{inline_data:{mime_type:imgMime,data:imgB64}},{text:prompt()}])
+    .then(processar).catch(function(e){erroIA(e.message)});
 }
 
-// ===== PDF =====
-function selecionarPdf(inp) {
-  var f = inp.files[0];
-  if (!f) return;
-  var r = new FileReader();
-  r.onload = function(e) {
-    pdfB64 = e.target.result.split(',')[1];
-    document.getElementById('nome-pdf').textContent = f.name;
-    document.getElementById('tam-pdf').textContent = (f.size/1024/1024).toFixed(2) + ' MB';
-    document.getElementById('prev-pdf').style.display = 'block';
-    document.getElementById('bt-pdf').disabled = false;
+// PDF
+function selecionarPdf(inp){
+  var f=inp.files[0]; if(!f)return;
+  var r=new FileReader();
+  r.onload=function(e){
+    pdfB64=e.target.result.split(',')[1];
+    document.getElementById('nome-pdf').textContent=f.name;
+    document.getElementById('tam-pdf').textContent=(f.size/1024/1024).toFixed(2)+' MB';
+    document.getElementById('prev-pdf').style.display='block';
+    document.getElementById('bt-pdf').disabled=false;
   };
   r.readAsDataURL(f);
 }
-
-function extrairPdf() {
-  if (!pdfB64) { toast('⚠ Selecione um PDF primeiro'); return; }
-  setLoad(true, 'Lendo o PDF...', 'Processando documento e extraindo dados');
-  var parts = [
-    { inline_data: { mime_type: 'application/pdf', data: pdfB64 } },
-    { text: montarPrompt() }
-  ];
-  chamarAPI(parts).then(function(txt) {
-    processar(txt);
-  }).catch(function(e) {
-    erroIA(e.message);
-  });
+function extrairPdf(){
+  if(!pdfB64){toast('⚠ Selecione um PDF');return}
+  setLoad(true,'Lendo o PDF...','Processando e extraindo os dados');
+  chamarAPI([{inline_data:{mime_type:'application/pdf',data:pdfB64}},{text:prompt()}])
+    .then(processar).catch(function(e){erroIA(e.message)});
 }
 
-// ===== TEXTO =====
-function exTxt(n) {
-  var ex = {
-    1: 'Boa tarde!\nPlaca ABC-1234, km 47.500, OS nº 089\nTroca óleo 10W40 - R$ 45,00\nFiltro de óleo - R$ 28,00\nPastilha freio dianteira - R$ 89,00\nDesconto 10% - R$ 16,20\nMão de obra - R$ 80,00\nTotal com desconto: R$ 225,80\nCNPJ: 12.345.678/0001-90 - Oficina Silva',
-    2: 'Placa XYZ-5678 | KM 89.200 | Orç. 447\nAmortecedor dianteiro esq R$ 180,00\nAmortecedor dianteiro dir R$ 180,00\nServiço alinhamento R$ 60,00\nServiço balanceamento R$ 40,00\nDesconto fidelidade R$ 20,00\nTotal R$ 440,00\nAuto Peças Norte - CNPJ 98.765.432/0001-10',
-    3: 'Prezado Rodrigo,\nSegue orçamento nº 2025-053:\nVeículo: Honda CG 160 | Placa DEF-9012 | KM 12.400\n- Corrente e pinhões: R$ 85,00\n- Vela NGK: R$ 18,00\n- Óleo 10W30: R$ 32,00\n- Mão de obra: R$ 80,00\nSubtotal: R$ 215,00\nDesconto 5%: R$ 10,75\nTotal: R$ 204,25\nElétrica Rápida - CNPJ 55.123.456/0001-78'
+// TEXTO
+function exTxt(n){
+  var ex={
+    1:'Boa tarde!\nPlaca ABC-1234, km 47.500, OS nº 089\nTroca óleo 10W40 R$ 45,00\nFiltro de óleo R$ 28,00\nPastilha freio dianteira R$ 89,00\nDesconto 10% R$ -16,20\nMão de obra R$ 80,00\nTotal: R$ 225,80\nCNPJ: 12.345.678/0001-90 Oficina Silva',
+    2:'Placa XYZ-5678 KM 89.200\nAmortecedor dianteiro esq R$ 180,00\nAmortecedor dianteiro dir R$ 180,00\nAlinhamento R$ 60,00\nBalanceamento R$ 40,00\nDesconto fidelidade R$ -20,00\nTotal R$ 440,00\nAuto Peças Norte CNPJ 98.765.432/0001-10',
+    3:'Prezado Rodrigo,\nOrçamento nº 2025-053:\nHonda CG 160 Placa DEF-9012 KM 12.400\nCorrente e pinhões R$ 85,00\nVela NGK R$ 18,00\nÓleo 10W30 R$ 32,00\nMão de obra R$ 80,00\nDesconto 5% R$ -10,75\nTotal R$ 204,25\nElétrica Rápida CNPJ 55.123.456/0001-78'
   };
-  document.getElementById('in-txt').value = ex[n];
+  document.getElementById('in-txt').value=ex[n];
+}
+function extrairTxt(){
+  var txt=document.getElementById('in-txt').value.trim();
+  if(!txt){toast('⚠ Cole ou digite o texto');return}
+  setLoad(true,'Analisando o texto...','Extraindo dados da mensagem');
+  chamarAPI([{text:prompt()+'\n\nTexto do orçamento:\n"""\n'+txt+'\n"""'}])
+    .then(processar).catch(function(e){erroIA(e.message)});
 }
 
-function extrairTxt() {
-  var txt = document.getElementById('in-txt').value.trim();
-  if (!txt) { toast('⚠ Cole ou digite o texto do orçamento'); return; }
-  setLoad(true, 'Analisando o texto...', 'Extraindo dados da mensagem');
-  var parts = [{ text: montarPrompt() + '\n\nTexto do orçamento:\n"""\n' + txt + '\n"""' }];
-  chamarAPI(parts).then(function(r) {
-    processar(r);
-  }).catch(function(e) {
-    erroIA(e.message);
-  });
-}
-
-// ===== AUDIO =====
-function toggleRec() {
-  if (!gravando) {
-    navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream) {
-      mediaRec = new MediaRecorder(stream);
-      chunks = [];
-      mediaRec.ondataavailable = function(e) { if(e.data.size>0) chunks.push(e.data); };
-      mediaRec.onstop = function() {
-        var blob = new Blob(chunks, {type:'audio/webm'});
-        document.getElementById('audio-player').src = URL.createObjectURL(blob);
-        document.getElementById('audio-prev').style.display = 'block';
+// ÁUDIO
+function toggleRec(){
+  if(!gravando){
+    navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
+      mediaRec=new MediaRecorder(stream); chunks=[];
+      mediaRec.ondataavailable=function(e){if(e.data.size>0)chunks.push(e.data)};
+      mediaRec.onstop=function(){
+        var blob=new Blob(chunks,{type:'audio/webm'});
+        document.getElementById('audio-player').src=URL.createObjectURL(blob);
+        document.getElementById('audio-prev').style.display='block';
         stream.getTracks().forEach(function(t){t.stop()});
       };
-      mediaRec.start();
-      gravando = true; tempoG = 0;
+      mediaRec.start(); gravando=true; tempoG=0;
       document.getElementById('bt-rec').classList.add('rec');
-      document.getElementById('bt-rec').textContent = '⏹';
-      document.getElementById('rec-status').textContent = 'Gravando... fale as peças e valores';
-      timerInt = setInterval(function() {
+      document.getElementById('bt-rec').textContent='⏹';
+      document.getElementById('rec-status').textContent='Gravando... fale as peças e valores';
+      timerInt=setInterval(function(){
         tempoG++;
-        var m = Math.floor(tempoG/60), s = tempoG%60;
-        document.getElementById('rec-timer').textContent = m+':'+(s<10?'0':'')+s;
-        if(tempoG >= 120) toggleRec();
-      }, 1000);
-    }).catch(function() {
-      toast('⚠ Microfone não disponível. Use a transcrição manual.');
-    });
+        var m=Math.floor(tempoG/60),s=tempoG%60;
+        document.getElementById('rec-timer').textContent=m+':'+(s<10?'0':'')+s;
+        if(tempoG>=120)toggleRec();
+      },1000);
+    }).catch(function(){toast('⚠ Microfone não disponível. Use a transcrição manual.')});
   } else {
-    gravando = false;
-    clearInterval(timerInt);
-    if(mediaRec) mediaRec.stop();
+    gravando=false; clearInterval(timerInt);
+    if(mediaRec)mediaRec.stop();
     document.getElementById('bt-rec').classList.remove('rec');
-    document.getElementById('bt-rec').textContent = '🎙';
-    document.getElementById('rec-status').textContent = 'Gravação concluída! Clique em Extrair.';
+    document.getElementById('bt-rec').textContent='🎙';
+    document.getElementById('rec-status').textContent='Gravação concluída! Clique em Extrair.';
   }
 }
-
-function extrairAud() {
-  var manual = document.getElementById('in-aud').value.trim();
-  if (!manual) { toast('⚠ Grave um áudio ou use a transcrição manual'); return; }
-  setLoad(true, 'Analisando transcrição...', 'Extraindo dados do texto');
-  var parts = [{ text: montarPrompt() + '\n\nTranscrição do áudio:\n"""\n' + manual + '\n"""' }];
-  chamarAPI(parts).then(function(r) {
-    processar(r);
-  }).catch(function(e) {
-    erroIA(e.message);
-  });
+function extrairAud(){
+  var txt=document.getElementById('in-aud').value.trim();
+  if(!txt){toast('⚠ Grave um áudio ou use a transcrição manual');return}
+  setLoad(true,'Analisando...','Extraindo dados');
+  chamarAPI([{text:prompt()+'\n\nTranscrição:\n"""\n'+txt+'\n"""'}])
+    .then(processar).catch(function(e){erroIA(e.message)});
 }
 
-// ===== PROMPT =====
-function montarPrompt() {
-  return 'Analise este orçamento automotivo brasileiro e retorne APENAS um JSON válido, sem texto antes ou depois.\n\nIMPORTANTE: Extraia também descontos — se houver desconto, inclua como item com tipo "desconto" e valor negativo.\n\nRetorne exatamente neste formato:\n{"placa":null,"km":null,"data_execucao":null,"num_orcamento":null,"num_os":null,"fornecedor_nome":null,"fornecedor_cnpj":null,"itens":[{"descricao":"nome","tipo":"peca ou servico ou desconto","quantidade":1,"valor_unitario":0.00,"valor_total":0.00}],"total_pecas":0.00,"total_servicos":0.00,"total_desconto":0.00,"total_geral":0.00,"observacoes":null,"confianca":"alta"}\n\nRegras:\n- placa: maiúscula com traço ex: ABC-1234\n- km: número inteiro\n- CNPJ: somente do fornecedor, nunca da Engelmig\n- valores: decimal com ponto ex: 150.00\n- desconto: valor_total negativo ex: -16.20\n- total_geral: valor final após desconto\n- Retorne SOMENTE o JSON, começando com { e terminando com }';
+// PROMPT
+function prompt(){
+  return 'Analise este orçamento automotivo brasileiro.\nRetorne SOMENTE um JSON válido, começando com { e terminando com }, sem texto antes ou depois, sem markdown.\n\nFormato obrigatório:\n{"placa":null,"km":null,"data_execucao":null,"num_orcamento":null,"num_os":null,"fornecedor_nome":null,"fornecedor_cnpj":null,"itens":[{"descricao":"nome do item","tipo":"peca","quantidade":1,"valor_unitario":0.00,"valor_total":0.00}],"total_pecas":0.00,"total_servicos":0.00,"total_desconto":0.00,"total_geral":0.00,"observacoes":null,"confianca":"alta"}\n\nRegras:\n- placa: maiúscula com traço ex ABC-1234\n- km: número inteiro sem pontos\n- fornecedor_cnpj: somente do fornecedor nunca da Engelmig\n- tipo de item: peca para peças materiais, servico para mão de obra, desconto para descontos\n- desconto: valor_total negativo ex -16.20\n- total_geral: valor final com desconto\n- valores com ponto decimal ex 150.00\n- Retorne SOMENTE o JSON';
 }
 
-// ===== API =====
-function chamarAPI(parts) {
-  return fetch('/api', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
-      contents: [{ parts: parts }],
-      generationConfig: { maxOutputTokens: 3000, temperature: 0.1 }
-    })
-  }).then(function(r) {
-    if (!r.ok) return r.text().then(function(t){ throw new Error('Erro servidor: ' + t.substring(0,100)); });
+// API
+function chamarAPI(parts){
+  return fetch('/api',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({contents:[{parts:parts}],generationConfig:{maxOutputTokens:3000,temperature:0.1}})
+  }).then(function(r){
+    if(!r.ok)return r.text().then(function(t){throw new Error('Erro: '+t.substring(0,100))});
     return r.json();
-  }).then(function(d) {
-    if (d.error) throw new Error(d.error);
-    if (!d.text) throw new Error('Resposta vazia do servidor');
+  }).then(function(d){
+    if(d.error)throw new Error(d.error);
+    if(!d.text)throw new Error('Resposta vazia');
     return d.text;
   });
 }
 
-// ===== PROCESSAR =====
-function processar(txt) {
+// PROCESSAR
+function processar(txt){
   setLoad(false);
-  try {
-    // Limpar markdown e caracteres problemáticos
-    var limpo = txt
-      .replace(/```json/gi,'').replace(/```/g,'')
-      .replace(/[ -]/g, ' ')
-      .trim();
-    
+  try{
+    var limpo=txt.replace(/```json/gi,'').replace(/```/g,'').trim();
+    // Remove caracteres de controle
+    limpo=limpo.replace(/[\x00-\x1F\x7F]/g,function(c){return c==='\n'||c==='\r'||c==='\t'?' ':''});
     var d;
-    // Tenta parse direto
-    try { d = JSON.parse(limpo); }
-    catch(e1) {
-      // Extrai o maior bloco JSON
-      var inicio = limpo.indexOf('{');
-      var fim = limpo.lastIndexOf('}');
-      if (inicio >= 0 && fim > inicio) {
-        var trecho = limpo.substring(inicio, fim+1);
-        try { d = JSON.parse(trecho); }
-        catch(e2) {
-          // Tenta corrigir JSON truncado adicionando fechamentos
-          var tentativa = trecho;
-          // Conta arrays e objetos abertos
-          var abre = (tentativa.match(/\[/g)||[]).length;
-          var fecha = (tentativa.match(/\]/g)||[]).length;
-          var abreO = (tentativa.match(/\{/g)||[]).length;
-          var fechaO = (tentativa.match(/\}/g)||[]).length;
-          // Remove última vírgula antes de fechar
-          tentativa = tentativa.replace(/,\s*([}\]])/g,'$1');
-          for(var i=0;i<abre-fecha;i++) tentativa += ']';
-          for(var j=0;j<abreO-fechaO;j++) tentativa += '}';
-          try { d = JSON.parse(tentativa); }
-          catch(e3) { throw new Error('Não foi possível interpretar a resposta'); }
-        }
-      } else {
-        throw new Error('JSON não encontrado na resposta');
-      }
+    try{d=JSON.parse(limpo)}
+    catch(e1){
+      var ini=limpo.indexOf('{'), fim=limpo.lastIndexOf('}');
+      if(ini>=0&&fim>ini){
+        var trecho=limpo.substring(ini,fim+1);
+        // Remove vírgulas antes de fechar
+        trecho=trecho.replace(/,(\s*[}\]])/g,'$1');
+        try{d=JSON.parse(trecho)}
+        catch(e2){throw new Error('Não foi possível interpretar a resposta da IA')}
+      } else throw new Error('JSON não encontrado na resposta');
     }
-    dadosG = d;
-    renderizar(d);
-  } catch(e) {
-    erroIA(e.message + '. Use o modo Texto colando os itens manualmente para garantir a extração.');
+    dadosG=d; renderizar(d);
+  }catch(e){
+    erroIA(e.message);
   }
 }
 
-// ===== RENDERIZAR =====
-function fmtR(v) { return v ? 'R$ ' + parseFloat(v).toFixed(2).replace('.',',') : 'R$ 0,00'; }
+// RENDERIZAR
+function fR(v){return v?'R$ '+parseFloat(v).toFixed(2).replace('.',','):'R$ 0,00'}
 
-function campo(lbl, val, mono) {
-  if (!val && val !== 0) return '<div class="campo"><div class="campo-lbl">'+lbl+'</div><div style="font-size:12px;color:var(--T3);font-style:italic">Não identificado</div></div>';
-  var id = 'c-'+Math.random().toString(36).substr(2,5);
-  var cls = 'campo-v' + (mono ? ' mono' : '');
-  return '<div class="campo"><div class="campo-lbl">'+lbl+'</div><div class="campo-row"><input class="'+cls+'" id="'+id+'" value="'+String(val).replace(/"/g,'&quot;')+'"><button class="cp" onclick="cpInput(\''+id+'\',this)">📋</button></div></div>';
+function mkCampo(lbl,val,mono){
+  if(!val&&val!==0)return '<div class="campo"><div class="campo-lbl">'+lbl+'</div><div style="font-size:12px;color:var(--T3);font-style:italic">Não identificado</div></div>';
+  var id='f'+Math.random().toString(36).substr(2,5);
+  return '<div class="campo"><div class="campo-lbl">'+lbl+'</div><div class="campo-row"><input class="campo-v'+(mono?' mono':'')+'" id="'+id+'" value="'+String(val).replace(/"/g,'&quot;')+'"><button class="cp" onclick="cpInput(\''+id+'\',this)">📋</button></div></div>';
 }
 
-function renderizar(d) {
-  document.getElementById('resultado').style.display = 'block';
-  document.getElementById('resultado').scrollIntoView({behavior:'smooth', block:'start'});
+function renderizar(d){
+  document.getElementById('resultado').style.display='block';
+  document.getElementById('resultado').scrollIntoView({behavior:'smooth',block:'start'});
 
-  // Alerta confiança
-  var ac = document.getElementById('alerta-res');
-  if (d.confianca === 'baixa') ac.innerHTML = '<div class="alert ar">⚠ <strong>Confiança baixa</strong> — verifique todos os campos antes de usar.</div>';
-  else if (d.confianca === 'media') ac.innerHTML = '<div class="alert aw">⚠ <strong>Confiança média</strong> — revise os valores.</div>';
-  else ac.innerHTML = '<div class="alert ag">✅ <strong>Alta confiança</strong> — dados extraídos com clareza.</div>';
+  // Alerta
+  var ac=document.getElementById('alerta-res');
+  if(d.confianca==='baixa')ac.innerHTML='<div class="alert ar">⚠ <strong>Confiança baixa</strong> — verifique todos os campos.</div>';
+  else if(d.confianca==='media')ac.innerHTML='<div class="alert aw">⚠ <strong>Confiança média</strong> — revise os valores.</div>';
+  else ac.innerHTML='<div class="alert ag">✅ <strong>Alta confiança</strong> — dados extraídos com clareza.</div>';
 
   // Formatar placa
-  if (d.placa) {
-    var p = d.placa.toUpperCase().replace(/[^A-Z0-9]/g,'');
-    d.placa = p.length >= 4 ? p.substring(0,3)+'-'+p.substring(3) : p;
-  }
+  if(d.placa){var p=d.placa.toUpperCase().replace(/[^A-Z0-9]/g,'');d.placa=p.length>=4?p.substring(0,3)+'-'+p.substring(3):p}
 
-  // Campos fornecedor/veículo
-  document.getElementById('campos-fv').innerHTML =
-    campo('Placa', d.placa, true) +
-    campo('KM', d.km ? d.km.toLocaleString('pt-BR') : null) +
-    campo('Data execução', d.data_execucao) +
-    campo('Fornecedor', d.fornecedor_nome) +
-    campo('CNPJ fornecedor', d.fornecedor_cnpj, true);
+  document.getElementById('campos-fv').innerHTML=
+    mkCampo('Placa',d.placa,true)+
+    mkCampo('KM',d.km?d.km.toLocaleString('pt-BR'):null)+
+    mkCampo('Data execução',d.data_execucao)+
+    mkCampo('Fornecedor',d.fornecedor_nome)+
+    mkCampo('CNPJ fornecedor',d.fornecedor_cnpj,true);
 
-  // Campos documento
-  document.getElementById('campos-doc').innerHTML =
-    campo('Nº orçamento', d.num_orcamento, true) +
-    campo('Nº OS', d.num_os, true);
+  document.getElementById('campos-doc').innerHTML=
+    mkCampo('Nº orçamento',d.num_orcamento,true)+
+    mkCampo('Nº OS',d.num_os,true);
 
   // Tabela itens
-  var it = d.itens || [];
-  document.getElementById('tb-itens').innerHTML = !it.length
-    ? '<tr><td colspan="6" style="text-align:center;color:var(--T3);padding:20px">Nenhum item identificado</td></tr>'
-    : it.map(function(x,i) {
-        var tag = x.tipo==='peca'?'<span class="tag-p">Peça</span>':x.tipo==='servico'?'<span class="tag-s">Serviço</span>':x.tipo==='desconto'?'<span class="tag-o" style="background:#fdecea;color:#c0392b">Desconto</span>':'<span class="tag-o">Outro</span>';
-        var cor = x.tipo==='desconto' ? 'color:#c0392b;font-weight:700' : '';
-        return '<tr>' +
-          '<td style="color:var(--T3);font-size:12px">'+(i+1)+'</td>'+
-          '<td style="font-weight:500" contenteditable="true">'+x.descricao+'</td>'+
-          '<td>'+tag+'</td>'+
-          '<td style="text-align:center" contenteditable="true">'+(x.quantidade||1)+'</td>'+
-          '<td contenteditable="true">'+(x.valor_unitario!=null?'R$ '+Math.abs(x.valor_unitario).toFixed(2).replace('.',','):'—')+'</td>'+
-          '<td style="font-weight:600;'+cor+'" contenteditable="true">'+(x.valor_total!=null?'R$ '+Math.abs(x.valor_total).toFixed(2).replace('.',',')+'':'—')+'</td>'+
-        '</tr>';
-      }).join('');
+  var it=d.itens||[];
+  document.getElementById('tb-itens').innerHTML=!it.length
+    ?'<tr><td colspan="6" style="text-align:center;color:var(--T3);padding:20px">Nenhum item identificado</td></tr>'
+    :it.map(function(x,i){
+      var tag=x.tipo==='peca'?'<span class="tag-p">Peça</span>':x.tipo==='servico'?'<span class="tag-s">Serviço</span>':'<span class="tag-d">Desconto</span>';
+      var cor=x.tipo==='desconto'?'color:var(--R);font-weight:700':'';
+      var vu=x.valor_unitario!=null?'R$ '+Math.abs(x.valor_unitario).toFixed(2).replace('.',','):'—';
+      var vt=x.valor_total!=null?(x.tipo==='desconto'?'- ':'')+'R$ '+Math.abs(x.valor_total).toFixed(2).replace('.',','):'—';
+      return '<tr><td style="color:var(--T3);font-size:12px">'+(i+1)+'</td><td style="font-weight:500" contenteditable="true">'+x.descricao+'</td><td>'+tag+'</td><td style="text-align:center" contenteditable="true">'+(x.quantidade||1)+'</td><td contenteditable="true">'+vu+'</td><td style="font-weight:600;'+cor+'" contenteditable="true">'+vt+'</td></tr>';
+    }).join('');
 
-  // Resumo em linha (MAIÚSCULO, sem valores)
-  var pecas = it.filter(function(x){return x.tipo==='peca'}).map(function(x){return x.descricao.toUpperCase()});
-  var servicos = it.filter(function(x){return x.tipo==='servico'}).map(function(x){return x.descricao.toUpperCase()});
-  var todos = it.filter(function(x){return x.tipo!=='desconto'}).map(function(x){return x.descricao.toUpperCase()});
-  var ra = document.getElementById('resumo-area');
-  var rhtml = '';
-  if (pecas.length) rhtml += blocoResumo('🔩 Peças', pecas.join(', '), 'azul', 'res-p');
-  if (servicos.length) rhtml += blocoResumo('🔧 Serviços / MO', servicos.join(', '), 'verde', 'res-s');
-  rhtml += blocoResumo('📄 Tudo junto', todos.join(', '), '', 'res-t');
-  ra.innerHTML = rhtml;
+  // Resumo
+  var pecas=it.filter(function(x){return x.tipo==='peca'}).map(function(x){return x.descricao.toUpperCase()});
+  var servs=it.filter(function(x){return x.tipo==='servico'}).map(function(x){return x.descricao.toUpperCase()});
+  var todos=it.filter(function(x){return x.tipo!=='desconto'}).map(function(x){return x.descricao.toUpperCase()});
+  var ra='';
+  if(pecas.length)ra+=mkResumo('🔩 Peças',pecas.join(', '),'azul','rp');
+  if(servs.length)ra+=mkResumo('🔧 Serviços / MO',servs.join(', '),'verde','rs');
+  ra+=mkResumo('📄 Tudo junto',todos.join(', '),'','rt');
+  document.getElementById('resumo-area').innerHTML=ra;
 
   // Totais
-  document.getElementById('totais-area').innerHTML =
-    '<div class="tot p"><div class="tot-lbl">Valor peças</div><div class="tot-row"><div class="tot-val" id="tv-p" contenteditable="true">'+fmtR(d.total_pecas)+'</div><button class="cp" onclick="cpEl(\'tv-p\',this)">📋</button></div></div>'+
-    '<div class="tot s"><div class="tot-lbl">Valor serviços / MO</div><div class="tot-row"><div class="tot-val" id="tv-s" contenteditable="true">'+fmtR(d.total_servicos)+'</div><button class="cp" onclick="cpEl(\'tv-s\',this)">📋</button></div></div>'+
-    '<div class="tot g"><div class="tot-lbl">Total geral'+(d.total_desconto?' (c/ desconto)':'')+'</div><div class="tot-row"><div class="tot-val" id="tv-g" contenteditable="true">'+fmtR(d.total_geral)+'</div><button class="cp" onclick="cpEl(\'tv-g\',this)">📋</button></div></div>';
+  document.getElementById('totais-area').innerHTML=
+    '<div class="tot p"><div class="tot-lbl">Valor peças</div><div class="tot-row"><div class="tot-val" id="tv-p" contenteditable="true">'+fR(d.total_pecas)+'</div><button class="cp" onclick="cpEl(\'tv-p\',this)">📋</button></div></div>'+
+    '<div class="tot s"><div class="tot-lbl">Valor serviços / MO</div><div class="tot-row"><div class="tot-val" id="tv-s" contenteditable="true">'+fR(d.total_servicos)+'</div><button class="cp" onclick="cpEl(\'tv-s\',this)">📋</button></div></div>'+
+    '<div class="tot g"><div class="tot-lbl">Total geral'+(d.total_desconto?' (c/ desconto)':'')+'</div><div class="tot-row"><div class="tot-val" id="tv-g" contenteditable="true">'+fR(d.total_geral)+'</div><button class="cp" onclick="cpEl(\'tv-g\',this)">📋</button></div></div>';
 }
 
-function blocoResumo(lbl, txt, cls, id) {
-  return '<div class="resumo-bloco"><div class="resumo-lbl">'+lbl+'</div><div class="resumo-row"><div class="resumo-txt '+cls+'" id="'+id+'" contenteditable="true">'+txt+'</div><button class="cp" onclick="cpEl(\''+id+'\',this)">📋</button></div></div>';
+function mkResumo(lbl,txt,cls,id){
+  return '<div class="res-bloco"><div class="res-lbl">'+lbl+'</div><div class="res-row"><div class="res-txt '+cls+'" id="'+id+'" contenteditable="true">'+txt+'</div><button class="cp" onclick="cpEl(\''+id+'\',this)">📋</button></div></div>';
 }
 
-// ===== COPIAR =====
-function cpInput(id, btn) {
-  var el = document.getElementById(id);
-  if (!el) return;
-  var txt = el.value.trim();
-  if (!txt) { toast('⚠ Campo vazio'); return; }
-  copiarTxt(txt, btn);
+// COPIAR
+function cpInput(id,btn){
+  var el=document.getElementById(id); if(!el)return;
+  copiarTxt(el.value.trim(),btn);
 }
-
-function cpEl(id, btn) {
-  var el = document.getElementById(id);
-  if (!el) return;
-  var txt = (el.value || el.textContent || el.innerText || '').trim();
-  if (!txt) { toast('⚠ Campo vazio'); return; }
-  copiarTxt(txt, btn);
+function cpEl(id,btn){
+  var el=document.getElementById(id); if(!el)return;
+  copiarTxt((el.value||el.textContent||el.innerText||'').trim(),btn);
 }
-
-function copiarTxt(txt, btn) {
-  var ta = document.createElement('textarea');
-  ta.value = txt;
-  ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
-  document.body.appendChild(ta);
-  ta.focus(); ta.select();
-  var ok = false;
-  try { ok = document.execCommand('copy'); } catch(e) {}
+function copiarTxt(txt,btn){
+  if(!txt){toast('⚠ Campo vazio');return}
+  var ta=document.createElement('textarea');
+  ta.value=txt; ta.style.cssText='position:fixed;top:-9999px;left:-9999px;opacity:0';
+  document.body.appendChild(ta); ta.focus(); ta.select();
+  var ok=false; try{ok=document.execCommand('copy')}catch(e){}
   document.body.removeChild(ta);
-  if (!ok && navigator.clipboard) {
-    navigator.clipboard.writeText(txt).then(function() {
-      marcarCopiado(btn);
-    }).catch(function() { toast('⚠ Erro ao copiar'); });
-    return;
-  }
-  if (ok) marcarCopiado(btn);
-  else toast('⚠ Erro ao copiar — tente selecionar manualmente');
+  if(ok){if(btn){btn.textContent='✅';setTimeout(function(){btn.textContent='📋'},1500)}toast('✅ Copiado!')}
+  else if(navigator.clipboard){navigator.clipboard.writeText(txt).then(function(){if(btn){btn.textContent='✅';setTimeout(function(){btn.textContent='📋'},1500)}toast('✅ Copiado!')})}
+  else toast('⚠ Selecione o texto manualmente e copie');
 }
 
-function marcarCopiado(btn) {
-  if (btn) { btn.textContent = '✅'; setTimeout(function(){btn.textContent='📋'},1500); }
-  toast('✅ Copiado!');
-}
-
-// ===== LOAD / ERRO =====
-function setLoad(on, msg, sub) {
-  document.getElementById('loading').style.display = on ? 'block' : 'none';
-  if (on) {
-    document.getElementById('resultado').style.display = 'none';
-    document.getElementById('load-msg').textContent = msg || 'Analisando...';
-    document.getElementById('load-sub').textContent = sub || '';
-    document.getElementById('loading').scrollIntoView({behavior:'smooth', block:'start'});
+// LOAD / ERRO
+function setLoad(on,msg,sub){
+  document.getElementById('loading').style.display=on?'block':'none';
+  if(on){
+    document.getElementById('resultado').style.display='none';
+    document.getElementById('load-msg').textContent=msg||'Analisando...';
+    document.getElementById('load-sub').textContent=sub||'';
+    document.getElementById('loading').scrollIntoView({behavior:'smooth',block:'start'});
   }
 }
-
-function erroIA(msg) {
+function erroIA(msg){
   setLoad(false);
-  document.getElementById('resultado').style.display = 'block';
-  document.getElementById('alerta-res').innerHTML = '<div class="alert ar">❌ <strong>Erro:</strong> '+(msg||'Tente novamente.')+'</div>';
-  document.getElementById('campos-fv').innerHTML = '';
-  document.getElementById('campos-doc').innerHTML = '';
-  document.getElementById('tb-itens').innerHTML = '';
-  document.getElementById('resumo-area').innerHTML = '';
-  document.getElementById('totais-area').innerHTML = '';
+  document.getElementById('resultado').style.display='block';
+  document.getElementById('alerta-res').innerHTML='<div class="alert ar">❌ <strong>Erro:</strong> '+(msg||'Tente novamente.')+'</div>';
+  ['campos-fv','campos-doc','tb-itens','resumo-area','totais-area'].forEach(function(id){document.getElementById(id).innerHTML=''});
 }
 
-// ===== NOVA EXTRAÇÃO =====
-function novaExtracao() {
-  dadosG = null; imgB64 = null; pdfB64 = null;
-  document.getElementById('resultado').style.display = 'none';
-  document.getElementById('loading').style.display = 'none';
-  document.getElementById('prev-img').style.display = 'none';
-  document.getElementById('prev-pdf').style.display = 'none';
-  document.getElementById('bt-img').disabled = true;
-  document.getElementById('bt-pdf').disabled = true;
-  document.getElementById('in-img').value = '';
-  document.getElementById('in-pdf').value = '';
-  document.getElementById('in-txt').value = '';
-  document.getElementById('in-aud').value = '';
-  document.getElementById('audio-prev').style.display = 'none';
-  chunks = []; tempoG = 0;
-  document.getElementById('rec-timer').textContent = '0:00';
-  document.getElementById('rec-status').textContent = 'Clique no microfone para gravar';
-  window.scrollTo({top:0, behavior:'smooth'});
+// NOVA EXTRAÇÃO
+function novaExtracao(){
+  dadosG=null; imgB64=null; pdfB64=null;
+  document.getElementById('resultado').style.display='none';
+  document.getElementById('loading').style.display='none';
+  document.getElementById('prev-img').style.display='none';
+  document.getElementById('prev-pdf').style.display='none';
+  document.getElementById('bt-img').disabled=true;
+  document.getElementById('bt-pdf').disabled=true;
+  document.getElementById('in-img').value='';
+  document.getElementById('in-pdf').value='';
+  document.getElementById('in-txt').value='';
+  document.getElementById('in-aud').value='';
+  document.getElementById('audio-prev').style.display='none';
+  chunks=[]; tempoG=0;
+  document.getElementById('rec-timer').textContent='0:00';
+  document.getElementById('rec-status').textContent='Clique no microfone para gravar';
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-// ===== EXPORTAR CSV =====
-function exportarCSV() {
-  if (!dadosG) { toast('Nenhum dado para exportar'); return; }
-  var d = dadosG;
-  var linhas = [
-    ['DADOS DO ORÇAMENTO',''],
-    ['Placa', d.placa||''], ['KM', d.km||''], ['Data', d.data_execucao||''],
-    ['Nº Orçamento', d.num_orcamento||''], ['Nº OS', d.num_os||''],
-    ['Fornecedor', d.fornecedor_nome||''], ['CNPJ', d.fornecedor_cnpj||''],
-    [''], ['ITENS'], ['#','Descrição','Tipo','Qtd','Vlr. Unit.','Vlr. Total']
-  ];
-  (d.itens||[]).forEach(function(it,i){ linhas.push([i+1,it.descricao,it.tipo,it.quantidade||1,it.valor_unitario||'',it.valor_total||'']); });
+// CSV
+function exportarCSV(){
+  if(!dadosG){toast('Nenhum dado');return}
+  var d=dadosG;
+  var linhas=[['DADOS DO ORÇAMENTO',''],['Placa',d.placa||''],['KM',d.km||''],['Data',d.data_execucao||''],['Nº Orçamento',d.num_orcamento||''],['Nº OS',d.num_os||''],['Fornecedor',d.fornecedor_nome||''],['CNPJ',d.fornecedor_cnpj||''],[''],['ITENS'],['#','Descrição','Tipo','Qtd','Vlr. Unit.','Vlr. Total']];
+  (d.itens||[]).forEach(function(it,i){linhas.push([i+1,it.descricao,it.tipo,it.quantidade||1,it.valor_unitario||'',it.valor_total||''])});
   linhas.push([''],['TOTAIS'],['Peças',d.total_pecas||''],['Serviços',d.total_servicos||''],['Desconto',d.total_desconto||''],['TOTAL GERAL',d.total_geral||'']);
-  var csv = linhas.map(function(r){ return r.map(function(c){ return '"'+String(c||'').replace(/"/g,"'")+'"'; }).join(';'); }).join('\n');
-  var blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8'});
-  var url = URL.createObjectURL(blob);
-  var a = document.createElement('a'); a.href=url; a.download='orcamento_extraido.csv'; a.click();
+  if(d.observacoes)linhas.push(['Observações',d.observacoes]);
+  var csv=linhas.map(function(r){return r.map(function(c){return'"'+String(c||'').replace(/"/g,"'")+'"'}).join(';')}).join('\n');
+  var blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;a.download='orcamento.csv';a.click();
   toast('✅ CSV exportado!');
 }
 
-// ===== TOAST =====
-function toast(m) {
-  var t = document.getElementById('tk');
-  t.textContent = m; t.classList.add('on');
-  setTimeout(function(){t.classList.remove('on')}, 3000);
-}
+// TOAST
+function toast(m){var t=document.getElementById('tk');t.textContent=m;t.classList.add('on');setTimeout(function(){t.classList.remove('on')},3000)}
 </script>
 </body>
 </html>
