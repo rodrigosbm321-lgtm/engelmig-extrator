@@ -389,17 +389,39 @@ function render(d){
   if(servs.length)ra+=mkR('🔧 Serviços / MO',servs.join(', '),'verde','rs');
   ra+=mkR('📄 Tudo junto',todos.join(', '),'','rt');
   document.getElementById('resumo').innerHTML=ra;
-  var xP=parseFloat(d.total_pecas)||0;
-  var xS=parseFloat(d.total_servicos)||0;
-  var xD=Math.abs(parseFloat(d.total_desconto)||0);
-  var xG=parseFloat(d.total_geral)||(xP+xS-xD);
-  var xSoma=xP+xS;
-  var xDP=xSoma>0?xD*(xP/xSoma):0;
-  var xDS=xSoma>0?xD*(xS/xSoma):0;
-  var temD=xD>0;
+  // Soma peças brutas, serviços brutos e descontos por tipo de item adjacente
+  var xP=0, xS=0, xD=0;
+  var it2=d.itens||[];
+  // Estratégia: desconto imediatamente após um item vai para aquele tipo
+  for(var ki=0;ki<it2.length;ki++){
+    var xi=it2[ki];
+    var tp2=xi.tipo||'peca';
+    var vt2=parseFloat(xi.valor_total)||0;
+    if(tp2==='peca') xP+=vt2;
+    else if(tp2==='servico') xS+=vt2;
+    else if(tp2==='desconto'){
+      // Desconto: verifica o item anterior para saber a qual tipo pertence
+      var tipoAnterior='';
+      if(ki>0) tipoAnterior=it2[ki-1].tipo||'';
+      var descVal=Math.abs(vt2);
+      if(tipoAnterior==='peca') xP-=descVal;
+      else if(tipoAnterior==='servico') xS-=descVal;
+      else xD+=descVal; // desconto geral — vai para o total
+    }
+  }
+  // Se não processou via itens, usa os totais da IA
+  if(xP===0&&xS===0){
+    xP=parseFloat(d.total_pecas)||0;
+    xS=parseFloat(d.total_servicos)||0;
+    xD=Math.abs(parseFloat(d.total_desconto)||0);
+    xP=xP-(xD*(xP/(xP+xS||1)));
+    xS=xS-(xD*(xS/(xP+xS||1)));
+  }
+  var xG=parseFloat(d.total_geral)||(xP+xS);
+  var temD=(parseFloat(d.total_desconto)||0)!==0;
   document.getElementById('totais').innerHTML=
-    '<div class="tot p"><div class="tot-lbl">Valor peças'+(temD?' (c/ desc.)':'')+'</div><div class="tot-row"><div class="tot-val" id="tp" contenteditable="true">'+fR(temD?xP-xDP:xP)+'</div><button class="cp" onclick="cpE(\'tp\',this)">📋</button></div></div>'+
-    '<div class="tot s"><div class="tot-lbl">Valor serviços'+(temD?' (c/ desc.)':'')+'</div><div class="tot-row"><div class="tot-val" id="ts" contenteditable="true">'+fR(temD?xS-xDS:xS)+'</div><button class="cp" onclick="cpE(\'ts\',this)">📋</button></div></div>'+
+    '<div class="tot p"><div class="tot-lbl">Valor peças'+(temD?' (c/ desc.)':'')+'</div><div class="tot-row"><div class="tot-val" id="tp" contenteditable="true">'+fR(xP)+'</div><button class="cp" onclick="cpE(\'tp\',this)">📋</button></div></div>'+
+    '<div class="tot s"><div class="tot-lbl">Valor serviços'+(temD?' (c/ desc.)':'')+'</div><div class="tot-row"><div class="tot-val" id="ts" contenteditable="true">'+fR(xS)+'</div><button class="cp" onclick="cpE(\'ts\',this)">📋</button></div></div>'+
     '<div class="tot g"><div class="tot-lbl">Total geral'+(temD?' (c/ desconto)':'')+'</div><div class="tot-row"><div class="tot-val" id="tg" contenteditable="true">'+fR(xG)+'</div><button class="cp" onclick="cpE(\'tg\',this)">📋</button></div></div>';
 }
 
