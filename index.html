@@ -323,7 +323,7 @@ function extrairAud(){
 }
 
 function prt(){
-  return 'Analise este orçamento automotivo brasileiro. Retorne SOMENTE JSON válido sem texto antes ou depois.\n\nFormato:\n{"placa":null,"km":null,"data_execucao":null,"num_orcamento":null,"num_os":null,"fornecedor_nome":null,"fornecedor_cnpj":null,"itens":[{"descricao":"item","tipo":"peca","quantidade":1,"valor_unitario":0.00,"valor_total":0.00}],"total_pecas":0.00,"total_servicos":0.00,"total_desconto":0.00,"total_geral":0.00,"observacoes":null,"confianca":"alta"}\n\nRegras: placa=maiuscula com traco ex ABC-1234, km=inteiro, cnpj=somente do fornecedor, tipo=peca/servico/desconto, desconto tem valor_total negativo, total_geral=valor final com desconto, valores com ponto decimal';
+  return 'Analise este orçamento automotivo brasileiro. Retorne SOMENTE JSON válido sem texto antes ou depois.\n\nFormato:\n{"placa":null,"km":null,"data_execucao":null,"num_orcamento":null,"num_os":null,"fornecedor_nome":null,"fornecedor_cnpj":null,"itens":[{"descricao":"item","tipo":"peca","quantidade":1,"valor_unitario":0.00,"valor_total":0.00}],"total_pecas":0.00,"total_servicos":0.00,"total_desconto":0.00,"total_geral":0.00,"observacoes":null,"confianca":"alta"}\n\nREGRAS IMPORTANTES:\n- placa: maiuscula com traco ex ABC-1234\n- km: numero inteiro\n- cnpj: somente do fornecedor nunca da Engelmig\n- tipo de item: peca, servico ou desconto\n- desconto: valor_total negativo ex -10.00\n- total_pecas: soma das pecas JA COM desconto de pecas descontado\n- total_servicos: soma dos servicos JA COM desconto de servicos descontado\n- total_desconto: soma total dos descontos (positivo)\n- total_geral: valor final = total_pecas + total_servicos (ja com descontos)\n- valores com ponto decimal ex 150.00';
 }
 
 function api(parts){
@@ -389,36 +389,12 @@ function render(d){
   if(servs.length)ra+=mkR('🔧 Serviços / MO',servs.join(', '),'verde','rs');
   ra+=mkR('📄 Tudo junto',todos.join(', '),'','rt');
   document.getElementById('resumo').innerHTML=ra;
-  // Soma peças brutas, serviços brutos e descontos por tipo de item adjacente
-  var xP=0, xS=0, xD=0;
-  var it2=d.itens||[];
-  // Estratégia: desconto imediatamente após um item vai para aquele tipo
-  for(var ki=0;ki<it2.length;ki++){
-    var xi=it2[ki];
-    var tp2=xi.tipo||'peca';
-    var vt2=parseFloat(xi.valor_total)||0;
-    if(tp2==='peca') xP+=vt2;
-    else if(tp2==='servico') xS+=vt2;
-    else if(tp2==='desconto'){
-      // Desconto: verifica o item anterior para saber a qual tipo pertence
-      var tipoAnterior='';
-      if(ki>0) tipoAnterior=it2[ki-1].tipo||'';
-      var descVal=Math.abs(vt2);
-      if(tipoAnterior==='peca') xP-=descVal;
-      else if(tipoAnterior==='servico') xS-=descVal;
-      else xD+=descVal; // desconto geral — vai para o total
-    }
-  }
-  // Se não processou via itens, usa os totais da IA
-  if(xP===0&&xS===0){
-    xP=parseFloat(d.total_pecas)||0;
-    xS=parseFloat(d.total_servicos)||0;
-    xD=Math.abs(parseFloat(d.total_desconto)||0);
-    xP=xP-(xD*(xP/(xP+xS||1)));
-    xS=xS-(xD*(xS/(xP+xS||1)));
-  }
-  var xG=parseFloat(d.total_geral)||(xP+xS);
-  var temD=(parseFloat(d.total_desconto)||0)!==0;
+  // Usa os totais calculados pela IA diretamente
+  var xP=parseFloat(d.total_pecas)||0;
+  var xS=parseFloat(d.total_servicos)||0;
+  var xD=Math.abs(parseFloat(d.total_desconto)||0);
+  var xG=parseFloat(d.total_geral)||(xP+xS-xD);
+  var temD=xD>0;
   document.getElementById('totais').innerHTML=
     '<div class="tot p"><div class="tot-lbl">Valor peças'+(temD?' (c/ desc.)':'')+'</div><div class="tot-row"><div class="tot-val" id="tp" contenteditable="true">'+fR(xP)+'</div><button class="cp" onclick="cpE(\'tp\',this)">📋</button></div></div>'+
     '<div class="tot s"><div class="tot-lbl">Valor serviços'+(temD?' (c/ desc.)':'')+'</div><div class="tot-row"><div class="tot-val" id="ts" contenteditable="true">'+fR(xS)+'</div><button class="cp" onclick="cpE(\'ts\',this)">📋</button></div></div>'+
