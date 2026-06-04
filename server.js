@@ -2,13 +2,12 @@ const http = require('http');
 const https = require('https');
 const fs = require('fs');
 const path = require('path');
-
 const PORT = process.env.PORT || 3000;
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || '';
-
 function chamarGemini(body) {
   return new Promise((resolve, reject) => {
-    const modelos = ['gemini-2.5-flash','gemini-2.5-pro','gemini-2.0-flash-001'];
+    // ✅ MODELOS ATUALIZADOS - estáveis e funcionando com chaves gratuitas
+    const modelos = ['gemini-1.5-flash','gemini-1.5-pro','gemini-2.0-flash'];
     function tentar(i) {
       if (i >= modelos.length) { reject(new Error('Nenhum modelo disponível')); return; }
       const modelo = modelos[i];
@@ -86,7 +85,6 @@ function chamarGemini(body) {
     tentar(0);
   });
 }
-
 function lerBody(req) {
   return new Promise((resolve) => {
     const chunks = [];
@@ -94,15 +92,12 @@ function lerBody(req) {
     req.on('end', () => resolve(Buffer.concat(chunks).toString()));
   });
 }
-
 const MIME = {'.html':'text/html','.js':'application/javascript','.css':'text/css'};
-
 const server = http.createServer(async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') { res.writeHead(200); res.end(); return; }
-
   if (req.url === '/api' && req.method === 'POST') {
     try {
       const bodyStr = await lerBody(req);
@@ -116,7 +111,6 @@ const server = http.createServer(async (req, res) => {
     }
     return;
   }
-
   let filePath = req.url==='/' ? '/index.html' : req.url.split('?')[0];
   filePath = path.join(__dirname, filePath);
   fs.readFile(filePath, (err, data) => {
@@ -125,5 +119,4 @@ const server = http.createServer(async (req, res) => {
     res.end(data);
   });
 });
-
 server.listen(PORT, () => console.log(`Engelmig Extrator porta ${PORT}`));
